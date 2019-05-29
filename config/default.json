@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://mario:hj8TUCn33KmAfV5@projects-glmt3.mongodb.net/test?retryWrites=true",
+  "jwtSecret": "hd_myJwtSecret"
+}
