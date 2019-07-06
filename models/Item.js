@@ -7,6 +7,26 @@ const ItemSchema = new Schema ({
     type: String,
     required: true
   },
+  kodi: {
+    type: String,
+    required: false
+  },
+  cmimBlerje: {
+    type: Number,
+    required: false
+  },
+  shitesi: {
+    type: String,
+    required: false
+  },
+  prodhuesi: {
+    type: String,
+    required: false
+  },
+  category: {
+    type: String,
+    required: false
+  },
   date: {
     type: Date,
     default: Date.now
