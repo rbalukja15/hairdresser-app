@@ -1,0 +1,56 @@
+.remove-btn {
+  margin-right: 0.5rem;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter-active {
+   opacity: 1;
+   transition: opacity 1000ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 1000ms ease-in;
+}
+
+
+/* Alert fade */
+.fade-alert-enter {
+  opacity: 0.01;
+}
+
+.fade-alert-enter-active {
+   opacity: 1;
+   transition: opacity 1000ms ease-in;
+}
+
+.fade-alert-exit {
+  opacity: 1;
+}
+
+.fade-alert-exit-active {
+  opacity: 0.01;
+  transition: opacity 1000ms ease-in;
+}
+
+
+/* SideNav Design */
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  font-family: "Roboto", sans-serif;
+  background: #eeeded;
+  width: 100%;
+  height: 100%;
+  color: #333;
+}
