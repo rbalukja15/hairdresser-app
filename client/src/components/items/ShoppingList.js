@@ -36,7 +36,7 @@ import MUIDataTable from "mui-datatables";
 //CARS => COMPONENT->ACTION->REDUCER->STORE
 
 //Select Part
-const select_values = [];
+let select_values = [];
 
 class ShoppingList extends Component {
   state = {
@@ -68,6 +68,7 @@ class ShoppingList extends Component {
     //Runs when the component mounts
     //Here we run actions
     this._refreshItems();
+    //console.log(this.category);
   }
 
   //Call the delete action
@@ -88,19 +89,23 @@ class ShoppingList extends Component {
     //Reset the state
     this.setState({
       editModal: false,
-      _id: "",
-      name: "",
-      kodi: "",
-      cmimBlerje: "",
-      prodhuesi: "",
-      shitesi: "",
-      category: ""
+      editItem: {
+        _id: "",
+        name: "",
+        kodi: "",
+        cmimBlerje: "",
+        prodhuesi: "",
+        shitesi: "",
+        category: ""
+    }
     });
   }
 
   //Refresh function for the datas in the table
   _refreshItems() {
     this.props.getItems();
+    this.props.getCategories();
+    //console.log(this.props.getCategories());
   }
 
   //Edit function to get the data from the table row into the state
@@ -117,6 +122,7 @@ class ShoppingList extends Component {
       },
       editModal: !this.state.editModal
     });
+    //console.log(this.state.editItem,"0000");
   }
 
   //Toggle the edit modal function
@@ -137,15 +143,25 @@ class ShoppingList extends Component {
   render() {
     const { items } = this.props.item; //Pull the items
     const { categories } = this.props.category; //Pull the categories
-    const { category } = this.state.editItem;
+    const  {category } = this.state.editItem;
+   // console.log(category);
+    // Map the categories
 
-    //Map the categories
-    categories.map(({ _id, name }) => {
-      select_values.push({
-        label: name,
-        value: name
-      });
-    });
+    // categories.map(({ _id, name }) => {
+    //   select_values.push({
+    //     label: name,
+    //     value: name
+    //   });
+    // }); 
+     select_values = categories.slice(0);
+     select_values = select_values.map(category => ({ label: category.name, value: category.name }))
+    // // <sele id=""></select>
+    // categories.map(cat=>{
+    //   console.log(cat);
+    // })
+    
+     
+     //console.log(select_values,"categories lists");
 
     const columns = [
       "Nr",
@@ -294,29 +310,14 @@ class ShoppingList extends Component {
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="category">Kategori</Label>
-                {/* <Input
-                  type="text"
-                  name="category"
-                  id="category"
-                  value={this.state.editItem.category}
-                  onChange={e => {
-                    let { editItem } = this.state;
-                    editItem.category = e.target.value;
-                    this.setState({ editItem });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                /> */}
                 <Select
-                  options={select_values}
-                  value={this.state.editItem.category}
                   name="category"
                   id="category"
-                  onChange={ e => {
-                    let { editItem } = this.state;
-                    [editItem.category]= e.target.value;
-                    this.setState({ editItem });
-                  } }
-                  placeholder="Kategoria..."
+                  autoFocus
+                  simpleValue
+                  options={select_values}
+                  value= {select_values.filter(cat => cat.value === this.state.editItem.category)}
+                  onChange={this.handleChange}
                 />
               </FormGroup>
             </Form>

@@ -49,7 +49,7 @@ const styles = theme => ({
 });
 
 //Select Part
-const select_values = [];
+let select_values = [];
 
 
 class ItemModal extends Component {
@@ -125,13 +125,16 @@ class ItemModal extends Component {
     const { categories } = this.props.category; //Pull the categories
     const { category } = this.state;
     //Load the categories
-    categories.map(
-      ({_id, name}) => {
-        select_values.push({
-          label:name, value:name
-        });
-      }
-    );
+    // categories.map(
+    //   ({_id, name}) => {
+    //     select_values.push({
+    //       label:name, value:name
+    //     });
+    //   }
+    // );
+
+    select_values = categories.slice(0);
+     select_values = select_values.map(category => ({ label: category.name, value: category.name }))
 
     //console.log(select_data);
 
