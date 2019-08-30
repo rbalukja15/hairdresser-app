@@ -7,6 +7,7 @@ import clientReducer from './clients/clientReducer';
 import categoryReducer from './categories/categoryReducer';
 import saleReducer from './sales/saleReducer';
 import buyingReducer from './buyings/buyingReducer';
+import employeeReducer from './employees/employeeReducer';
 import {reducer as toastrReducer} from 'react-redux-toastr';
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   category: categoryReducer,
   sale: saleReducer,
   buying: buyingReducer,
+  employee: employeeReducer,
   toastr: toastrReducer
 });

@@ -8,7 +8,7 @@ const Employee = require("../../models/Employee");
 // @route   GET api/employees
 // @desc    Get All Employees
 // @access  Public
-router.get("/", auth, (req, res) => {
+router.get("/",  (req, res) => {
   Employee.find(req.params.id).then(employees => {
     res.json(employees);
   });
@@ -17,7 +17,7 @@ router.get("/", auth, (req, res) => {
 // @route   GET api/employees/:id
 // @desc    Get One Employees
 // @access  Public
-router.get("/:id",  (req, res) => {
+router.get("/:id", auth,(req, res) => {
   Employee.findById(req.params.id)
     .then(employee => {
       if (!employee) {

@@ -38,6 +38,14 @@ export const BUYINGS_LOADING = 'BUYINGS_LOADING';
 export const GET_BUYING_BY_ID = 'GET_BUYING_BY_ID';
 export const UPDATE_BUYING = 'UPDATE_BUYING';
 
+//Employee Actions
+export const GET_EMPLOYEES = 'GET_EMPLOYEES';
+export const ADD_EMPLOYEE = 'ADD_EMPLOYEES';
+export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
+export const EMPLOYEES_LOADING = 'EMPLOYEES_LOADING';
+export const GET_EMPLOYEE_BY_ID = 'GET_EMPLOYEE_BY_ID';
+export const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
+
 //Auth Types
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";

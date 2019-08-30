@@ -23,6 +23,7 @@ import client_component from "./components/clients/client_component";
 import about_components from "./components/about/about_components";
 import sales_component from "./components/sales/sales_component";
 import buyings_component from "./components/buyings/buyings_component";
+import employee from "./components/employees/employees_component";
 
 //Toastr Component
 import ReduxToastr from "react-redux-toastr";
@@ -57,6 +58,7 @@ class App extends Component {
                 <Route path="/about" component={about_components} />
                 <Route path="/category" component={category_component} />
                 <Route path="/clients" component={client_component} />
+                <Route path="/employees" component={employee} />
               </Switch>
             </ResponsiveDrawer>
           </div>

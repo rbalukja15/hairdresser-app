@@ -71,7 +71,7 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       marginTop: 10,
       width: `calc(100% - ${drawerWidth}px - 20px)`,
-      height: "100%"
+      height: 1000
     }
   },
   auth: {
@@ -191,7 +191,14 @@ class ResponsiveDrawer extends Component {
           >
             Klientet
           </MenuItem>
-
+          <MenuItem
+            component={Link}
+            to="/employees"
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            selected={"/employees" === pathname}
+          >
+            Punetoret
+          </MenuItem>
           <MenuItem
             onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
             className={classes.auth}
