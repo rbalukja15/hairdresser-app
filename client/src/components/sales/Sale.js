@@ -23,7 +23,7 @@ import MUIDataTable from "mui-datatables";
 import moment from "moment"; //Moment library for date editting
 
 //Toastr Part
-import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
+// import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
 //
@@ -131,7 +131,6 @@ class Sale extends Component {
     ];
     const data = [];
 
-    {
       sales.map(
         ({
           _id,
@@ -183,7 +182,6 @@ class Sale extends Component {
             </div>
           ])
       );
-    }
 
     //console.log(sales);
 

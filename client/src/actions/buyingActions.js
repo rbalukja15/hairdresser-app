@@ -15,7 +15,10 @@ import axios from "axios";
 import { tokenConfig } from "./authActions";
 
 //To be able to return errors
-import { errors, returnErrors } from "./errorActions";
+import {
+  // errors,
+  returnErrors
+} from "./errorActions";
 
 //Action to get the buyings into the component
 export const getBuyings = () => dispatch => {
@@ -46,7 +49,7 @@ export const getBuyingById = id => dispatch => {
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
-    
+
 };
 
 //Action to add a buying
@@ -82,13 +85,13 @@ export const deleteBuying = id => (dispatch, getState) => {
 export const updateBuying = buying => (dispatch, getState) => {
   axios
     .put(`/api/buyings/${buying._id}`, buying, tokenConfig(getState))
-    .then(res => 
+    .then(res =>
       dispatch({
         type: UPDATE_BUYING,
         payload: res.data
       })
     )
-    .catch(err => 
+    .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 }

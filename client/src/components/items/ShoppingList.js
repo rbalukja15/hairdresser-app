@@ -35,6 +35,15 @@ import MUIDataTable from "mui-datatables";
 //THE WAY REDUX WORKS
 //CARS => COMPONENT->ACTION->REDUCER->STORE
 
+//Toastr confirm options
+const toastrConfirmOptions = {
+  onOk: () => {},
+  onCancel: () => {
+    console.log("CANCEL: clicked");
+    return;
+  }
+};
+
 //Select Part
 let select_values = [];
 
@@ -73,7 +82,12 @@ class ShoppingList extends Component {
 
   //Call the delete action
   onDeleteClick = id => {
-    this.props.deleteItem(id);
+    toastr.confirm("Je e sigurte ?", toastrConfirmOptions);
+    toastrConfirmOptions.onOk = () => {
+      this.props.deleteItem(id);
+      console.log("Item Deleted");
+      toastr.success("Produkti u fshi me sukses");
+    };
   };
 
   //Call the update function
@@ -82,6 +96,11 @@ class ShoppingList extends Component {
 
     //Call the update action and pass the item state
     this.props.updateItem(this.state.editItem);
+
+    toastr.success(
+      "Modifikim",
+      `Produkti ${this.state.editItem.name} u modifikua me sukses`
+    );
 
     //Refresh the data
     this._refreshItems();
@@ -143,7 +162,7 @@ class ShoppingList extends Component {
   render() {
     const { items } = this.props.item; //Pull the items
     const { categories } = this.props.category; //Pull the categories
-    const  {category } = this.state.editItem;
+    // const  {category } = this.state.editItem;
    // console.log(category);
     // Map the categories
 
@@ -343,9 +362,6 @@ class ShoppingList extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-        <button onClick={() => toastr.success("Confirmed")} type="button">
-          Toastr Success
-        </button>
         {this.props.isAuthenticated ? (
           <MUIDataTable
             title={"Lista e produkteve"}

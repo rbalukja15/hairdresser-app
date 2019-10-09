@@ -27,8 +27,8 @@ import moment from "moment"; //Moment library for date editting
 //Toastr Part
 import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
-import { bindActionCreators } from "redux";
-import { actions as toastrActions } from "react-redux-toastr";
+// import { bindActionCreators } from "redux";
+// import { actions as toastrActions } from "react-redux-toastr";
 
 //
 //THE WAY REDUX WORKS
@@ -44,24 +44,24 @@ const toastrConfirmOptions = {
 };
 
 class Category extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
     // Bind the react-redux-toastr actions to the component
-    this.toastr = bindActionCreators(toastrActions, this.props.updateCategory);
+    // this.toastr = bindActionCreators(toastrActions, this.props.dispatch)
 
-    this.toastr.add({
-      id: "mycustomid", // If not provided we will add one.
-      type: "success",
-      title: "your title",
-      position: "top-left", // This will override the global props position.
-      attention: true, // This will add a shadow like the confirm method.
-      onAttentionClick: id => {}, //override default behavior of 'attention' background click.
-      message: "message",
-      options: {}
-    });
+    // this.toastr.add({
+    //   id: "mycustomid", // If not provided we will add one.
+    //   type: "success",
+    //   title: "your title",
+    //   position: "top-left", // This will override the global props position.
+    //   attention: true, // This will add a shadow like the confirm method.
+    //   onAttentionClick: id => {}, //override default behavior of 'attention' background click.
+    //   message: "message",
+    //   options: {}
+    // });
 
-    this.toastr.remove("toastrId");
-  }
+    // this.toastr.remove("toastrId");
+  // }
 
   state = {
     editModal: false,
@@ -149,12 +149,13 @@ class Category extends Component {
     const columns = ["Nr", "Name", "Date", "Surname", "Age", "Fshi/Modifiko"];
     const data = [];
 
-    {
+    let counter = this.state.counter;
+
       categories.map(({ _id, name, date }) =>
         data.push([
-          this.state.counter,
+          counter++,
           name,
-          moment(date).calendar(),
+          moment(date).format("DD-MM-YYYY"),
           "Test",
           "Test",
           <div>
@@ -179,7 +180,6 @@ class Category extends Component {
           </div>
         ])
       );
-    }
 
     const options = {
       filterType: "dropdown",

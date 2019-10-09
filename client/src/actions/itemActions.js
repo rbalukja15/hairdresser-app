@@ -5,7 +5,9 @@ import axios from "axios";
 //Import the token helper action to be able to add items
 import { tokenConfig } from "./authActions";
 //To be able to return errors
-import { errors, returnErrors } from "./errorActions";
+import { 
+    // errors, 
+    returnErrors } from "./errorActions";
 
 //Action to get the items into the component
 export const getItems = () => dispatch => {

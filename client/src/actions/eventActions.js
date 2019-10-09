@@ -15,7 +15,9 @@ import axios from "axios";
 import { tokenConfig } from "./authActions";
 
 //To be able to return errors
-import { errors, returnErrors } from "./errorActions";
+import {
+  //  errors, 
+  returnErrors } from "./errorActions";
 
 //Action to get the buyings into the component
 export const getEvents = () => dispatch => {

@@ -19,30 +19,30 @@ import PropTypes from "prop-types";
 //import AddIcon from "@material-ui/icons/Add";
 
 //Materia-Ui Design
-const styles = theme => ({
-  root: {
-    justifyContent: "center",
-    marginLeft: 10
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  },
-  fab: {
-    margin: theme.spacing(1),
-    justifyContent: "center"
-  },
-  modal: {
-    marginBottom: theme.spacing(2),
-    size: "md"
-  },
-  div: {
-    marginLeft: "50%"
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     justifyContent: "center",
+//     marginLeft: 10
+//   },
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2)
+//   },
+//   fab: {
+//     margin: theme.spacing(1),
+//     justifyContent: "center"
+//   },
+//   modal: {
+//     marginBottom: theme.spacing(2),
+//     size: "md"
+//   },
+//   div: {
+//     marginLeft: "50%"
+//   }
+// });
 
 class BuyingModal extends Component {
   //Define the states

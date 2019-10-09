@@ -34,6 +34,15 @@ import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 //THE WAY REDUX WORKS
 //CARS => COMPONENT->ACTION->REDUCER->STORE
 
+//Toastr confirm options
+const toastrConfirmOptions = {
+  onOk: () => {},
+  onCancel: () => {
+    console.log("CANCEL: clicked");
+    return;
+  }
+};
+
 class ClientList extends Component {
   state = {
     editModal: false,
@@ -62,7 +71,12 @@ class ClientList extends Component {
 
   //Call the delete action
   onDeleteClick = id => {
-    this.props.deleteClient(id);
+    toastr.confirm("Je e sigurte ?", toastrConfirmOptions);
+    toastrConfirmOptions.onOk = () => {
+      this.props.deleteClient(id);
+      console.log("Client Deleted");
+      toastr.success("Klienti u fshi me sukses");
+    };
   };
 
   //Call the update function
@@ -71,6 +85,11 @@ class ClientList extends Component {
 
     //Call the update action and pass the client state
     this.props.updateClient(this.state.editClient);
+
+    toastr.success(
+      "Modifikim",
+      `Klienti ${this.state.editClient.name} u modifikua me sukses`
+    );
 
     //Refresh the data
     this._refreshClients();

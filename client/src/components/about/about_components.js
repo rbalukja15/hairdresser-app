@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux"; //Allows to get state from redux to react component
 import { getItems, deleteItem } from "../../actions/itemActions"; //Import the actions
 import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form
-import { compose } from "recompose";
+// import { compose } from "recompose";
 
 //Import the needed components
 import Expenses from "./aboutComponents/Expenses";

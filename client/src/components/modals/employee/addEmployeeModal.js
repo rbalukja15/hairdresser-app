@@ -9,37 +9,37 @@ import {
   Input,
   Label
 } from "reactstrap";
-import Select from "react-select";
+//import Select from "react-select";
 import { connect } from "react-redux"; //To connect react and redux
 import { addEmployee } from "../../../actions/employeeActions"; //Import the action to add the item
 import PropTypes from "prop-types";
 
 //Materia-Ui Design
-const styles = theme => ({
-  root: {
-    justifyContent: "center",
-    marginLeft: 10
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  },
-  fab: {
-    margin: theme.spacing(1),
-    justifyContent: "center"
-  },
-  modal: {
-    marginBottom: theme.spacing(2),
-    marginTop: 30,
-    size: "md"
-  },
-  div: {
-    marginLeft: "50%"
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     justifyContent: "center",
+//     marginLeft: 10
+//   },
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2)
+//   },
+//   fab: {
+//     margin: theme.spacing(1),
+//     justifyContent: "center"
+//   },
+//   modal: {
+//     marginBottom: theme.spacing(2),
+//     marginTop: 30,
+//     size: "md"
+//   },
+//   div: {
+//     marginLeft: "50%"
+//   }
+// });
 
 class EmployeeModal extends Component {
   //Define the states

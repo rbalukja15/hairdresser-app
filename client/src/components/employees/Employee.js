@@ -10,7 +10,6 @@ import {
   Input,
   Label
 } from "reactstrap";
-import Select from "react-select";
 import { connect } from "react-redux"; //Allows to get state from redux to react component
 import {
   getEmployees,
@@ -25,7 +24,7 @@ import { toastr } from "react-redux-toastr"; //Toastr for validation notificatio
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
 //Date part
-import moment from "moment"; //Moment library for date editting
+// import moment from "moment"; //Moment library for date editting
 
 //Material-UI Part
 import MUIDataTable from "mui-datatables";
@@ -33,6 +32,15 @@ import MUIDataTable from "mui-datatables";
 //
 //THE WAY REDUX WORKS
 //CARS => COMPONENT->ACTION->REDUCER->STORE
+
+//Toastr confirm options
+const toastrConfirmOptions = {
+  onOk: () => {},
+  onCancel: () => {
+    console.log("CANCEL: clicked");
+    return;
+  }
+};
 
 //Select Part
 //let select_values = [];
@@ -75,7 +83,12 @@ class Employee extends Component {
 
   //Call the delete action
   onDeleteClick = id => {
-    this.props.deleteEmployee(id);
+    toastr.confirm("Je e sigurte ?", toastrConfirmOptions);
+    toastrConfirmOptions.onOk = () => {
+      this.props.deleteEmployee(id);
+      console.log("Employee Deleted");
+      toastr.success("Punetori u fshi me sukses");
+    };
   };
 
   //Call the update function
@@ -83,6 +96,11 @@ class Employee extends Component {
 
     //Call the update action and pass the item state
     this.props.updateEmployee(this.state.editEmployee);
+
+    toastr.success(
+      "Modifikim",
+      `Punetori ${this.state.editEmployee.name} u modifikua me sukses`
+    );
 
     //Refresh the data
     this._refreshItems();

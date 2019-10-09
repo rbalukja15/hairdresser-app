@@ -5,7 +5,9 @@ import axios from "axios";
 //Import the token helper action to be able to add items
 import { tokenConfig } from "./authActions";
 //To be able to return errors
-import { errors, returnErrors } from "./errorActions";
+import { 
+      // errors, 
+      returnErrors } from "./errorActions";
 
 //Action to get the employees into the component
 export const getEmployees = () => dispatch => {
@@ -37,7 +39,7 @@ export const getEmployeeById = id => dispatch => {
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
-    
+
 };
 
 //Action to add an employee
@@ -74,13 +76,13 @@ export const deleteEmployee = id => (dispatch, getState) => {
 export const updateEmployee = employee => (dispatch, getState) => {
   axios
     .put(`/api/employees/${employee._id}`, employee, tokenConfig(getState))
-    .then(res => 
+    .then(res =>
       dispatch({
         type: UPDATE_EMPLOYEE,
         payload: res.data
       })
     )
-    .catch(err => 
+    .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 }

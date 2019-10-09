@@ -56,7 +56,7 @@ class CategoryModal extends Component {
     //Close the modal
     this.toggle();
 
-    toastr.success('Shtim', 'Produkti u shtua me sukses');
+    toastr.success('Shtim', 'Kategoria u shtua me sukses');
   };
 
   render() {

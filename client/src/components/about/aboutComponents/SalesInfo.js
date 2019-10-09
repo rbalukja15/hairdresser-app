@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // Material components
 import { Typography } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 // Material helpers
-import { withStyles } from "@material-ui/core";
+// import { withStyles } from "@material-ui/core";
 
 class SalesInfo extends Component {
   render() {
