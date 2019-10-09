@@ -20,6 +20,8 @@ const sales = require('./routes/api/sales');
 const Buyings = require('./routes/api/buyings');
 //Require Employees Routes
 const Employees = require('./routes/api/employees');
+//Require Events Routes
+const Events = require('./routes/api/events');
 
 const app = express();
 
@@ -57,6 +59,8 @@ app.use('/api/sales', sales);
 app.use('/api/buyings', Buyings);
 //Employees Routes
 app.use('/api/employees', Employees);
+//Events Routes
+app.use('/api/events', Events);
 
 //Define Ports
 const port = process.env.PORT || 5000;

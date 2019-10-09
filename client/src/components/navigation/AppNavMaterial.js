@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { Link, withRouter } from "react-router-dom";
@@ -17,7 +17,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import red from "@material-ui/core/colors/red";
 //import grey from "@material-ui/core/colors/grey";
 
-import LetterAvatars from "../admin/avatar"; //Import avatar Icons
+//import LetterAvatars from "../admin/avatar"; //Import avatar Icons
 
 //Authentication Modals
 import LoginModal from "../auth/LoginModal";
@@ -72,6 +72,11 @@ const styles = theme => ({
       marginTop: 10,
       width: `calc(100% - ${drawerWidth}px - 20px)`,
       height: 1000
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginTop: 10,
+      width: `calc(100% - ${drawerWidth}px - 20px)`,
+      height: "100%"
     }
   },
   auth: {
@@ -118,10 +123,10 @@ class ResponsiveDrawer extends Component {
   render() {
     const {
       classes,
-      children,
+      //children,
       location: { pathname }
     } = this.props;
-    const { mobileOpen } = this.state;
+    //const { mobileOpen } = this.state;
     //const { isAuthenticated, user } = this.props.auth;
 
     const drawer = (

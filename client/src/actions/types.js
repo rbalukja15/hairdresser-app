@@ -46,6 +46,14 @@ export const EMPLOYEES_LOADING = 'EMPLOYEES_LOADING';
 export const GET_EMPLOYEE_BY_ID = 'GET_EMPLOYEE_BY_ID';
 export const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
 
+//Employee Actions
+export const GET_EVENTS = 'GET_EVENTS';
+export const ADD_EVENT = 'ADD_EVENTS';
+export const DELETE_EVENT = 'DELETE_EVENT';
+export const EVENTS_LOADING = 'EVENTS_LOADING';
+export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+
 //Auth Types
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
