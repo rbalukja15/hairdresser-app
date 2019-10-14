@@ -30,10 +30,10 @@ const useStyles = theme => ({
       width: `calc(100% - ${smWidth}px - 20px)`,
       flexShrink: 0
     },
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3)
   },
   paper: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     textAlign: "center",
     color: theme.palette.text.secondary
   }

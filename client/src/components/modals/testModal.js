@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from "react";
+import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -8,7 +8,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-// import moment from "moment"; //Moment library for date editting
+import moment from "moment"; //Moment library for date editting
 
 import {
   Button,
@@ -30,13 +30,13 @@ import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
 function MaterialUIPickers(props) {
 
-  // The states declared for the Pickers
-  const [selectedStartDate, setSelectedStartDate] = React.useState(Date.now);
-  const [selectedEndDate, setSelectedEndDate] = React.useState(Date.now);
+  // The first commit of Material-UI
+  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date('2019-09-18T21:11:54'));
+  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date('2019-09-18T21:11:54'));
   const [modal, setModal] = React.useState(false);
   const [title, setTitle] = React.useState("");
-  const [startDate, setStartDate] = React.useState(Date.now);
-  const [endDate, setEndDate] = React.useState(Date.now);
+  const [startDate, setStartDate] = React.useState(new Date('2019-09-18T21:11:54'));
+  const [endDate, setEndDate] = React.useState(new Date('2019-09-18T21:11:54'));
 
   function handleStartDateChange(date) {
     //console.log(date);
@@ -126,7 +126,6 @@ function MaterialUIPickers(props) {
                 type="text"
                 name="title"
                 id="event"
-                required={true}
                 placeholder="Eventi..."
                 onChange={onChange}
                 className="mb-2"
@@ -148,7 +147,6 @@ function MaterialUIPickers(props) {
                   <KeyboardTimePicker
                     margin="normal"
                     id="time-picker"
-                    ampm={false}
                     label="Koha e fillimit te eventit"
                     value={selectedStartDate}
                     onChange={handleStartDateChange}
@@ -172,7 +170,6 @@ function MaterialUIPickers(props) {
                   />
                   <KeyboardTimePicker
                     margin="normal"
-                    ampm={false}
                     id="time-picker"
                     label="Koha e mbarimit te eventit"
                     value={selectedEndDate}

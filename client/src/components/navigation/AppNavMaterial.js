@@ -15,15 +15,13 @@ import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import red from "@material-ui/core/colors/red";
-//import grey from "@material-ui/core/colors/grey";
-
-//import LetterAvatars from "../admin/avatar"; //Import avatar Icons
 
 //Authentication Modals
 import LoginModal from "../auth/LoginModal";
 import Logout from "../auth/Logout"; //
 
 const drawerWidth = 240;
+const contentHeight = 1000;
 
 //Styled Classes
 const styles = theme => ({
@@ -49,10 +47,10 @@ const styles = theme => ({
     float: "left",
   },
   icon: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   iconHover: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     "&:hover": {
       color: red[800]
     }
@@ -71,12 +69,12 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       marginTop: 10,
       width: `calc(100% - ${drawerWidth}px - 20px)`,
-      height: 1000
+      height: contentHeight
     },
     [theme.breakpoints.up("lg")]: {
       marginTop: 10,
       width: `calc(100% - ${drawerWidth}px - 20px)`,
-      height: "100%"
+      height: `${contentHeight}px + 200px`
     }
   },
   auth: {
@@ -120,14 +118,17 @@ class ResponsiveDrawer extends Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  //To avoid passing string in the function onClick
+  dumbFunction = () => {
+
+  }
+
   render() {
     const {
       classes,
       //children,
       location: { pathname }
     } = this.props;
-    //const { mobileOpen } = this.state;
-    //const { isAuthenticated, user } = this.props.auth;
 
     const drawer = (
       <div>
@@ -138,7 +139,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/" === pathname}
           >
             Kryefaqja{" "}
@@ -151,7 +152,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/sales"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/sales" === pathname}
           >
             Shitjet
@@ -159,7 +160,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/buyings"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/buyings" === pathname}
           >
             Blerjet
@@ -167,23 +168,15 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/shopping"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/shopping" === pathname}
           >
             Produktet
           </MenuItem>
           <MenuItem
             component={Link}
-            to="/about"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
-            selected={"/about" === pathname}
-          >
-            Rreth Firmes
-          </MenuItem>
-          <MenuItem
-            component={Link}
             to="/category"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/category" === pathname}
           >
             Kategorite
@@ -191,7 +184,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/clients"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/clients" === pathname}
           >
             Klientet
@@ -199,19 +192,19 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/employees"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/employees" === pathname}
           >
             Punetoret
           </MenuItem>
           <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             className={classes.auth}
           >
             <LoginModal />
           </MenuItem>
           <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : ""}
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             className={classes.auth}
           >
             <Logout />

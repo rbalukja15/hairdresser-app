@@ -9,23 +9,23 @@ const ItemSchema = new Schema ({
   },
   kodi: {
     type: String,
-    required: false
+    required: true
   },
   cmimBlerje: {
     type: Number,
-    required: false
+    required: true
   },
   shitesi: {
     type: String,
-    required: false
+    required: true
   },
   prodhuesi: {
     type: String,
-    required: false
+    required: true
   },
   category: {
     type: String,
-    required: false
+    required: true
   },
   date: {
     type: Date,

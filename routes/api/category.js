@@ -47,7 +47,20 @@ router.post('/', auth,(req, res) => {
     name: req.body.name
   });
 
-  newCategory.save().then(category => res.json(category));
+  //newCategory.save().then(category => res.json(category));
+  newCategory.save(function(err, resp) {
+    if (err) {
+      //console.log(newEmployee);
+      res.send({
+        message: 'something went wrong'
+      });
+    } else {
+      res.send({
+        message: 'the category has been saved'
+      });
+    }
+
+  });
 });
 
 // @route   DELETE api/category/:id
@@ -82,7 +95,7 @@ router.put("/:id", auth, (req, res) => {
       if (!category) {
         return res
           .status(404)
-          .json({ msg: "Category not found with id " + req.params.id });
+          .json({ msg: "Category not found with iiiiiiid " + req.params.id });
       }
       res.json(category);
     })
@@ -90,7 +103,7 @@ router.put("/:id", auth, (req, res) => {
       if (err.kind === "ObjectId") {
         return res
           .status(404)
-          .json({ msg: "Category not found with id " + req.params.id });
+          .json({ msg: "Category not found with iiiiiiid " + req.params.id });
       }
 
       return res

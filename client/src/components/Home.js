@@ -23,7 +23,8 @@ import MaterialUIPickers from "./modals/eventModal";
 
 const containerStyle = {
   marginTop: "40px",
-  marginLeft: "10px"
+  marginLeft: "10px",
+  height: "800px"
 };
 
 const localizer = momentLocalizer(moment)
@@ -70,8 +71,6 @@ class Home extends Component {
             }
           )
     );
-
-    console.log(myEventsList);
 
     return (
       <Container style={containerStyle}>
