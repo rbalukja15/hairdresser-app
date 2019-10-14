@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const logger = require('./logs/logger');
 
 //Require Items Routes
 const items = require('./routes/api/items');
@@ -35,10 +36,12 @@ const db = config.get('mongoURI');
 mongoose
         .connect(db, { useNewUrlParser: true,
                        useCreateIndex: true,
-                       useFindAndModify: false 
+                       useFindAndModify: false ,
+                       useUnifiedTopology: true
         })
-        .then(() => console.log('MongoDB Connected...') )
-        .catch( err => console.log(err) );
+        // .then(() => console.log('MongoDB Connected...') )
+        .then( () => logger.info('MongoDB Connected..'))
+        .catch( err => logger.info(err) );
 
 
 //Items Routes
