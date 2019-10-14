@@ -21,7 +21,7 @@ import {
   Label
 } from "reactstrap";
 import { connect } from "react-redux"; //To connect react and redux
-import { addEvent } from "../../actions/eventActions"; //Import the action to add the item
+import { getEvents, addEvent } from "../../actions/eventActions"; //Import the action to add the item
 import PropTypes from "prop-types";
 
 //Toastr Part
@@ -56,7 +56,8 @@ function MaterialUIPickers(props) {
 
   MaterialUIPickers.propTypes = {
     isAuthenticated: PropTypes.bool,
-    addEvent: PropTypes.func.isRequired
+    addEvent: PropTypes.func.isRequired,
+    getEvents: PropTypes.func.isRequired
   };
 
   //Toggle the modal function
@@ -79,7 +80,7 @@ function MaterialUIPickers(props) {
   function onSubmit(e) {
     e.preventDefault(); //To prevent the form from submitting naturally
 
-    //Define the new item
+    //Define the new event
     const newEvent = {
       title: title,
       startDate: startDate,
@@ -92,13 +93,14 @@ function MaterialUIPickers(props) {
         return;
       }
 
-    //Add Item via addItem Action
+    //Add Event via addEvent Action
     props.addEvent(newEvent);
 
     //Close the modal
     toggle();
 
     toastr.success('Shtim', 'Eventi u shtua me sukses');
+    // window.location.reload(false);
   };
 
   return (
@@ -113,7 +115,7 @@ function MaterialUIPickers(props) {
           Shto Event
           </Button>
       ) : (
-          <h4 className="mb-3 ml-4">Please log in to add an event</h4>
+          <h4 className="mb-3 ml-4">Ju lutem logohuni qe te shtoni evente</h4>
         )}
 
       <Modal isOpen={modal} toggle={toggle} centered={true}>
@@ -185,7 +187,7 @@ function MaterialUIPickers(props) {
               </MuiPickersUtilsProvider>
               <Button color="info" outline style={{ marginTop: "2rem" }} block>
                 Shto Event
-                  </Button>
+              </Button>
             </FormGroup>
           </Form>
         </ModalBody>
@@ -205,5 +207,5 @@ const mapStateToProps = state => ({
 //Connect takes as parameters the action and our mapping function
 export default connect(
   mapStateToProps,
-  { addEvent }
+  { getEvents, addEvent }
 )(MaterialUIPickers); //Because we are using connect

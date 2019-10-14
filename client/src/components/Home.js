@@ -7,6 +7,10 @@ import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import '../sass/styles.scss'
 
+//Toastr Part
+import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
+
 //Events Part
 import { connect } from "react-redux"; //Allows to get state from redux to react component
 import {
@@ -30,11 +34,18 @@ const containerStyle = {
 const localizer = momentLocalizer(moment)
 class Home extends Component {
 
+  state = {
+    event: {
+      title: "",
+      start: "",
+      end: ""
+    }
+  }
+
   componentWillMount() {
     //Runs when the component mounts
     //Here we run actions
     this._refreshEvents();
-    
   }
 
   //Refresh function for the datas in the table
@@ -67,21 +78,28 @@ class Home extends Component {
             {
               'title':title,
               'start':new Date(startDate),
-              'end':new Date(endDate)
+              'end':new Date(endDate),
+              
             }
           )
     );
 
     return (
       <Container style={containerStyle}>
-        <MaterialUIPickers>
-        </MaterialUIPickers>
+        <MaterialUIPickers />
         <Calendar
+          popup
           localizer={localizer}
           events={myEventsList}
+          onSelectEvent={ event => {
+              toastr.info(event.title + "    " + moment(event.start).format('DD-MM-YYYY hh:mm:ss'));
+              this.setState({
+                event: event
+              });
+          }}
           startAccessor="start"
           endAccessor="end"
-          defaultView="week"
+          defaultView="day"
         />
       </Container>
     );
