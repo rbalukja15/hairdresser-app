@@ -73,11 +73,10 @@ class ShoppingList extends Component {
     isAuthenticated: PropTypes.bool
   };
 
-  componentWillMount() {
+  componentWillMount(){
     //Runs when the component mounts
     //Here we run actions
     this._refreshItems();
-    //console.log(this.category);
   }
 
   //Call the delete action
@@ -92,10 +91,11 @@ class ShoppingList extends Component {
 
   //Call the update function
   updateItem() {
-    //console.log(this.state.editItem._id);
 
     //Call the update action and pass the item state
     this.props.updateItem(this.state.editItem);
+
+    this.componentWillMount();
 
     toastr.success(
       "Modifikim",
@@ -124,7 +124,6 @@ class ShoppingList extends Component {
   _refreshItems() {
     this.props.getItems();
     this.props.getCategories();
-    //console.log(this.props.getCategories());
   }
 
   //Edit function to get the data from the table row into the state
@@ -141,7 +140,6 @@ class ShoppingList extends Component {
       },
       editModal: !this.state.editModal
     });
-    //console.log(this.state.editItem,"0000");
   }
 
   //Toggle the edit modal function
@@ -162,25 +160,9 @@ class ShoppingList extends Component {
   render() {
     const { items } = this.props.item; //Pull the items
     const { categories } = this.props.category; //Pull the categories
-    // const  {category } = this.state.editItem;
-   // console.log(category);
-    // Map the categories
 
-    // categories.map(({ _id, name }) => {
-    //   select_values.push({
-    //     label: name,
-    //     value: name
-    //   });
-    // }); 
-     select_values = categories.slice(0);
-     select_values = select_values.map(category => ({ label: category.name, value: category.name }))
-    // // <sele id=""></select>
-    // categories.map(cat=>{
-    //   console.log(cat);
-    // })
-    
-     
-     //console.log(select_values,"categories lists");
+    select_values = categories.slice(0);
+    select_values = select_values.map(category => ({ label: category.name, value: category.name }))
 
     const columns = [
       "Nr",

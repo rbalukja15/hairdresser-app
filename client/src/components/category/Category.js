@@ -100,24 +100,28 @@ class Category extends Component {
 
   //Call the update function
   updateCategory() {
-    //console.log(this.state.editItem._id);
 
     //Call the update action and pass the item state
     this.props.updateCategory(this.state.editCategory);
+
+    //Refresh the data
+    this._refreshCategories();
+
+    this.componentWillMount();
 
     toastr.success(
       "Modifikim",
       `Kategoria ${this.state.editCategory.name} u modifikua me sukses`
     );
 
-    //Refresh the data
-    this._refreshCategories();
-
     //Reset the state
     this.setState({
       editModal: false,
-      _id: "",
-      name: ""
+      counter: 1,
+      editCategory: {
+        _id: "",
+        name: ""
+    }
     });
   }
 
@@ -146,7 +150,7 @@ class Category extends Component {
 
   render() {
     const { categories } = this.props.category; //Pull the items
-    const columns = ["Nr", "Name", "Date", "Surname", "Age", "Fshi/Modifiko"];
+    const columns = ["Nr", "Emri", "Data Regjistrimit", "Fshi/Modifiko"];
     const data = [];
 
     let counter = this.state.counter;
@@ -156,8 +160,6 @@ class Category extends Component {
           counter++,
           name,
           moment(date).format("DD-MM-YYYY"),
-          "Test",
-          "Test",
           <div>
             <Button
               className="remove-btn "

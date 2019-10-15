@@ -24,7 +24,7 @@ import { toastr } from "react-redux-toastr"; //Toastr for validation notificatio
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
 //Date part
-// import moment from "moment"; //Moment library for date editting
+import moment from "moment"; //Moment library for date editting
 
 //Material-UI Part
 import MUIDataTable from "mui-datatables";
@@ -54,15 +54,9 @@ class Employee extends Component {
       name: "",
       surname: "",
       numerSigurime: "",
-      status: "",
-      gjendjaCivile: "",
-      ditelindja: "",
-      dataFillim: "",
-      dataMbarim: "",
       pozicioni: "",
-      arsimimi: "",
-      vendlindja: "",
-      adresa: ""
+      adresa: "",
+      paga: 0
     }
   };
 
@@ -81,6 +75,7 @@ class Employee extends Component {
     this._refreshItems();
   }
 
+
   //Call the delete action
   onDeleteClick = id => {
     toastr.confirm("Je e sigurte ?", toastrConfirmOptions);
@@ -97,31 +92,28 @@ class Employee extends Component {
     //Call the update action and pass the item state
     this.props.updateEmployee(this.state.editEmployee);
 
+    //Refresh the data
+    this._refreshItems();
+
+    this.componentWillMount();
+
     toastr.success(
       "Modifikim",
       `Punetori ${this.state.editEmployee.name} u modifikua me sukses`
     );
 
-    //Refresh the data
-    this._refreshItems();
-
     //Reset the state
     this.setState({
       editModal: false,
+      counter: 1,
       editEmployee: {
         _id: "",
         name: "",
         surname: "",
         numerSigurime: "",
-        status: "",
-        gjendjaCivile: "",
-        ditelindja: "",
-        dataFillim: "",
-        dataMbarim: "",
         pozicioni: "",
-        arsimimi: "",
-        vendlindja: "",
-        adresa: ""
+        adresa: "",
+        paga: 0
       }
     });
   }
@@ -137,15 +129,9 @@ class Employee extends Component {
     name,
     surname,
     numerSigurime,
-    status,
-    gjendjaCivile,
-    ditelindja,
-    dataFillim,
-    dataMbarim,
     pozicioni,
-    arsimimi,
-    vendlindja,
-    adresa
+    adresa,
+    paga
   ) {
     this.setState({
       editEmployee: {
@@ -153,15 +139,9 @@ class Employee extends Component {
         name,
         surname,
         numerSigurime,
-        status,
-        gjendjaCivile,
-        ditelindja,
-        dataFillim,
-        dataMbarim,
         pozicioni,
-        arsimimi,
-        vendlindja,
-        adresa
+        adresa,
+        paga
       },
       editModal: !this.state.editModal
     });
@@ -177,20 +157,17 @@ class Employee extends Component {
   render() {
     const { employees } = this.props.employee; //Pull the employees
 
+    let counter = this.state.counter;
+
     const columns = [
       "Nr",
       "Emri",
       "Mbiemri",
       "Nr.Sigurimesh",
-      "Status Pune",
-      "Gjendja Civile",
-      "Ditelindja",
-      "Data Fillim",
-      "Data Mbarim",
       "Pozicioni",
-      "Arsimimi",
-      "Vendlindja",
       "Adresa",
+      "Paga",
+      "Data Regjistrimit",
       "Fshi/Modifiko"
     ];
     const data = [];
@@ -201,32 +178,20 @@ class Employee extends Component {
         name,
         surname,
         numerSigurime,
-        status,
-        gjendjaCivile,
-        ditelindja,
-        dataFillim,
-        dataMbarim,
         pozicioni,
-        arsimimi,
-        vendlindja,
         adresa,
+        paga,
         date
       }) =>
         data.push([
-          this.state.counter,
+          counter++,
           name,
           surname,
           numerSigurime,
-          status,
-          gjendjaCivile,
-          ditelindja,
-          dataFillim,
-          dataMbarim,
           pozicioni,
-          arsimimi,
-          vendlindja,
           adresa,
-          //moment(date).calendar(),
+          paga,
+          moment(date).calendar(),
           <div>
             <Button
               className="remove-btn mb-2"
@@ -248,15 +213,9 @@ class Employee extends Component {
                 name,
                 surname,
                 numerSigurime,
-                status,
-                gjendjaCivile,
-                ditelindja,
-                dataFillim,
-                dataMbarim,
                 pozicioni,
-                arsimimi,
-                vendlindja,
-                adresa
+                adresa,
+                paga
               )}
             >
               Modifiko
@@ -328,71 +287,6 @@ class Employee extends Component {
                   }}
                   style={{ marginBottom: "1rem" }}
                 />
-                <Label for="status">Statusi</Label>
-                <Input
-                  type="text"
-                  name="status"
-                  id="status"
-                  value={this.state.editEmployee.status}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.status = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="gjendjaCivile">Gjendja Civile</Label>
-                <Input
-                  type="text"
-                  name="gjendjaCivile"
-                  id="gjendjaCivile"
-                  value={this.state.editEmployee.gjendjaCivile}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.gjendjaCivile = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="ditelindje">Ditelindja</Label>
-                <Input
-                  type="text"
-                  name="ditelindje"
-                  id="ditelindje"
-                  value={this.state.editEmployee.ditelindje}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.ditelindje = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="datafillim">Data fillim</Label>
-                <Input
-                  type="text"
-                  name="datafillim"
-                  id="datafillim"
-                  value={this.state.editEmployee.datafillim}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.datafillim = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="datambarim">Data mbarim</Label>
-                <Input
-                  type="text"
-                  name="datambarim"
-                  id="datambarim"
-                  value={this.state.editEmployee.datambarim}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.datambarim = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
                 <Label for="pozicioni">Pozicioni</Label>
                 <Input
                   type="text"
@@ -406,32 +300,6 @@ class Employee extends Component {
                   }}
                   style={{ marginBottom: "1rem" }}
                 />
-                <Label for="arsimimi">Arsimimi</Label>
-                <Input
-                  type="text"
-                  name="arsimimi"
-                  id="arsimimi"
-                  value={this.state.editEmployee.arsimimi}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.arsimimi = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="vendlindja">Vendlindja</Label>
-                <Input
-                  type="text"
-                  name="vendlindja"
-                  id="vendlindja"
-                  value={this.state.editEmployee.vendlindja}
-                  onChange={e => {
-                    let { editEmployee } = this.state;
-                    editEmployee.vendlindja = e.target.value;
-                    this.setState({ editEmployee });
-                  }}
-                  style={{ marginBottom: "1rem" }}
-                />
                 <Label for="adresa">Adresa</Label>
                 <Input
                   type="text"
@@ -441,6 +309,19 @@ class Employee extends Component {
                   onChange={e => {
                     let { editEmployee } = this.state;
                     editEmployee.adresa = e.target.value;
+                    this.setState({ editEmployee });
+                  }}
+                  style={{ marginBottom: "1rem" }}
+                />
+                <Label for="paga">Paga</Label>
+                <Input
+                  type="number"
+                  name="paga"
+                  id="paga"
+                  value={this.state.editEmployee.paga}
+                  onChange={e => {
+                    let { editEmployee } = this.state;
+                    editEmployee.paga = e.target.value;
                     this.setState({ editEmployee });
                   }}
                   style={{ marginBottom: "1rem" }}

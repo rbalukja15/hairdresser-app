@@ -12,7 +12,6 @@ import {
 //Action to get the employees into the component
 export const getEmployees = () => dispatch => {
   dispatch(setEmployeesLoading()); //Change the state of the loading
-  console.log("ckemi");
   axios
     .get("/api/employees")
     .then(res =>
@@ -83,7 +82,9 @@ export const updateEmployee = employee => (dispatch, getState) => {
       })
     )
     .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
+      {dispatch(returnErrors(err.response.data, err.response.status))
+        console.log(err);
+      }
     );
 }
 

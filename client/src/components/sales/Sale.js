@@ -75,6 +75,9 @@ class Sale extends Component {
     //Refresh the data
     this._refreshSales();
 
+    //For repeating items
+    this.componentWillMount();
+
     //Reset the state
     this.setState({
       editModal: false,

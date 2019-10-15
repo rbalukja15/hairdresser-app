@@ -20,14 +20,10 @@ router.get("/",  (req, res) => {
 router.get("/:id", auth,(req, res) => {
   Employee.findById(req.params.id)
     .then(employee => {
-      if (!employee) {
-        return res.status(404).json({
-          message: "Employee not found with id " + req.params.id
-        });
-      }
       res.json(employee);
     })
     .catch(err => {
+      console.log(err);
       if (err.kind === "ObjectId") {
         return res.status(404).json({
           message: "Employee not found with id " + req.params.id
@@ -47,32 +43,13 @@ router.post("/", auth, (req, res) => {
     name: req.body.name,
     surname: req.body.surname,
     numerSigurime: req.body.numerSigurime,
-    status: req.body.status,
-    gjendjaCivile: req.body.gjendjaCivile,
-    ditelindja: req.body.ditelindja,
-    dataFillim: req.body.dataFillim,
-    dataMbarim: req.body.dataMbarim,
     pozicioni: req.body.pozicioni,
-    arsimimi: req.body.arsimimi,
-    vendlindja: req.body.vendlindja,
-    adresa: req.body.adresa
+    adresa: req.body.adresa,
+    paga: req.body.paga
   });
 
-  //newEmployee.save().then(employee => res.json(employee)).catch(console.log("error"));
-  newEmployee.save(function(err, resp) {
-    if (err) {
-      //console.log(newEmployee);
-      res.send({
-        message: 'something went wrong'
-      });
-    } else {
-      res.send({
-        message: 'the employee has been saved'
-      });
-    }
+  newEmployee.save().then(employee => res.json(employee)).catch( err => console.log("error"))});
 
-  });
-});
 
 // @route   DELETE api/items/:id
 // @desc    Delete An Item
@@ -112,14 +89,7 @@ router.put("/:id", auth, (req, res) => {
     },
     { new: true }
   )
-    .then(employee => {
-      if (!employee) {
-        return res
-          .status(404)
-          .json({ msg: "Employee not found with id " + req.params.id });
-      }
-      res.json({ msg: "success"});
-    })
+    .then(employee => {res.json(employee)})
     .catch(err => {
       if (err.kind === "ObjectId") {
         return res

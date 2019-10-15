@@ -81,7 +81,6 @@ class ClientList extends Component {
 
   //Call the update function
   updateClient() {
-    //console.log(this.state.editSale._id);
 
     //Call the update action and pass the client state
     this.props.updateClient(this.state.editClient);
@@ -94,12 +93,17 @@ class ClientList extends Component {
     //Refresh the data
     this._refreshClients();
 
+    this.componentWillMount();
+
     //Reset the state
     this.setState({
       editModal: false,
-      _id: "",
-      name: "",
-      surname: ""
+      counter: 1,
+      editClient: {
+        _id: "",
+        name: "",
+        surname: ""
+    }
     });
   }
 
@@ -129,23 +133,25 @@ class ClientList extends Component {
 
   render() {
     const { clients } = this.props.client; //Pull the clients
+
+    //Counter for rows
+    let counter = this.state.counter;
+
     const columns = [
       "Nr",
       "Emer",
       "Mbiemer",
       "Data Regjistrimit",
-      "Age",
       "Delete"
     ];
     const data = [];
 
     clients.map(({ _id, name, surname, date }) =>
       data.push([
-        this.state.counter,
+        counter++,
         name,
         surname,
         moment(date).calendar(),
-        "Test",
         <div>
           <Button
             className="remove-btn mb-2"

@@ -72,6 +72,8 @@ class Buying extends Component {
     //Refresh the data
     this._refreshBuyings();
 
+    this.componentWillMount();
+
     //Reset the state
     this.setState({
       editModal: false,
