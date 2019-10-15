@@ -23,10 +23,6 @@ const BuyingSchema = new Schema ({
     type: String,
     required: true
   },
-  category: {
-    type: String,
-    required: true
-  },
   sasia: {
     type: Number,
     required: true

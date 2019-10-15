@@ -52,7 +52,13 @@ router.post("/", auth,(req, res) => {
     kodi: req.body.kodi
   });
 
-  newSale.save().then(sale => res.json(sale));
+  newSale.save()
+          .then(sale => res.json(sale))
+          .catch(err => {
+                    return res.status(500).json({
+                      message: "Error saving buying"
+                    });
+                  });
 });
 
 // @route   DELETE api/sales/:id

@@ -15,40 +15,16 @@ const EmployeeSchema = new Schema ({
     type: String,
     required: true
   },
-  status: {
-    type: String,
-    required: true
-  },
-  gjendjaCivile: {
-    type: String,
-    required: true
-  },
-  ditelindja: {
-    type: String,
-    required: false
-  },
-  dataFillim: {
-    type: Date,
-    required: true
-  },
-  dataMbarim: {
-    type: Date,
-    required: false
-  },
   pozicioni: {
-    type: String,
-    required: false
-  },
-  arsimimi: {
-    type: String,
-    required: false
-  },
-  vendlindja: {
     type: String,
     required: false
   },
   adresa: {
     type: String,
+    required: true
+  },
+  paga: {
+    type: Number,
     required: true
   },
   date: {

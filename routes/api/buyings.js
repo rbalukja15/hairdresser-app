@@ -49,12 +49,17 @@ router.post("/", auth, (req, res) => {
     cmimBlerje: req.body.cmimBlerje,
     shitesi: req.body.shitesi,
     prodhuesi: req.body.prodhuesi,
-    category: req.body.category,
     sasia: req.body.sasia
   });
 
-  newBuying.save().then(buying => res.json(buying));
-});
+  newBuying.save()
+          .then(buying => res.json(buying))
+          .catch(err => {
+            return res.status(500).json({
+              message: "Error saving buying"
+            });
+          });
+        });
 
 // @route   DELETE api/buyings/:id
 // @desc    Delete Buying
@@ -84,7 +89,6 @@ router.put("/:id", (req, res) => {
       cmimBlerje: req.body.cmimBlerje,
       shitesi: req.body.shitesi,
       prodhuesi: req.body.prodhuesi,
-      category: req.body.category,
       sasia: req.body.sasia
     },
     { new: true }

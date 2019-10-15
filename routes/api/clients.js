@@ -48,7 +48,11 @@ router.post("/", auth, (req, res) => {
     surname: req.body.surname
   });
 
-  newClient.save().then(client => res.json(client));
+  newClient.save().then(client => res.json(client)).catch(err => {
+    return res.status(500).json({
+      message: "Error saving client"
+    });
+  });
 });
 
 // @route   DELETE api/client/:id

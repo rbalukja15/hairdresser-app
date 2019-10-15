@@ -49,23 +49,12 @@ router.post('/', auth,(req, res) => {
 
   newCategory.save()
               .then(category => res.json(category))
-              .catch( err => console.log(err) )
+              .catch(err => {
+                return res.status(500).json({
+                  message: "Error saving buying"
+                });
+              });
             });
-
-//   newCategory.save(function(err, resp) {
-//     if (err) {
-//       //console.log(newEmployee);
-//       res.send(res.json(category),{
-//         message: 'something went wrong',
-//       });
-//     } else {
-//       res.send({
-//         message: 'the category has been saved'
-//       });
-//     }
-
-//   });
-// });
 
 // @route   DELETE api/category/:id
 // @desc    Delete A Category

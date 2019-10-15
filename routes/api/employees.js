@@ -23,7 +23,6 @@ router.get("/:id", auth,(req, res) => {
       res.json(employee);
     })
     .catch(err => {
-      console.log(err);
       if (err.kind === "ObjectId") {
         return res.status(404).json({
           message: "Employee not found with id " + req.params.id

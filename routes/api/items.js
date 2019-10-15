@@ -51,7 +51,11 @@ router.post("/", auth, (req, res) => {
     category: req.body.category
   });
 
-  newItem.save().then(item => res.json(item));
+  newItem.save().then(item => res.json(item)).catch(err => {
+    return res.status(500).json({
+      message: "Error saving item"
+    });
+  });
 });
 
 // @route   DELETE api/items/:id
