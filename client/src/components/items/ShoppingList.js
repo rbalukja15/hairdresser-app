@@ -161,6 +161,9 @@ class ShoppingList extends Component {
     const { items } = this.props.item; //Pull the items
     const { categories } = this.props.category; //Pull the categories
 
+    //Counter
+    let counter = this.state.counter;
+
     select_values = categories.slice(0);
     select_values = select_values.map(category => ({ label: category.name, value: category.name }))
 
@@ -172,7 +175,7 @@ class ShoppingList extends Component {
       "Prodhuesi",
       "Furnitori",
       "Kategoria",
-      "Data",
+      "Data Regjistrimit",
       "Fshi/Modifiko"
     ];
     const data = [];
@@ -180,7 +183,7 @@ class ShoppingList extends Component {
     items.map(
       ({ _id, name, kodi, cmimBlerje, prodhuesi, shitesi, category, date }) =>
         data.push([
-          this.state.counter,
+          counter++,
           name,
           kodi,
           cmimBlerje,
@@ -248,6 +251,7 @@ class ShoppingList extends Component {
                 <Label for="item">Emri Produktit</Label>
                 <Input
                   type="text"
+                  required
                   name="name"
                   id="item"
                   value={this.state.editItem.name}
@@ -263,6 +267,7 @@ class ShoppingList extends Component {
                   type="text"
                   name="kodi"
                   id="kodi"
+                  required
                   value={this.state.editItem.kodi}
                   onChange={e => {
                     let { editItem } = this.state;
@@ -276,6 +281,7 @@ class ShoppingList extends Component {
                   type="number"
                   name="cmimBlerje"
                   id="cmimBlerje"
+                  required
                   value={this.state.editItem.cmimBlerje}
                   onChange={e => {
                     let { editItem } = this.state;
@@ -289,6 +295,7 @@ class ShoppingList extends Component {
                   type="text"
                   name="shitesi"
                   id="shitesi"
+                  required
                   value={this.state.editItem.shitesi}
                   onChange={e => {
                     let { editItem } = this.state;
@@ -302,6 +309,7 @@ class ShoppingList extends Component {
                   type="text"
                   name="prodhuesi"
                   id="prodhuesi"
+                  required
                   value={this.state.editItem.prodhuesi}
                   onChange={e => {
                     let { editItem } = this.state;

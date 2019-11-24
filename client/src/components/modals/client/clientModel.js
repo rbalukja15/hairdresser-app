@@ -10,18 +10,20 @@ import {
   Label
 } from "reactstrap";
 import { connect } from "react-redux"; //To connect react and redux
-import { addCategory } from "../../actions/categoryActions"; //Import the action to add the item
+import { addClient } from "../../../actions/clientActions"; //Import the action to add the item
 import PropTypes from "prop-types";
 
 //Toastr Part
 import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
-class CategoryModal extends Component {
+
+class ClientModal extends Component {
   //Define the states
   state = {
     modal: false, //Determine the state of the modal
-    name: "" //The state of the name of inputs
+    name: "", //The state of the name of inputs
+    surname: ""
   };
 
   static propTypes = {
@@ -46,17 +48,28 @@ class CategoryModal extends Component {
     e.preventDefault(); //To prevent the form from submitting naturally
 
     //Define the new item
-    const newCategory = {
-      name: this.state.name
+    const newClient = {
+      name: this.state.name,
+      surname: this.state.surname
     };
 
     //Add Item via addItem Action
-    this.props.addCategory(newCategory);
+    this.props.addClient(newClient);
 
-    //Close the modal
-    this.toggle();
-
-    toastr.success('Shtim', 'Kategoria u shtua me sukses');
+    if(this.state.name === ""){
+      toastr.error('Shtim', 'Emri nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.surname === ""){
+      toastr.error('Shtim', 'Mbiemri nuk mund te jete bosh');
+        return;
+    }
+    else {
+      toastr.success('Shtim', 'Klienti u shtua me sukses');
+      
+      //Close the modal
+      this.toggle();
+    }
   };
 
   render() {
@@ -64,33 +77,48 @@ class CategoryModal extends Component {
       <div>
         {this.props.isAuthenticated ? (
           <Button
-            color="success"
+            className="success-btn mb-2"
             outline
-            style={{ marginBottom: "2rem" }}
-            onClick={this.toggle.bind(this) }
+            color="success"
+            onClick={this.toggle.bind(this)}
           >
-            Shto Kategori
+            Shto Klient
           </Button>
         ) : (
-          <h4 className="mb-3 ml-4">Please log in to add category</h4>
+          <h4 className="mb-3 ml-4">Ju lutem logohuni qe te shtoni kliente</h4>
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle} centered={true}>
-          <ModalHeader toggle={this.toggle}>Shto te kategorite</ModalHeader>
+          <ModalHeader toggle={this.toggle} className="bg-light">Shto klient te ri</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="category">Kategori</Label>
+                <Label for="emri">Emer</Label>
                 <Input
                   type="text"
                   name="name"
-                  id="category"
-                  placeholder="Shto kategori"
+                  id="emri"
+                  placeholder="Emer..."
                   onChange={this.onChange}
+                  className="mb-2"
                 />
-                  <Button color="info" outline style={{ marginTop: "2rem" }} block>
-                    Shto Kategori
-                  </Button>
+                <Label for="surname">Mbiemer</Label>
+                <Input
+                  type="text"
+                  name="surname"
+                  id="surname"
+                  placeholder="Mbiemer..."
+                  onChange={this.onChange}
+                  className="mb-2"
+                />
+                <Button
+                  className="info-btn mb-2"
+                  outline
+                  color="info"
+                  block
+                >
+                  Shto
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -103,12 +131,12 @@ class CategoryModal extends Component {
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = state => ({
-  category: state.category,
+  client: state.client,
   isAuthenticated: state.auth.isAuthenticated
 });
 
 //Connect takes as parameters the action and our mapping function
 export default connect(
   mapStateToProps,
-  { addCategory }
-)(CategoryModal); //Because we are using connect
+  { addClient }
+)(ClientModal); //Because we are using connect

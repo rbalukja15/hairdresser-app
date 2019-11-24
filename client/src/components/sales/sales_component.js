@@ -1,7 +1,7 @@
 import React from "react";
 
 import Sale from "./Sale";
-import SaleModal from "../modals/saleModal";
+import SaleModal from "../modals/sale/saleModal";
 
 import { Container } from "reactstrap";
 

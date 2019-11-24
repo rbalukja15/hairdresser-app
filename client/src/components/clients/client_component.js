@@ -1,7 +1,7 @@
 import React from "react";
 
 import ClientList from "./ClientList";
-import ClientModal from "../modals/clientModel";
+import ClientModal from "../modals/client/clientModel";
 
 import { Container } from "reactstrap";
 

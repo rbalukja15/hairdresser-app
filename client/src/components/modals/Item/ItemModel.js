@@ -15,39 +15,6 @@ import { addItem } from "../../../actions/itemActions"; //Import the action to a
 import { getCategories } from "../../../actions/categoryActions";//Import the action to call the categories
 import PropTypes from "prop-types";
 
-//Material-Ui Part
-//import { withStyles } from "@material-ui/core/styles";
-//import Button from "@material-ui/core/Button";
-//import Fab from "@material-ui/core/Fab";
-//import AddIcon from "@material-ui/icons/Add";
-
-
-//Materia-Ui Design
-// const styles = theme => ({
-//   root: {
-//     justifyContent: "center",
-//     marginLeft: 10
-//   },
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   },
-//   fab: {
-//     margin: theme.spacing(1),
-//     justifyContent: "center"
-//   },
-//   modal: {
-//     marginBottom: theme.spacing(2),
-//     size: "md"
-//   },
-//   div: {
-//     marginLeft: "50%"
-//   },
-// });
-
 //Select Part
 let select_values = [];
 
@@ -124,19 +91,9 @@ class ItemModal extends Component {
   render() {
     const { categories } = this.props.category; //Pull the categories
     const { category } = this.state;
-    //Load the categories
-    // categories.map(
-    //   ({_id, name}) => {
-    //     select_values.push({
-    //       label:name, value:name
-    //     });
-    //   }
-    // );
 
     select_values = categories.slice(0);
      select_values = select_values.map(category => ({ label: category.name, value: category.name }))
-
-    //console.log(select_data);
 
     return (
       <div>
@@ -155,7 +112,7 @@ class ItemModal extends Component {
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle} centered={true}>
-          <ModalHeader toggle={this.toggle}>Shto te produktet</ModalHeader>
+          <ModalHeader toggle={this.toggle} className="bg-light">Shto te produktet</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
@@ -164,6 +121,7 @@ class ItemModal extends Component {
                   type="text"
                   name="name"
                   id="item"
+                  required
                   placeholder="Emri..."
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
@@ -173,6 +131,7 @@ class ItemModal extends Component {
                   type="text"
                   name="kodi"
                   id="kodi"
+                  required
                   placeholder="Kodi..."
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
@@ -182,6 +141,7 @@ class ItemModal extends Component {
                   type="number"
                   name="cmimBlerje"
                   id="cmimBlerje"
+                  required
                   placeholder="Cmimi..."
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
@@ -191,6 +151,7 @@ class ItemModal extends Component {
                   type="text"
                   name="shitesi"
                   id="shitesi"
+                  required
                   placeholder="Shitesi"
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
@@ -200,24 +161,18 @@ class ItemModal extends Component {
                   type="text"
                   name="prodhuesi"
                   id="prodhuesi"
+                  required
                   placeholder="Prodhuesi"
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="category">Kategori</Label>
-                {/* <Input
-                  type="text"
-                  name="category"
-                  id="category"
-                  placeholder="Kategoria..."
-                  onChange={this.onChange}
-                  style={{ marginBottom: "1rem" }}
-                /> */}
                 <Select 
                   options={select_values}
                   value={category.value} 
                   name="category"
                   id="category"
+                  required
                   onChange={this.handleChange}
                   placeholder="Kategoria..."
                   />

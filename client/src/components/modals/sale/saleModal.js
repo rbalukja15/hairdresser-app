@@ -10,7 +10,7 @@ import {
   Label
 } from "reactstrap";
 import { connect } from "react-redux"; //To connect react and redux
-import { addSale } from "../../actions/saleActions"; //Import the action to add the sale
+import { addSale } from "../../../actions/saleActions"; //Import the action to add the sale
 import PropTypes from "prop-types";
 
 class SaleModal extends Component {
@@ -101,7 +101,7 @@ class SaleModal extends Component {
           )}
   
           <Modal isOpen={this.state.modal} toggle={this.toggle} centered={true}>
-            <ModalHeader toggle={this.toggle}>Shto shitje te re</ModalHeader>
+            <ModalHeader toggle={this.toggle} className="bg-light">Shto shitje te re</ModalHeader>
             <ModalBody>
               <Form onSubmit={ this.onSubmit }>
                 <FormGroup>

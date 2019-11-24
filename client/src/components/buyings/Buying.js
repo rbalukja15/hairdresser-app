@@ -37,7 +37,6 @@ class Buying extends Component {
       cmimBlerje: "",
       prodhuesi: "",
       shitesi: "",
-      category: "",
       sasia: ""
     }
   };
@@ -83,7 +82,6 @@ class Buying extends Component {
       cmimBlerje: "",
       prodhuesi: "",
       shitesi: "",
-      category: "",
       sasia: ""
     });
   }
@@ -94,7 +92,7 @@ class Buying extends Component {
   }
 
   //Edit function called to get the data from the table row into the state
-  editBuying(_id, name, kodi, cmimBlerje, prodhuesi, shitesi, category, sasia) {
+  editBuying(_id, name, kodi, cmimBlerje, prodhuesi, shitesi, sasia) {
     this.setState({
       editBuying: {
         _id,
@@ -103,7 +101,6 @@ class Buying extends Component {
         cmimBlerje,
         prodhuesi,
         shitesi,
-        category,
         sasia
       },
       editModal: !this.state.editModal
@@ -121,6 +118,9 @@ class Buying extends Component {
     //console.log(this.props);
     const { buyings } = this.props.buying; //Pull the buyings
 
+    //Counter
+    let counter = this.state.counter;
+
     const columns = [
       "Nr",
       "Emer",
@@ -128,9 +128,8 @@ class Buying extends Component {
       "Cmimi Blerjes",
       "Prodhuesi",
       "Shitesi",
-      "Kategori",
       "Sasia",
-      "Data",
+      "Data Regjistrimit",
       "Fshi/Modifiko"
     ];
     const data = [];
@@ -143,18 +142,16 @@ class Buying extends Component {
         cmimBlerje,
         prodhuesi,
         shitesi,
-        category,
         sasia,
         date
       }) =>
         data.push([
-          this.state.counter,
+          counter++,
           name,
           kodi,
           cmimBlerje,
           prodhuesi,
           shitesi,
-          category,
           sasia,
           moment(date).calendar(),
           <div>
@@ -180,7 +177,6 @@ class Buying extends Component {
                 cmimBlerje,
                 prodhuesi,
                 shitesi,
-                category,
                 sasia
               )}
             >
@@ -220,6 +216,7 @@ class Buying extends Component {
                   type="text"
                   name="name"
                   id="name"
+                  required
                   value={this.state.editBuying.name}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -233,6 +230,7 @@ class Buying extends Component {
                   type="text"
                   name="kodi"
                   id="kodi"
+                  required
                   value={this.state.editBuying.kodi}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -246,6 +244,7 @@ class Buying extends Component {
                   type="number"
                   name="cmimBlerje"
                   id="cmimBlerje"
+                  required
                   value={this.state.editBuying.cmimBlerje}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -259,6 +258,7 @@ class Buying extends Component {
                   type="text"
                   name="prodhuesi"
                   id="prodhuesi"
+                  required
                   value={this.state.editBuying.prodhuesi}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -272,6 +272,7 @@ class Buying extends Component {
                   type="text"
                   name="shitesi"
                   id="shitesi"
+                  required
                   value={this.state.editBuying.shitesi}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -285,6 +286,7 @@ class Buying extends Component {
                   type="text"
                   name="category"
                   id="category"
+                  required
                   value={this.state.editBuying.category}
                   onChange={e => {
                     let { editBuying } = this.state;
@@ -298,6 +300,7 @@ class Buying extends Component {
                   type="number"
                   name="sasia"
                   id="sasia"
+                  required
                   value={this.state.editBuying.sasia}
                   onChange={e => {
                     let { editBuying } = this.state;

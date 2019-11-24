@@ -14,32 +14,10 @@ import { connect } from "react-redux"; //To connect react and redux
 import { addEmployee } from "../../../actions/employeeActions"; //Import the action to add the item
 import PropTypes from "prop-types";
 
-//Materia-Ui Design
-// const styles = theme => ({
-//   root: {
-//     justifyContent: "center",
-//     marginLeft: 10
-//   },
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   },
-//   fab: {
-//     margin: theme.spacing(1),
-//     justifyContent: "center"
-//   },
-//   modal: {
-//     marginBottom: theme.spacing(2),
-//     marginTop: 30,
-//     size: "md"
-//   },
-//   div: {
-//     marginLeft: "50%"
-//   }
-// });
+//Toastr Part
+import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
+
 
 class EmployeeModal extends Component {
   //Define the states
@@ -48,15 +26,9 @@ class EmployeeModal extends Component {
     name: "",
     surname: "",
     numerSigurime: "",
-    status: "",
-    gjendjaCivile: "",
-    ditelindja: "",
-    dataFillim: "",
-    dataMbarim: "",
     pozicioni: "",
-    arsimimi: "",
-    vendlindja: "",
-    adresa: ""
+    adresa: "",
+    paga: 0
   };
 
   static propTypes = {
@@ -88,18 +60,50 @@ class EmployeeModal extends Component {
     //Define the new item
     const newEmployee = {
       name: this.state.name,
-      kodi: this.state.kodi,
-      cmimBlerje: this.state.cmimBlerje,
-      prodhuesi: this.state.prodhuesi,
-      shitesi: this.state.shitesi,
-      category: this.state.category
+      surname: this.state.surname,
+      numerSigurime: this.state.numerSigurime,
+      pozicioni: this.state.pozicioni,
+      adresa: this.state.adresa,
+      paga: this.state.paga
     };
 
-    //Add Item via addItem Action
+    //Add Employee via addEmployee Action
     this.props.addEmployee(newEmployee);
 
-    //Close the modal
-    this.toggle();
+    if(this.state.name === "") {
+      toastr.error('Shtim', 'Emri nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.surname === "") {
+      toastr.error('Shtim', 'Mbiemri nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.numerSigurime === "") {
+      toastr.error('Shtim', 'Numri sigurimeve nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.pozicioni === "") {
+      toastr.error('Shtim', 'Pozicioni nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.adresa === "") {
+      toastr.error('Shtim', 'Adresa nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.paga === 0) {
+      toastr.error('Shtim', 'Paga nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.paga <= 0) {
+      toastr.error('Shtim', 'Paga nuk mund te jete me e vogel ose e barabarte me 0 ');
+        return;
+    }
+    else {
+        toastr.success('Shtim', 'Punonjesi u shtua me sukses');
+        
+        //Close the modal
+        this.toggle();
+    }
   };
 
   //Handle select input option
@@ -125,7 +129,7 @@ class EmployeeModal extends Component {
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle} centered={true}>
-          <ModalHeader toggle={this.toggle}>Shto punetor</ModalHeader>
+          <ModalHeader toggle={this.toggle} className="bg-light">Shto punetor</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
@@ -136,7 +140,6 @@ class EmployeeModal extends Component {
                   id="name"
                   placeholder="Emri..."
                   onChange={this.onChange}
-                  required
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="surname">Mbiemri</Label>
@@ -146,7 +149,6 @@ class EmployeeModal extends Component {
                   id="surname"
                   placeholder="Mbiemri..."
                   onChange={this.onChange}
-                  required
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="numerSigurime">Numri Sigurimeve</Label>
@@ -156,47 +158,6 @@ class EmployeeModal extends Component {
                   id="numerSigurime"
                   placeholder="Numri sigurimeve..."
                   onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="status">Statusi</Label>
-                <Input
-                  type="text"
-                  name="status"
-                  id="status"
-                  placeholder="Statusi punes..."
-                  onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="gjendjaCivile">Gjendja Civile</Label>
-                <Input
-                  type="text"
-                  name="gjendjaCivile"
-                  id="gjendjaCivile"
-                  placeholder="Gjendja civile..."
-                  onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="ditelindje">Ditelindja</Label>
-                <Input
-                  type="text"
-                  name="ditelindje"
-                  id="ditelindje"
-                  placeholder="Ditelindja..."
-                  onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="datafillim">Data fillim</Label>
-                <Input
-                  type="text"
-                  name="datafillim"
-                  id="datafillim"
-                  placeholder="Datafillim..."
-                  onChange={this.onChange}
-                  required
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="pozicioni">Pozicioni</Label>
@@ -206,27 +167,6 @@ class EmployeeModal extends Component {
                   id="pozicioni"
                   placeholder="Pozicioni..."
                   onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="arsimimi">Arsimimi</Label>
-                <Input
-                  type="text"
-                  name="arsimimi"
-                  id="arsimimi"
-                  placeholder="Arsimimi..."
-                  onChange={this.onChange}
-                  required
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="vendlindja">Vendlindja</Label>
-                <Input
-                  type="text"
-                  name="vendlindja"
-                  id="vendlindja"
-                  placeholder="Vendlindja..."
-                  onChange={this.onChange}
-                  required
                   style={{ marginBottom: "1rem" }}
                 />
                 <Label for="adresa">Adresa</Label>
@@ -236,7 +176,15 @@ class EmployeeModal extends Component {
                   id="adresa"
                   placeholder="Adresa..."
                   onChange={this.onChange}
-                  required
+                  style={{ marginBottom: "1rem" }}
+                />
+                <Label for="paga">Paga</Label>
+                <Input
+                  type="number"
+                  name="paga"
+                  id="paga"
+                  placeholder="Paga..."
+                  onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
                 />
                 <Button

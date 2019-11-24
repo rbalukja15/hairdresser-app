@@ -23,7 +23,7 @@ import PropTypes from "prop-types"; //Whenever you have component property put i
 
 //Event Modal
 // import MaterialUIPickers from "./modals/testModal";
-import MaterialUIPickers from "./modals/eventModal";
+import MaterialUIPickers from "./modals/event/eventModal";
 
 const containerStyle = {
   marginTop: "40px",

@@ -12,37 +12,11 @@ import {
 import { connect } from "react-redux"; //To connect react and redux
 import { addBuying } from "../../../actions/buyingActions"; //Import the action to add the item
 import PropTypes from "prop-types";
-//Material-Ui Part
-//import { withStyles } from "@material-ui/core/styles";
-//import Button from "@material-ui/core/Button";
-//import Fab from "@material-ui/core/Fab";
-//import AddIcon from "@material-ui/icons/Add";
 
-//Materia-Ui Design
-// const styles = theme => ({
-//   root: {
-//     justifyContent: "center",
-//     marginLeft: 10
-//   },
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   },
-//   fab: {
-//     margin: theme.spacing(1),
-//     justifyContent: "center"
-//   },
-//   modal: {
-//     marginBottom: theme.spacing(2),
-//     size: "md"
-//   },
-//   div: {
-//     marginLeft: "50%"
-//   }
-// });
+//Toastr Part
+import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
+
 
 class BuyingModal extends Component {
   //Define the states
@@ -53,7 +27,6 @@ class BuyingModal extends Component {
     cmimBlerje: 0,
     prodhuesi: "",
     shitesi: "",
-    category: "",
     sasia: 0
   };
 
@@ -85,15 +58,42 @@ class BuyingModal extends Component {
       cmimBlerje: this.state.cmimBlerje,
       prodhuesi: this.state.prodhuesi,
       shitesi: this.state.shitesi,
-      category: this.state.category,
       sasia: this.state.sasia
     };
 
     //Add Item via addItem Action
     this.props.addBuying(newBuying);
 
-    //Close the modal
-    this.toggle();
+    if(this.state.name === ""){
+      toastr.error('Shtim', 'Emri nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.kodi === ""){
+      toastr.error('Shtim', 'Kodi nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.cmimBlerje === 0){
+      toastr.error('Shtim', 'Cmimi blerjes nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.prodhuesi === ""){
+      toastr.error('Shtim', 'Prodhuesi nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.shitesi === ""){
+      toastr.error('Shtim', 'Shitesi nuk mund te jete bosh');
+        return;
+    }
+    else if(this.state.sasia === 0){
+      toastr.error('Shtim', 'Sasia nuk mund te jete bosh');
+        return;
+    }
+    else {
+      toastr.success('Shtim', 'Blerja u shtua me sukses');
+      
+      //Close the modal
+      this.toggle();
+    }
   };
 
   render() {
@@ -113,7 +113,7 @@ class BuyingModal extends Component {
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle} centered={true}>
-          <ModalHeader toggle={this.toggle}>Shto te blerjet</ModalHeader>
+          <ModalHeader toggle={this.toggle} className="bg-light">Shto te blerjet</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
@@ -159,15 +159,6 @@ class BuyingModal extends Component {
                   name="prodhuesi"
                   id="prodhuesi"
                   placeholder="Prodhuesi"
-                  onChange={this.onChange}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Label for="category">Kategori</Label>
-                <Input
-                  type="text"
-                  name="category"
-                  id="category"
-                  placeholder="Kategoria..."
                   onChange={this.onChange}
                   style={{ marginBottom: "1rem" }}
                 />

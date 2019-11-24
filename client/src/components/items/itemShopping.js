@@ -6,7 +6,7 @@ import ItemModal from "../modals/Item/ItemModel";
 import { Container } from "reactstrap";
 
 const containerStyle = {
-  marginTop: '10px'
+  marginTop: '40px'
 }
 
 const itemShopping = () => {

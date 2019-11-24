@@ -1,7 +1,7 @@
 import React from "react";
 
 import Category from "./Category";
-import CategoryModal from "../modals/categoryModal";
+import CategoryModal from "../modals/category/categoryModal";
 
 import { Container } from "reactstrap";
 

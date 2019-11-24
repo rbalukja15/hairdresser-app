@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from "react";
+import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -8,7 +8,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-// import moment from "moment"; //Moment library for date editting
+import moment from "moment"; //Moment library for date editting
 
 import {
   Button,
@@ -21,7 +21,7 @@ import {
   Label
 } from "reactstrap";
 import { connect } from "react-redux"; //To connect react and redux
-import { getEvents, addEvent } from "../../actions/eventActions"; //Import the action to add the item
+import { addEvent } from "../../../actions/eventActions"; //Import the action to add the item
 import PropTypes from "prop-types";
 
 //Toastr Part
@@ -30,13 +30,13 @@ import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 
 function MaterialUIPickers(props) {
 
-  // The states declared for the Pickers
-  const [selectedStartDate, setSelectedStartDate] = React.useState(Date.now);
-  const [selectedEndDate, setSelectedEndDate] = React.useState(Date.now);
+  // The first commit of Material-UI
+  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date('2019-09-18T21:11:54'));
+  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date('2019-09-18T21:11:54'));
   const [modal, setModal] = React.useState(false);
   const [title, setTitle] = React.useState("");
-  const [startDate, setStartDate] = React.useState(Date.now);
-  const [endDate, setEndDate] = React.useState(Date.now);
+  const [startDate, setStartDate] = React.useState(new Date('2019-09-18T21:11:54'));
+  const [endDate, setEndDate] = React.useState(new Date('2019-09-18T21:11:54'));
 
   function handleStartDateChange(date) {
     //console.log(date);
@@ -56,8 +56,7 @@ function MaterialUIPickers(props) {
 
   MaterialUIPickers.propTypes = {
     isAuthenticated: PropTypes.bool,
-    addEvent: PropTypes.func.isRequired,
-    getEvents: PropTypes.func.isRequired
+    addEvent: PropTypes.func.isRequired
   };
 
   //Toggle the modal function
@@ -80,7 +79,7 @@ function MaterialUIPickers(props) {
   function onSubmit(e) {
     e.preventDefault(); //To prevent the form from submitting naturally
 
-    //Define the new event
+    //Define the new item
     const newEvent = {
       title: title,
       startDate: startDate,
@@ -93,14 +92,13 @@ function MaterialUIPickers(props) {
         return;
       }
 
-    //Add Event via addEvent Action
+    //Add Item via addItem Action
     props.addEvent(newEvent);
 
     //Close the modal
     toggle();
 
     toastr.success('Shtim', 'Eventi u shtua me sukses');
-    // window.location.reload(false);
   };
 
   return (
@@ -115,7 +113,7 @@ function MaterialUIPickers(props) {
           Shto Event
           </Button>
       ) : (
-          <h4 className="mb-3 ml-4">Ju lutem logohuni qe te shtoni evente</h4>
+          <h4 className="mb-3 ml-4">Please log in to add an event</h4>
         )}
 
       <Modal isOpen={modal} toggle={toggle} centered={true}>
@@ -128,7 +126,6 @@ function MaterialUIPickers(props) {
                 type="text"
                 name="title"
                 id="event"
-                required={true}
                 placeholder="Eventi..."
                 onChange={onChange}
                 className="mb-2"
@@ -150,7 +147,6 @@ function MaterialUIPickers(props) {
                   <KeyboardTimePicker
                     margin="normal"
                     id="time-picker"
-                    ampm={false}
                     label="Koha e fillimit te eventit"
                     value={selectedStartDate}
                     onChange={handleStartDateChange}
@@ -174,7 +170,6 @@ function MaterialUIPickers(props) {
                   />
                   <KeyboardTimePicker
                     margin="normal"
-                    ampm={false}
                     id="time-picker"
                     label="Koha e mbarimit te eventit"
                     value={selectedEndDate}
@@ -187,7 +182,7 @@ function MaterialUIPickers(props) {
               </MuiPickersUtilsProvider>
               <Button color="info" outline style={{ marginTop: "2rem" }} block>
                 Shto Event
-              </Button>
+                  </Button>
             </FormGroup>
           </Form>
         </ModalBody>
@@ -207,5 +202,5 @@ const mapStateToProps = state => ({
 //Connect takes as parameters the action and our mapping function
 export default connect(
   mapStateToProps,
-  { getEvents, addEvent }
+  { addEvent }
 )(MaterialUIPickers); //Because we are using connect
