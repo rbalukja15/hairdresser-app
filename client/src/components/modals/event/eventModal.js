@@ -39,18 +39,12 @@ function MaterialUIPickers(props) {
   const [endDate, setEndDate] = React.useState(Date.now);
 
   function handleStartDateChange(date) {
-    //console.log(date);
-    // setSelectedDate(moment(date).format('DD MM YYYY h:mm:ss'));
     setSelectedStartDate(date);
-    // setStartDate(moment(startDate).format('DD MM YYYY h:mm:ss'));
     setStartDate(date);
   }
 
   function handleEndDateChange(date) {
-    //console.log(date);
-    // setSelectedDate(moment(date).format('DD MM YYYY h:mm:ss'));
     setSelectedEndDate(date);
-    // setEndDate(moment(endDate).format('DD MM YYYY h:mm:ss'));
     setEndDate(date);
   }
 
@@ -62,17 +56,12 @@ function MaterialUIPickers(props) {
 
   //Toggle the modal function
   function toggle() {
-    //console.log(modal);
-    // setState({
-    //   modal: !this.state.modal
-    // });
     setModal(!modal);
   };
 
   //Set the state of name when the input event is fired off
   function onChange(e) {
     //We can add multiple input changes here
-    //setState({ [e.target.name]: e.target.value });
     setTitle( e.target.value );
   };
 

@@ -42,9 +42,6 @@ const toastrConfirmOptions = {
   }
 };
 
-//Select Part
-//let select_values = [];
-
 class Employee extends Component {
   state = {
     editModal: false,

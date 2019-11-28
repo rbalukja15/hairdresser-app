@@ -63,7 +63,6 @@ class Buying extends Component {
 
   //Call the update function
   updateSale() {
-    //console.log(this.state.editBuying._id);
 
     //Call the update action and pass the sale state
     this.props.updateBuying(this.state.editBuying);
@@ -185,8 +184,6 @@ class Buying extends Component {
           </div>
         ])
     );
-
-    //console.log(sales);
 
     const options = {
       filterType: "dropdown",

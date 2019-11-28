@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
-//import Calendar from "react-material-ui-calendar";
-//import Background from '../images/homeBcg';
 //Date part
 import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
@@ -22,7 +20,6 @@ import {
 import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form of validation
 
 //Event Modal
-// import MaterialUIPickers from "./modals/testModal";
 import MaterialUIPickers from "./modals/event/eventModal";
 
 //Toastr confirm options
@@ -92,10 +89,6 @@ class Home extends Component {
     }
   }
 
-  handleMsgClick = () => {
-    // console.log("msg clicked");
-  }
-
   render() {
     
     const { events } = this.props.event;
@@ -123,7 +116,6 @@ class Home extends Component {
           localizer={localizer}
           events={myEventsList}
           onSelectEvent={ event => {
-              // toastr.info(event.title + "    " + moment(event.start).format('DD-MM-YYYY hh:mm:ss'));
               this.setState({
                 event: event
               });

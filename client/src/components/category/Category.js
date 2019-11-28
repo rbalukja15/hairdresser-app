@@ -27,8 +27,6 @@ import moment from "moment"; //Moment library for date editting
 //Toastr Part
 import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
-// import { bindActionCreators } from "redux";
-// import { actions as toastrActions } from "react-redux-toastr";
 
 //
 //THE WAY REDUX WORKS
@@ -44,24 +42,6 @@ const toastrConfirmOptions = {
 };
 
 class Category extends Component {
-  // constructor(props) {
-  //   super(props);
-    // Bind the react-redux-toastr actions to the component
-    // this.toastr = bindActionCreators(toastrActions, this.props.dispatch)
-
-    // this.toastr.add({
-    //   id: "mycustomid", // If not provided we will add one.
-    //   type: "success",
-    //   title: "your title",
-    //   position: "top-left", // This will override the global props position.
-    //   attention: true, // This will add a shadow like the confirm method.
-    //   onAttentionClick: id => {}, //override default behavior of 'attention' background click.
-    //   message: "message",
-    //   options: {}
-    // });
-
-    // this.toastr.remove("toastrId");
-  // }
 
   state = {
     editModal: false,
@@ -95,7 +75,6 @@ class Category extends Component {
       console.log("Category Deleted");
       toastr.success("Kategoria u fshi me sukses");
     };
-      
   };
 
   //Call the update function
