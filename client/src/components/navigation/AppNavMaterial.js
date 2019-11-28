@@ -197,19 +197,19 @@ class ResponsiveDrawer extends Component {
           >
             Punetoret
           </MenuItem>
-          <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-            className={classes.auth}
-          >
-            <LoginModal />
-          </MenuItem>
-          <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-            className={classes.auth}
-          >
-            <Logout />
-          </MenuItem>
         </MenuList>
+        <MenuItem
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            className={classes.auth}
+          >
+          <LoginModal/>
+        </MenuItem>
+        <MenuItem
+            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            className={classes.auth}
+          >
+          <Logout />
+        </MenuItem>
       </div>
     );
 
