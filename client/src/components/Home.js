@@ -25,6 +25,23 @@ import PropTypes from "prop-types"; //Whenever you have component property put i
 // import MaterialUIPickers from "./modals/testModal";
 import MaterialUIPickers from "./modals/event/eventModal";
 
+//Toastr confirm options
+const toastrConfirmOptions = {
+  buttons: [
+    {
+      text: 'Fshi',
+      className: 'btn btn-outline-danger',
+      handler: () => {}
+    }, 
+    {
+      cancel: true // move the cancel button to the end
+    }],
+  disableCancel: true,
+  style: {
+    fontSize: "26px"
+  }
+};
+
 const containerStyle = {
   marginTop: "40px",
   marginLeft: "10px",
@@ -36,6 +53,7 @@ class Home extends Component {
 
   state = {
     event: {
+      id: "",
       title: "",
       start: "",
       end: ""
@@ -66,6 +84,18 @@ class Home extends Component {
     console.log("The selection is  -> ", value);
   };
 
+  handleEventClick = event => {
+    toastr.confirm(<span style={{ fontSize: 20 }}>{event.title}</span>, toastrConfirmOptions);
+    toastrConfirmOptions.buttons[0].handler = () => {
+      this.props.deleteEvent(event.id);
+      toastr.success("Eventi u fshi me sukses");
+    }
+  }
+
+  handleMsgClick = () => {
+    // console.log("msg clicked");
+  }
+
   render() {
     
     const { events } = this.props.event;
@@ -76,6 +106,7 @@ class Home extends Component {
       ({ _id, title, startDate, endDate }) => 
           myEventsList.push(
             {
+              'id': _id,
               'title':title,
               'start':new Date(startDate),
               'end':new Date(endDate),
@@ -86,16 +117,18 @@ class Home extends Component {
 
     return (
       <Container style={containerStyle}>
-        <MaterialUIPickers />
+        <MaterialUIPickers name="mario"/>
         <Calendar
           popup
           localizer={localizer}
           events={myEventsList}
           onSelectEvent={ event => {
-              toastr.info(event.title + "    " + moment(event.start).format('DD-MM-YYYY hh:mm:ss'));
+              // toastr.info(event.title + "    " + moment(event.start).format('DD-MM-YYYY hh:mm:ss'));
               this.setState({
                 event: event
               });
+              this.handleEventClick(event);
+              
           }}
           startAccessor="start"
           endAccessor="end"
