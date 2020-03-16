@@ -16,9 +16,11 @@ import { compose } from "recompose";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import red from "@material-ui/core/colors/red";
 
+import { connect } from "react-redux"; //To connect react and redux
+
 //Authentication Modals
 import LoginModal from "../auth/LoginModal";
-import Logout from "../auth/Logout"; //
+import Logout from "../auth/Logout";
 
 const drawerWidth = 240;
 const contentHeight = 1000;
@@ -26,8 +28,7 @@ const contentHeight = 1000;
 //Styled Classes
 const styles = theme => ({
   root: {
-    //display: "flex",
-    //alignItems: "flex-end"
+    flexGrow: 1
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -41,7 +42,7 @@ const styles = theme => ({
   },
   menuButton: {
     marginRight: 20,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none"
     },
     float: "left",
@@ -57,7 +58,7 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     [theme.breakpoints.up("sm")]: {
@@ -78,8 +79,9 @@ const styles = theme => ({
     }
   },
   auth: {
-    //backgroundColor: grey[400],
-    borderRadius: 7
+    borderRadius: 7,
+    width: '50px',
+    color: 'white',
   }
   ,
   avatar: {
@@ -88,7 +90,8 @@ const styles = theme => ({
   },
   typography: {
     float: "left",
-  }
+    flexGrow: 1
+  },
 });
 
 //Create the home icon svg
@@ -106,7 +109,7 @@ class ResponsiveDrawer extends Component {
   };
 
   static propTypes = {
-    //auth: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool,
     classes: PropTypes.object.isRequired,
     // Injected by the documentation to work in an iframe.
     // You won't need it on your project.
@@ -119,30 +122,31 @@ class ResponsiveDrawer extends Component {
   };
 
   //To avoid passing string in the function onClick
-  dumbFunction = () => {
-
-  }
+  dumbFunction = () => {};
 
   render() {
     const {
-      classes,
-      //children,
-      location: { pathname }
+        classes,
+        children,
+        location: { pathname },
+        isAuthenticated
     } = this.props;
+
+    const { mobileOpen } = this.state;
 
     const drawer = (
       <div>
         <Hidden smDown implementation="css">
           <div className={classes.toolbar} />
         </Hidden>
-        <MenuList>
+        <MenuList className={classes.menuList}>
           <MenuItem
             component={Link}
             to="/"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/" === pathname}
           >
-            Kryefaqja{" "}
+            Kryefaqja
             <HomeIcon
               className={classes.iconHover}
               color="error"
@@ -152,7 +156,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/sales"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/sales" === pathname}
           >
             Shitjet
@@ -160,7 +164,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/buyings"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/buyings" === pathname}
           >
             Blerjet
@@ -168,7 +172,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/shopping"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/shopping" === pathname}
           >
             Produktet
@@ -176,7 +180,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/category"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/category" === pathname}
           >
             Kategorite
@@ -184,7 +188,7 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/clients"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/clients" === pathname}
           >
             Klientet
@@ -192,24 +196,12 @@ class ResponsiveDrawer extends Component {
           <MenuItem
             component={Link}
             to="/employees"
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+            onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/employees" === pathname}
           >
             Punetoret
           </MenuItem>
         </MenuList>
-        <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-            className={classes.auth}
-          >
-          <LoginModal/>
-        </MenuItem>
-        <MenuItem
-            onClick={this.state.mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-            className={classes.auth}
-          >
-          <Logout />
-        </MenuItem>
       </div>
     );
 
@@ -230,9 +222,21 @@ class ResponsiveDrawer extends Component {
               <Typography variant="h6" color="inherit" noWrap className={classes.typography}>
                 C'est Chic Saloon
               </Typography>
-              {/* <div  className={classes.avatar}>
-                <LetterAvatars/>
-              </div> */}
+
+              {!isAuthenticated ?
+
+                  <div
+                      className={classes.auth}
+                  >
+                    <LoginModal/>
+                  </div>
+                  :
+                  <div
+                      className={classes.auth}
+                  >
+                    <Logout/>
+                  </div>
+              }
             </Toolbar>
           </AppBar>
           <nav className={classes.drawer}>
@@ -240,9 +244,8 @@ class ResponsiveDrawer extends Component {
 
             <Hidden smUp implementation="css">
               <Drawer
-                container={this.props.container}
                 variant="temporary"
-                open={this.state.mobileOpen}
+                open={mobileOpen}
                 onClose={this.handleDrawerToggle}
                 classes={{
                   paper: classes.drawerPaper
@@ -251,7 +254,7 @@ class ResponsiveDrawer extends Component {
                 {drawer}
               </Drawer>
             </Hidden>
-            <Hidden xsDown implementation="css">
+            <Hidden smDown implementation="css">
               <Drawer
                 classes={{
                   paper: classes.drawerPaper
@@ -265,7 +268,7 @@ class ResponsiveDrawer extends Component {
           </nav>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            {this.props.children}
+            {isAuthenticated ? children : ''}
           </main>
         </div>
       </Fragment>
@@ -273,7 +276,14 @@ class ResponsiveDrawer extends Component {
   }
 }
 
+//Mapping function
+//Allow to take the sales state and maps it into a component property
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
 export default compose(
-  withRouter,
-  withStyles(styles, { withTheme: true })
+    withRouter,
+    withStyles(styles, { withTheme: true }),
+    connect(mapStateToProps)
 )(ResponsiveDrawer);
