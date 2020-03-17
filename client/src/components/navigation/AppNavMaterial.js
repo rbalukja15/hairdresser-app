@@ -201,6 +201,14 @@ class ResponsiveDrawer extends Component {
           >
             Punetoret
           </MenuItem>
+          <MenuItem
+              component={Link}
+              to="/invoice"
+              onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
+              selected={"/invoice" === pathname}
+          >
+            Faturat
+          </MenuItem>
         </MenuList>
       </div>
     );
