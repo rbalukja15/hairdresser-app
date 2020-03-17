@@ -15,7 +15,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 //Import Components
-//import EnhancedTableHead from "./components/About";
 import category_component from "./components/category/categories_component";
 import itemShopping from "./components/items/itemShopping";
 import Home from "./components/Home";
@@ -26,6 +25,7 @@ import employee from "./components/employees/employees_component";
 
 //Toastr Component
 import ReduxToastr from "react-redux-toastr";
+import FullScreenDialog from "./components/invoice/Invoice";
 
 class App extends Component {
   componentDidMount() {
@@ -57,6 +57,7 @@ class App extends Component {
                 <Route path="/category" component={category_component} />
                 <Route path="/clients" component={client_component} />
                 <Route path="/employees" component={employee} />
+                <Route path="/invoice" component={FullScreenDialog} />
               </Switch>
             </ResponsiveDrawer>
           </div>
