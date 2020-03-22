@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Slide from '@material-ui/core/Slide';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from "@material-ui/core/Grid";
@@ -22,14 +23,21 @@ import TableRow from '@material-ui/core/TableRow';
 import {Formik} from "formik";
 import * as yup from "yup";
 
-const validationSchema = yup.object().shape({
+export const validationSchema = yup.object().shape({
     description: yup
             .string()
-            .nullable()
-            .required('Pershkrimi eshte i detyrueshem')
-    // unit: yup.string().nullable().required('Pershkrimi eshte i detyrueshem'),
-    // quantity: yup.string().nullable().required('Pershkrimi eshte i detyrueshem'),
-    // price: yup.string().nullable().required('Pershkrimi eshte i detyrueshem'),
+            .required('Pershkrimi eshte i detyrueshem'),
+    unit: yup
+        .string()
+        .required('Njesia eshte e detyrueshme'),
+    quantity: yup
+        .number()
+        .positive("Sasia duhet te jete numer pozitiv")
+        .required('Sasia eshte e detyrueshme'),
+    price: yup
+        .number()
+        .positive("Cmimi duhet te jete numer pozitiv")
+        .required('Cmimi eshte i detyrueshem')
 });
 
 const useStyles = makeStyles(theme => ({
@@ -59,8 +67,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(id, description, unit, quantity, price) {
+    let total = quantity * price;
+    return { id, description, unit, quantity, price, total};
 }
 
 const rows = [];
@@ -79,43 +88,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function FullScreenDialog() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [checked, setChecked] = React.useState([]);
-    const [left, setLeft] = React.useState([0, 1, 2, 3]);
-    const [right, setRight] = React.useState([4, 5, 6, 7]);
+    const [open, setOpen] = useState(false);
+    const [checked, setChecked] = useState([]);
+    const [left, setLeft] = useState([]);
+    const [right, setRight] = useState([]);
+    const [count, setCount] = useState(0);
 
     const leftChecked = intersection(checked, left);
+    const rightChecked = intersection(checked, right);
 
-    // const handleToggle = value => () => {
-    //     const currentIndex = checked.indexOf(value);
-    //     const newChecked = [...checked];
-    //
-    //     if (currentIndex === -1) {
-    //         newChecked.push(value);
-    //     } else {
-    //         newChecked.splice(currentIndex, 1);
-    //     }
-    //
-    //     setChecked(newChecked);
-    // };
-
-    const handleCheckedRight = () => {
-        rows.push(createData(leftChecked, '', '', '', ''));
-        setRight(right.concat(leftChecked));
+    const handleCheckedRight = values => {
+        setCount(count+1);
+        rows.push(createData(count, values.description, values.unit, values.quantity, values.price));
         setLeft(not(left, leftChecked));
         setChecked(not(checked, leftChecked));
     };
 
-    const customList = items => (
+    const handleCheckedLeft = id => {
+        console.log(id);
+        rows.splice(id, 1);
+        setRight(not(right, rightChecked));
+        setChecked(not(checked, rightChecked));
+    };
+
+    const customList = () => (
         <Paper className={classes.paper}>
             <Formik
-                initialValues={{ description: '' }}
-                validate={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
+                initialValues={{ description: '', unit: '', quantity: '', price: '' }}
+                validationSchema={validationSchema}
+                onSubmit={(values,{resetForm}) => {
+                    resetForm();
                 }}
             >
                 {({
@@ -125,6 +127,10 @@ export default function FullScreenDialog() {
                       handleSubmit,
                       isSubmitting,
                       isValid,
+                      dirty,
+                      errors,
+                      touched,
+                      resetForm,
                   }) => (
                     <form onSubmit={handleSubmit}>
                         <FormControl className={classes.formControl}>
@@ -141,6 +147,7 @@ export default function FullScreenDialog() {
                                 onBlur={handleBlur}
                                 value={values.description}
                             />
+                            {(errors.description && touched.description) ? errors.description : ''}
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <FormLabel
@@ -151,11 +158,12 @@ export default function FullScreenDialog() {
                             <Input
                                 className="mb-2"
                                 type="text"
-                                name="unit.value"
+                                name="unit"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.description}
+                                value={values.unit}
                             />
+                            {(errors.unit && touched.unit) ? errors.unit : ''}
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <FormLabel
@@ -166,11 +174,12 @@ export default function FullScreenDialog() {
                             <Input
                                 className="mb-2"
                                 type="number"
-                                name="quantity.value"
+                                name="quantity"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.description}
+                                value={values.quantity}
                             />
+                            {(errors.quantity && touched.quantity) ? errors.quantity : ''}
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <FormLabel
@@ -181,14 +190,21 @@ export default function FullScreenDialog() {
                             <Input
                                 className="mb-2"
                                 type="number"
-                                name="price.value"
+                                name="price"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.description}
+                                value={values.price}
                             />
+                            {(errors.price && touched.price) ? errors.price : ''}
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <Button variant="contained" color="secondary" onClick={handleCheckedRight} disabled={!isValid || isSubmitting}>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                color="secondary"
+                                onClick={() => handleCheckedRight(values)}
+                                //disabled={!(isValid && dirty) || isSubmitting} TODO: set disabled after finishing UI design
+                            >
                                 Shto &gt;
                             </Button>
                         </FormControl>
@@ -221,7 +237,11 @@ export default function FullScreenDialog() {
                         <Typography variant="h6" className={classes.title}>
                             Fature
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
+                        <Button
+                            autoFocus
+                            color="inherit"
+                            onClick={handleClose}
+                        >
                             Ruaj
                         </Button>
                     </Toolbar>
@@ -250,6 +270,8 @@ export default function FullScreenDialog() {
                                 <Table className={classes.table} size="small" aria-label="a dense table">
                                     <TableHead>
                                         <TableRow>
+                                            <TableCell>Fshi</TableCell>
+                                            <TableCell>Nr.</TableCell>
                                             <TableCell>Pershkrimi</TableCell>
                                             <TableCell align="right">Njesia</TableCell>
                                             <TableCell align="right">Sasia</TableCell>
@@ -259,14 +281,23 @@ export default function FullScreenDialog() {
                                     </TableHead>
                                     <TableBody>
                                         {rows.map(row => (
-                                            <TableRow key={row.name}>
-                                                <TableCell component="th" scope="row">
-                                                    {row.name}
+                                            <TableRow key={row.id}>
+                                                <TableCell>
+                                                    <DeleteIcon
+                                                        color="secondary"
+                                                        onClick={() => handleCheckedLeft(row.id)}
+                                                    />
                                                 </TableCell>
-                                                <TableCell align="right">{row.calories}</TableCell>
-                                                <TableCell align="right">{row.fat}</TableCell>
-                                                <TableCell align="right">{row.carbs}</TableCell>
-                                                <TableCell align="right">{row.protein}</TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.id + 1}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.description}
+                                                </TableCell>
+                                                <TableCell align="right">{row.unit}</TableCell>
+                                                <TableCell align="right">{row.quantity}</TableCell>
+                                                <TableCell align="right">{row.price}</TableCell>
+                                                <TableCell align="right">{row.total}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
