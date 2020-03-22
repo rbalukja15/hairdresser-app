@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Slide from '@material-ui/core/Slide';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from "@material-ui/core/Grid";
-import Select from "react-select";
+import Select from '@material-ui/core/Select';
 import {FormLabel, Input} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from '@material-ui/core/Table';
@@ -22,6 +22,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {Formik} from "formik";
 import * as yup from "yup";
+import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form of validation
+
+//Clients Part
+import { connect } from "react-redux"; //Allows to get state from redux to react component
+import axios from "axios";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel"; //Import the actions
 
 export const validationSchema = yup.object().shape({
     description: yup
@@ -50,6 +57,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(3),
+        minWidth: 120,
     },
     root: {
         flexGrow: 1,
@@ -86,7 +94,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog() {
+const InvoiceModal = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState([]);
@@ -96,6 +104,21 @@ export default function FullScreenDialog() {
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
+
+    const [clients, setClients] = useState([]);
+    const [selectClient, setSelectClient] = useState("");
+
+    const fetchClient = async () => {
+        const response = await axios
+            .get("/api/clients");
+        setClients(response.data);
+    };
+
+    useEffect( () => {
+        if (open) {
+            fetchClient();
+        }
+    }, [open]);
 
     const handleCheckedRight = values => {
         setCount(count+1);
@@ -221,6 +244,7 @@ export default function FullScreenDialog() {
     const handleClose = () => {
         rows.length = 0;
         setOpen(false);
+        setSelectClient("");
     };
 
     return (
@@ -249,15 +273,24 @@ export default function FullScreenDialog() {
                 <div className={classes.root}>
                     <Grid container spacing={3}>
                         <Grid item xs={2}>
-                            <h1>Klientet</h1>
-                            <Select
-                                name="category"
-                                id="category"
-                                autoFocus
-                                simpleValue
-                                //options={['Test', 'Test']}
-                                value='Klienti'
-                            />
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Klientet</InputLabel>
+                                <Select
+                                    className="ml-3"
+                                    id="demo-simple-select"
+                                    value={selectClient}
+                                    onChange={ e => { setSelectClient(e.target.value)} }
+                                >
+                                    {clients.map( client => (
+                                        <MenuItem
+                                            key={client._id}
+                                            value={client._id}
+                                        >
+                                            {client.name}
+                                        </MenuItem>
+                                    ) )}
+                                </Select>
+                            </FormControl>
                             <Divider orientation="vertical"/>
                         </Grid>
                         <Grid item xs={4}>
@@ -309,4 +342,19 @@ export default function FullScreenDialog() {
             </Dialog>
         </div>
     );
-}
+};
+
+InvoiceModal.propTypes = {
+    client: PropTypes.object.isRequired,
+};
+
+//Mapping function
+//Allow to take the items state and maps it into a component property
+const mapStateToProps = state => ({
+    client: state.client,
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+    mapStateToProps,
+)(InvoiceModal);
