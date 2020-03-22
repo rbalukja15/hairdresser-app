@@ -45,6 +45,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel"; //Import the actions
 
 export const validationSchema = yup.object().shape({
+    code: yup
+        .string()
+        .required('Kodi eshte i detyrueshem'),
     description: yup
             .string()
             .required('Pershkrimi eshte i detyrueshem'),
@@ -96,9 +99,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function createData(id, description, unit, quantity, price) {
+function createData(id, code, description, unit, quantity, price) {
     let total = quantity * price;
-    return { id, description, unit, quantity, price, total};
+    return { id, code, description, unit, quantity, price, total};
 }
 
 const rows = [];
@@ -150,7 +153,7 @@ const InvoiceModal = () => {
 
     const handleCheckedRight = values => {
         setCount(count+1);
-        rows.push(createData(count, values.description, values.unit, values.quantity, values.price));
+        rows.push(createData(count, values.code, values.description, values.unit, values.quantity, values.price));
         setLeft(not(left, leftChecked));
         setChecked(not(checked, leftChecked));
     };
@@ -165,7 +168,7 @@ const InvoiceModal = () => {
     const customList = () => (
         <Paper className={classes.paper}>
             <Formik
-                initialValues={{ description: '', unit: '', quantity: '', price: '' }}
+                initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values,{resetForm}) => {
                     resetForm();
@@ -184,6 +187,22 @@ const InvoiceModal = () => {
                       resetForm,
                   }) => (
                     <form onSubmit={handleSubmit}>
+                        <FormControl className={classes.formControl}>
+                            <FormLabel
+                                component="legend"
+                            >
+                                Kodi
+                            </FormLabel>
+                            <Input
+                                className="mb-2"
+                                type="text"
+                                name="code"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.code}
+                            />
+                            {(errors.code && touched.code) ? errors.code : ''}
+                        </FormControl>
                         <FormControl className={classes.formControl}>
                             <FormLabel
                                 component="legend"
