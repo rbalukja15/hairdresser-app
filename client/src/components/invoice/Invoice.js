@@ -1,28 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Slide from '@material-ui/core/Slide';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from "@material-ui/core/Grid";
-import Select from '@material-ui/core/Select';
-import {FormLabel, Input} from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+
+import {
+    AppBar,
+    FormControl,
+    FormLabel,
+    Input,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Paper,
+    Slide,
+    Grid,
+    Select,
+    Toolbar,
+    IconButton,
+    Typography,
+    Button,
+    Dialog,
+    Divider
+} from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from "yup";
 import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form of validation
+
+//Date picker
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 //Clients Part
 import { connect } from "react-redux"; //Allows to get state from redux to react component
@@ -73,6 +85,13 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(3)
 
     },
+    datePicker: {
+        margin: theme.spacing(3),
+    },
+    select: {
+        margin: theme.spacing(1),
+        minWidth: 180
+    },
 }));
 
 function createData(id, description, unit, quantity, price) {
@@ -107,6 +126,13 @@ const InvoiceModal = () => {
 
     const [clients, setClients] = useState([]);
     const [selectClient, setSelectClient] = useState("");
+
+    // The states declared for the Pickers
+    const [startDate, setStartDate] = React.useState(Date.now);
+
+    const handleDateChange = date => {
+        setStartDate(date);
+    };
 
     const fetchClient = async () => {
         const response = await axios
@@ -276,7 +302,7 @@ const InvoiceModal = () => {
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Klientet</InputLabel>
                                 <Select
-                                    className="ml-3"
+                                    className={classes.select}
                                     id="demo-simple-select"
                                     value={selectClient}
                                     onChange={ e => { setSelectClient(e.target.value)} }
@@ -291,6 +317,20 @@ const InvoiceModal = () => {
                                     ) )}
                                 </Select>
                             </FormControl>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} centered={true}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    id="date-picker-dialog"
+                                    label="Data fillimit"
+                                    format="dd/MM/yyyy"
+                                    value={startDate}
+                                    onChange={handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    className={classes.datePicker}
+                                />
+                            </MuiPickersUtilsProvider>
                             <Divider orientation="vertical"/>
                         </Grid>
                         <Grid item xs={4}>
