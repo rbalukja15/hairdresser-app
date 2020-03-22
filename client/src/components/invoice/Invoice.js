@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import AddCircleOutlineRoundedIcon  from '@material-ui/icons/AddCircleOutlineRounded';
 
 import {
     AppBar,
@@ -275,8 +277,13 @@ const InvoiceModal = () => {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Open full-screen dialog
+            <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleClickOpen}
+                endIcon={<AddCircleOutlineRoundedIcon  />}
+            >
+                Shto Fature
             </Button>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
@@ -291,6 +298,7 @@ const InvoiceModal = () => {
                             autoFocus
                             color="inherit"
                             onClick={handleClose}
+                            startIcon={<SaveIcon />}
                         >
                             Ruaj
                         </Button>
@@ -300,10 +308,11 @@ const InvoiceModal = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={2}>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">Klientet</InputLabel>
+                                <InputLabel id="client-select-label">Klientet</InputLabel>
                                 <Select
                                     className={classes.select}
-                                    id="demo-simple-select"
+                                    labelId="client-select-label"
+                                    id="client-select"
                                     value={selectClient}
                                     onChange={ e => { setSelectClient(e.target.value)} }
                                 >
