@@ -47,11 +47,14 @@ const styles = theme => ({
     },
     float: "left",
   },
+  menuItem: {
+    minHeight: "60px",
+  },
   icon: {
-    margin: theme.spacing(2)
+    margin: theme.spacing(2,2)
   },
   iconHover: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(2,2),
     "&:hover": {
       color: red[800]
     }
@@ -61,14 +64,15 @@ const styles = theme => ({
     width: drawerWidth,
   },
   content: {
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth + 10,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 10,
       marginTop: 5,
       width: `calc(100% - ${drawerWidth}px - 10px)`,
       height: "100%"
     },
     [theme.breakpoints.up("md")]: {
       marginTop: 10,
+      marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px - 20px)`,
       height: contentHeight
     },
@@ -142,19 +146,16 @@ class ResponsiveDrawer extends Component {
         <MenuList className={classes.menuList}>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/" === pathname}
           >
             Kryefaqja
-            <HomeIcon
-              className={classes.iconHover}
-              color="error"
-              style={{ fontSize: 30, float: "right" }}
-            />
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/sales"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/sales" === pathname}
@@ -163,6 +164,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/buyings"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/buyings" === pathname}
@@ -171,6 +173,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/shopping"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/shopping" === pathname}
@@ -179,6 +182,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/category"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/category" === pathname}
@@ -187,6 +191,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/clients"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/clients" === pathname}
@@ -195,6 +200,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
             component={Link}
+            className={classes.menuItem}
             to="/employees"
             onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
             selected={"/employees" === pathname}
@@ -203,6 +209,7 @@ class ResponsiveDrawer extends Component {
           </MenuItem>
           <MenuItem
               component={Link}
+              className={classes.menuItem}
               to="/invoice"
               onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
               selected={"/invoice" === pathname}

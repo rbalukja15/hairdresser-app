@@ -6,8 +6,8 @@ import SaleModal from "../modals/sale/saleModal";
 import { Container } from "reactstrap";
 
 const containerStyle = {
-  marginTop: '40px'
-}
+  marginTop: '40px',
+};
 
 const sale_component = () => {
   return (

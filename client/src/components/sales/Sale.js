@@ -198,7 +198,7 @@ class Sale extends Component {
     };
 
     return (
-      <div>
+      <div style={{ width: "100%"}}>
         {/* Edit Modal Part */}
         <Modal
           isOpen={this.state.editModal}
