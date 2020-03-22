@@ -25,7 +25,7 @@ import employee from "./components/employees/employees_component";
 
 //Toastr Component
 import ReduxToastr from "react-redux-toastr";
-import FullScreenDialog from "./components/invoice/Invoice";
+import InvoiceModal from "./components/invoice/Invoice";
 
 class App extends Component {
   componentDidMount() {
@@ -57,7 +57,7 @@ class App extends Component {
                 <Route path="/category" component={category_component} />
                 <Route path="/clients" component={client_component} />
                 <Route path="/employees" component={employee} />
-                <Route path="/invoice" component={FullScreenDialog} />
+                <Route path="/invoice" component={InvoiceModal} />
               </Switch>
             </ResponsiveDrawer>
           </div>
