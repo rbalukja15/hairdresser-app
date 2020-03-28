@@ -18,7 +18,7 @@ import {
     Typography,
     Button,
     Dialog,
-    Divider, TextField
+    Divider,
 } from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from "yup";
@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     },
     table: {
         minWidth: 650,
-        marginRight: theme.spacing(3)
+        margin: theme.spacing(2,2),
 
     },
     datePicker: {
@@ -366,12 +366,14 @@ const InvoiceModal = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>
-                            <MUIDataTable
-                                title={"Fature"}
-                                data={rows}
-                                columns={columns}
-                                options={options}
-                            />
+                            <div className={classes.table}>
+                                <MUIDataTable
+                                    title={"Fature"}
+                                    data={rows}
+                                    columns={columns}
+                                    options={options}
+                                />
+                            </div>
                         </Grid>
                     </Grid>
                 </div>
