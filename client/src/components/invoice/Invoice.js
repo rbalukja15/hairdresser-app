@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import AddCircleOutlineRoundedIcon  from '@material-ui/icons/AddCircleOutlineRounded';
 
@@ -10,11 +9,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
     Paper,
     Slide,
     Grid,
@@ -29,6 +23,9 @@ import {
 import {Formik} from "formik";
 import * as yup from "yup";
 import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form of validation
+//Material-UI Part
+import MUIDataTable from "mui-datatables";
+import {customRowIndexColumn} from "../../utils/mui-table"
 
 //Date picker
 import 'date-fns';
@@ -99,20 +96,25 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function createData(id, code, description, unit, quantity, price) {
-    let total = quantity * price;
-    return { id, code, description, unit, quantity, price, total};
+function createData(values) {
+    let total = values.quantity * values.price;
+    return [ values.id, values.code, values.description, values.unit, values.quantity, values.price, total];
 }
 
-const rows = [];
-
-function not(a, b) {
-    return a.filter(value => b.indexOf(value) === -1);
-}
-
-function intersection(a, b) {
-    return a.filter(value => b.indexOf(value) !== -1);
-}
+const columns = [
+    customRowIndexColumn(),
+    "Kodi",
+    "Pershkrimi",
+    "Njesia",
+    "Sasia",
+    "Cmimi",
+    "Vlefta"
+];
+const options = {
+    filterType: "dropdown",
+    responsive: "scroll",
+    pagination: false,
+};
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -121,13 +123,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const InvoiceModal = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [checked, setChecked] = useState([]);
-    const [left, setLeft] = useState([]);
-    const [right, setRight] = useState([]);
-    const [count, setCount] = useState(0);
-
-    const leftChecked = intersection(checked, left);
-    const rightChecked = intersection(checked, right);
+    const [rows, setRows] = useState([]);
 
     const [clients, setClients] = useState([]);
     const [selectClient, setSelectClient] = useState("");
@@ -145,32 +141,25 @@ const InvoiceModal = () => {
         setClients(response.data);
     };
 
+    //Check if the modal is open, then fetch client data
     useEffect( () => {
         if (open) {
             fetchClient();
         }
     }, [open]);
 
-    const handleCheckedRight = values => {
-        setCount(count+1);
-        rows.push(createData(count, values.code, values.description, values.unit, values.quantity, values.price));
-        setLeft(not(left, leftChecked));
-        setChecked(not(checked, leftChecked));
+    //Move data from the form to the data table
+    const handleSubmit = values => {
+        setRows([...rows, createData(values)]);
     };
 
-    const handleCheckedLeft = id => {
-        console.log(id);
-        rows.splice(id, 1);
-        setRight(not(right, rightChecked));
-        setChecked(not(checked, rightChecked));
-    };
-
-    const customList = () => (
+    const customForm = () => (
         <Paper className={classes.paper}>
             <Formik
                 initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values,{resetForm}) => {
+                    handleSubmit(values);
                     resetForm();
                 }}
             >
@@ -272,7 +261,6 @@ const InvoiceModal = () => {
                                 variant="contained"
                                 type="submit"
                                 color="secondary"
-                                onClick={() => handleCheckedRight(values)}
                                 //disabled={!(isValid && dirty) || isSubmitting} TODO: set disabled after finishing UI design
                             >
                                 Shto &gt;
@@ -363,47 +351,16 @@ const InvoiceModal = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <Grid item>
-                                {customList(left)}
+                                {customForm()}
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>
-                            <Paper className={classes.paper}>
-                                <Table className={classes.table} size="small" aria-label="a dense table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Fshi</TableCell>
-                                            <TableCell>Nr.</TableCell>
-                                            <TableCell>Pershkrimi</TableCell>
-                                            <TableCell align="right">Njesia</TableCell>
-                                            <TableCell align="right">Sasia</TableCell>
-                                            <TableCell align="right">Cmimi</TableCell>
-                                            <TableCell align="right">Vlefta</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {rows.map(row => (
-                                            <TableRow key={row.id}>
-                                                <TableCell>
-                                                    <DeleteIcon
-                                                        color="secondary"
-                                                        onClick={() => handleCheckedLeft(row.id)}
-                                                    />
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {row.id + 1}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {row.description}
-                                                </TableCell>
-                                                <TableCell align="right">{row.unit}</TableCell>
-                                                <TableCell align="right">{row.quantity}</TableCell>
-                                                <TableCell align="right">{row.price}</TableCell>
-                                                <TableCell align="right">{row.total}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </Paper>
+                            <MUIDataTable
+                                title={"Fature"}
+                                data={rows}
+                                columns={columns}
+                                options={options}
+                            />
                         </Grid>
                     </Grid>
                 </div>
