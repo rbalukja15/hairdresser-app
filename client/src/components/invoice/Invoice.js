@@ -18,7 +18,7 @@ import {
     Typography,
     Button,
     Dialog,
-    Divider
+    Divider, TextField
 } from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from "yup";
@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(3),
-        minWidth: 120,
+        minWidth: 200,
     },
     root: {
         flexGrow: 1,
@@ -176,86 +176,96 @@ const InvoiceModal = () => {
                       resetForm,
                   }) => (
                     <form onSubmit={handleSubmit}>
-                        <FormControl className={classes.formControl}>
-                            <FormLabel
-                                component="legend"
-                            >
-                                Kodi
-                            </FormLabel>
-                            <Input
-                                className="mb-2"
-                                type="text"
-                                name="code"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.code}
-                            />
-                            {(errors.code && touched.code) ? errors.code : ''}
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <FormLabel
-                                component="legend"
-                            >
-                                Pershkrimi
-                            </FormLabel>
-                            <Input
-                                className="mb-2"
-                                type="text"
-                                name="description"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.description}
-                            />
-                            {(errors.description && touched.description) ? errors.description : ''}
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <FormLabel
-                                component="legend"
-                            >
-                                Njesia
-                            </FormLabel>
-                            <Input
-                                className="mb-2"
-                                type="text"
-                                name="unit"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.unit}
-                            />
-                            {(errors.unit && touched.unit) ? errors.unit : ''}
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <FormLabel
-                                component="legend"
-                            >
-                                Sasia
-                            </FormLabel>
-                            <Input
-                                className="mb-2"
-                                type="number"
-                                name="quantity"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.quantity}
-                            />
-                            {(errors.quantity && touched.quantity) ? errors.quantity : ''}
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <FormLabel
-                                component="legend"
-                            >
-                                Cmimi
-                            </FormLabel>
-                            <Input
-                                className="mb-2"
-                                type="number"
-                                name="price"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.price}
-                            />
-                            {(errors.price && touched.price) ? errors.price : ''}
-                        </FormControl>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <FormLabel
+                                    component="legend"
+                                >
+                                    Kodi
+                                </FormLabel>
+                                <Input
+                                    className="mb-2"
+                                    type="text"
+                                    name="code"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.code}
+                                />
+                                {(errors.code && touched.code) ? errors.code : ''}
+                            </FormControl>
+                        </div>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <FormLabel
+                                    component="legend"
+                                >
+                                    Pershkrimi
+                                </FormLabel>
+                                <Input
+                                    className="mb-2"
+                                    type="text"
+                                    name="description"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.description}
+                                />
+                                {(errors.description && touched.description) ? errors.description : ''}
+                            </FormControl>
+                        </div>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <FormLabel
+                                    component="legend"
+                                >
+                                    Njesia
+                                </FormLabel>
+                                <Input
+                                    className="mb-2"
+                                    type="text"
+                                    name="unit"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.unit}
+                                />
+                                {(errors.unit && touched.unit) ? errors.unit : ''}
+                            </FormControl>
+                        </div>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <FormLabel
+                                    component="legend"
+                                >
+                                    Sasia
+                                </FormLabel>
+                                <Input
+                                    className="mb-2"
+                                    type="number"
+                                    name="quantity"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.quantity}
+                                />
+                                {(errors.quantity && touched.quantity) ? errors.quantity : ''}
+                            </FormControl>
+                        </div>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <FormLabel
+                                    component="legend"
+                                >
+                                    Cmimi
+                                </FormLabel>
+                                <Input
+                                    className="mb-2"
+                                    type="number"
+                                    name="price"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.price}
+                                />
+                                {(errors.price && touched.price) ? errors.price : ''}
+                            </FormControl>
+                        </div>
                         <FormControl className={classes.formControl}>
                             <Button
                                 variant="contained"
