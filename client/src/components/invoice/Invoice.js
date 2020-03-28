@@ -336,6 +336,7 @@ const InvoiceModal = () => {
                             <MuiPickersUtilsProvider utils={DateFnsUtils} centered={true}>
                                 <KeyboardDatePicker
                                     margin="normal"
+                                    variant="inline"
                                     id="date-picker-dialog"
                                     label="Data fillimit"
                                     format="dd/MM/yyyy"
