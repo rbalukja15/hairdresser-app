@@ -111,7 +111,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const InvoiceModal = () => {
+const InvoiceModal = (props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [rows, setRows] = useState([]);
@@ -315,7 +315,7 @@ const InvoiceModal = () => {
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <CloseIcon />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>Fature</Typography>
+                        <Typography variant="h6" className={classes.title}>{props.invoiceTitle}</Typography>
                     </Toolbar>
                 </AppBar>
                 <div className={classes.root}>
@@ -391,6 +391,11 @@ const InvoiceModal = () => {
 
 InvoiceModal.propTypes = {
     client: PropTypes.object.isRequired,
+    invoiceTitle: PropTypes.string.isRequired,
+};
+
+InvoiceModal.defaultProps = {
+    invoiceTitle: "Fature",
 };
 
 //Mapping function
