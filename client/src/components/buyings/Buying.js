@@ -20,7 +20,8 @@ import PropTypes from "prop-types"; //Whenever you have component property put i
 import { connect } from "react-redux"; //To connect react and redux
 //Material-UI Part
 import MUIDataTable from "mui-datatables";
-import moment from "moment"; //Moment library for date editting
+import moment from "moment";
+import {customRowIndexColumn} from "../../utils/mui-table"; //Moment library for date editting
 
 //
 //THE WAY REDUX WORKS
@@ -29,7 +30,6 @@ import moment from "moment"; //Moment library for date editting
 class Buying extends Component {
   state = {
     editModal: false,
-    counter: 1,
     editBuying: {
       _id: "",
       name: "",
@@ -117,11 +117,8 @@ class Buying extends Component {
     //console.log(this.props);
     const { buyings } = this.props.buying; //Pull the buyings
 
-    //Counter
-    let counter = this.state.counter;
-
     const columns = [
-      "Nr",
+      customRowIndexColumn(),
       "Emer",
       "Kodi",
       "Cmimi Blerjes",
@@ -145,7 +142,6 @@ class Buying extends Component {
         date
       }) =>
         data.push([
-          counter++,
           name,
           kodi,
           cmimBlerje,
@@ -186,12 +182,17 @@ class Buying extends Component {
     );
 
     const options = {
-      filterType: "dropdown",
-      responsive: "scroll",
-      selectableRows: "none",
-      isRowSelectable: function(dataIndex) {
-        return false;
-      }
+        filterType: "dropdown",
+        responsive: "scroll",
+        selectableRows: "none",
+        isRowSelectable: function(dataIndex) {
+            return false;
+        },
+        setRowProps: () => ({
+            onDoubleClick: (row, dataIndex) => {
+                alert("row clicked");
+            }
+        }),
     };
 
     return (

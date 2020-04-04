@@ -21,6 +21,7 @@ import { connect } from "react-redux"; //To connect react and redux
 //Material-UI Part
 import MUIDataTable from "mui-datatables";
 import moment from "moment"; //Moment library for date editting
+import {customRowIndexColumn} from "../../utils/mui-table";
 
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
@@ -33,7 +34,6 @@ import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
 class Sale extends Component {
   state = {
     editModal: false,
-    counter: 1,
     editSale: {
       _id: "",
       clientName: "",
@@ -122,7 +122,7 @@ class Sale extends Component {
   render() {
     const { sales } = this.props.sale; //Pull the sales
     const columns = [
-      "Nr",
+      customRowIndexColumn(),
       "Emer",
       "Mbiemer",
       "Emer Produkti",
@@ -146,7 +146,6 @@ class Sale extends Component {
           date
         }) =>
           data.push([
-            this.state.counter,
             clientName,
             clientSurname,
             productName,
@@ -194,7 +193,12 @@ class Sale extends Component {
       selectableRows: "none",
       isRowSelectable: function(dataIndex) {
         return false;
-      }
+      },
+      setRowProps: () => ({
+        onDoubleClick: (row, dataIndex) => {
+          alert("row clicked");
+        }
+      }),
     };
 
     return (
