@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import AddCircleOutlineRoundedIcon  from '@material-ui/icons/AddCircleOutlineRounded';
@@ -40,9 +40,6 @@ import { connect } from "react-redux"; //Allows to get state from redux to react
 import axios from "axios";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
 
 export const validationSchema = yup.object().shape({
     code: yup
@@ -99,59 +96,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
-//Modal Navigation
-const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            variant="h6"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`nav-tabpanel-${index}`}
-            aria-labelledby={`nav-tab-${index}`}
-            style={{ flexGrow: 1 }}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-};
-
-const a11yProps = (index) => {
-    return {
-        id: `nav-tab-${index}`,
-        'aria-controls': `nav-tabpanel-${index}`,
-    };
-};
-
-const StyledTab = withStyles(theme => ({
-    root: {
-        textTransform: 'none',
-        color: '#fff',
-        fontWeight: theme.typography.fontWeightRegular,
-        fontSize: theme.typography.pxToRem(15),
-        marginRight: theme.spacing(1,1),
-        '&:focus': {
-            opacity: 1,
-            color: '#fff',
-        },
-        '&:hover': {
-            opacity: 1,
-            color: '#fff',
-            textDecoration: 'none',
-        },
-    },
-}))(props => <Tab
-    component="a"
-    onClick={event => {
-        event.preventDefault();
-    }}
-    {...props}
-/>);
-
 function createData(values) {
     let total = values.quantity * values.price;
     return [ values.id, values.code, values.description, values.unit, values.quantity, values.price, total];
@@ -185,8 +129,8 @@ const InvoiceModal = () => {
     const [columns, setColumns] = useState([customRowIndexColumn(), "Kodi", "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
 
     const handleTabChange = (event, newValue) => {
-        if (newValue === 2)
-            setColumns([customRowIndexColumn(), "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
+        if (newValue === 1)
+            setColumns([customRowIndexColumn(), "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlera pa TVSH", "TVSH", "Vlefta"]);
         else
             setColumns([customRowIndexColumn(), "Kodi", "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
         setTabValue(newValue);
@@ -214,7 +158,7 @@ const InvoiceModal = () => {
         setRows([...rows, createData(values)]);
     };
 
-    const customForm = () => (
+    const customForm = tabValue => (
         <Paper className={classes.paper}>
             <Formik
                 initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
@@ -238,6 +182,7 @@ const InvoiceModal = () => {
                   }) => (
                     <form onSubmit={handleSubmit}>
                         <div>
+                            {tabValue !== 1 ?
                             <FormControl className={classes.formControl}>
                                 <FormLabel
                                     component="legend"
@@ -254,6 +199,7 @@ const InvoiceModal = () => {
                                 />
                                 {(errors.code && touched.code) ? errors.code : ''}
                             </FormControl>
+                            : ''}
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
@@ -366,90 +312,78 @@ const InvoiceModal = () => {
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
                     <Toolbar style={{ display: 'flex' }}>
-                        <Tabs
-                            variant="fullWidth"
-                            value={tabValue}
-                            onChange={handleTabChange}
-                            aria-label="nav tabs example"
-                            style={{ flexGrow: 1 }}
-                        >
-                            <StyledTab label="Fature e thjeshte" href="/simple" {...a11yProps(0)} />
-                            <StyledTab label="Fature TVSH" href="/tvsh" {...a11yProps(1)} />
-                        </Tabs>
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <CloseIcon />
                         </IconButton>
+                        <Typography variant="h6" className={classes.title}>Fature</Typography>
                     </Toolbar>
                 </AppBar>
-                <TabPanel value={tabValue} index={0}>
-                    <div className={classes.root}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={2}>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="client-select-label">Klientet</InputLabel>
-                                    <Select
-                                        className={classes.select}
-                                        labelId="client-select-label"
-                                        id="client-select"
-                                        value={selectClient}
-                                        onChange={ e => { setSelectClient(e.target.value)} }
-                                    >
-                                        {clients.map( client => (
-                                            <MenuItem
-                                                key={client._id}
-                                                value={client._id}
-                                            >
-                                                {client.name}
-                                            </MenuItem>
-                                        ) )}
-                                    </Select>
-                                </FormControl>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils} centered={true}>
-                                    <KeyboardDatePicker
-                                        margin="normal"
-                                        variant="inline"
-                                        id="date-picker-dialog"
-                                        label="Data fillimit"
-                                        format="dd/MM/yyyy"
-                                        value={startDate}
-                                        onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                        className={classes.datePicker}
-                                    />
-                                </MuiPickersUtilsProvider>
-                                <Button
-                                    autoFocus
-                                    variant="contained"
-                                    style={{float: "right"}}
-                                    color="secondary"
-                                    onClick={handleClose}
-                                    startIcon={<SaveIcon />}
+                <div className={classes.root}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={2}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="client-select-label">Klientet</InputLabel>
+                                <Select
+                                    className={classes.select}
+                                    labelId="client-select-label"
+                                    id="client-select"
+                                    value={selectClient}
+                                    onChange={ e => { setSelectClient(e.target.value)} }
                                 >
-                                    Ruaj
-                                </Button>
-                                <Divider orientation="vertical"/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Grid item>
-                                    {customForm()}
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <div className={classes.table}>
-                                    <MUIDataTable
-                                        title={"Fature"}
-                                        data={rows}
-                                        columns={columns}
-                                        options={options}
-                                    />
-                                </div>
+                                    {clients.map( client => (
+                                        <MenuItem
+                                            key={client._id}
+                                            value={client._id}
+                                        >
+                                            {client.name}
+                                        </MenuItem>
+                                    ) )}
+                                </Select>
+                            </FormControl>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} centered={true}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    variant="inline"
+                                    id="date-picker-dialog"
+                                    label="Data fillimit"
+                                    format="dd/MM/yyyy"
+                                    value={startDate}
+                                    onChange={handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    className={classes.datePicker}
+                                />
+                            </MuiPickersUtilsProvider>
+                            <Button
+                                autoFocus
+                                variant="contained"
+                                style={{float: "right"}}
+                                color="secondary"
+                                onClick={handleClose}
+                                startIcon={<SaveIcon />}
+                            >
+                                Ruaj
+                            </Button>
+                            <Divider orientation="vertical"/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Grid item>
+                                {customForm(tabValue)}
                             </Grid>
                         </Grid>
-                    </div>
-                </TabPanel>
-                <TabPanel value={tabValue} index={1}>Page 2</TabPanel>
+                        <Grid item xs={6}>
+                            <div className={classes.table}>
+                                <MUIDataTable
+                                    title={"Fature"}
+                                    data={rows}
+                                    columns={columns}
+                                    options={options}
+                                />
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
             </Dialog>
         </div>
     );
@@ -457,13 +391,6 @@ const InvoiceModal = () => {
 
 InvoiceModal.propTypes = {
     client: PropTypes.object.isRequired,
-};
-
-//Navigation
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
 };
 
 //Mapping function
