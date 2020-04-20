@@ -43,6 +43,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 //Actions
 import { addSale } from "../../actions/saleActions";
+import { addBuying } from "../../actions/buyingActions";
 
 export const validationSchema = yup.object().shape({
     code: yup
@@ -151,8 +152,26 @@ const InvoiceModal = (props) => {
     }, [open]);
 
     //Move data from the form to the data table
-    const handleSubmit = values => {
+    const handleFormSubmit = values => {
         setRows([...rows, createData(values)]);
+    };
+
+    //Submit the data of the invoice
+    const handleInvoiceSubmit = () => {
+        let total = 0;
+
+        rows.forEach( row => {total += row[6];} );
+
+        const transaction = {
+            clientId: selectClient,
+            invoiceType: props.invoiceType,
+            rows: rows,
+            total: total,
+        };
+
+        props.invoiceType === 0 ? props.addBuying(transaction) : props.addSale(transaction);
+
+        handleClose();
     };
 
     const customForm = tabValue => (
@@ -161,7 +180,7 @@ const InvoiceModal = (props) => {
                 initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values,{resetForm}) => {
-                    handleSubmit(values);
+                    handleFormSubmit(values);
                     resetForm();
                 }}
             >
@@ -290,19 +309,7 @@ const InvoiceModal = (props) => {
         setOpen(true);
     };
 
-    const handleClose = async () => {
-        let total = 0;
-
-        rows.forEach( row => {total += row[6];} );
-
-        const transaction = {
-            clientId: selectClient,
-            invoiceType: props.invoiceType,
-            rows: rows,
-            total: total,
-        };
-
-        props.addSale(transaction);
+    const handleClose = () => {
         setOpen(false);
         setSelectClient("");
     };
@@ -368,7 +375,7 @@ const InvoiceModal = (props) => {
                                 variant="contained"
                                 style={{float: "right"}}
                                 color="secondary"
-                                onClick={handleClose}
+                                onClick={handleInvoiceSubmit}
                                 startIcon={<SaveIcon />}
                             >
                                 Ruaj
@@ -400,6 +407,7 @@ const InvoiceModal = (props) => {
 InvoiceModal.propTypes = {
     client: PropTypes.object.isRequired,
     addSale: PropTypes.func.isRequired,
+    addBuying: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
     invoiceType: PropTypes.number.isRequired,
 };
@@ -419,5 +427,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {addSale},
+    {addSale, addBuying},
 )(InvoiceModal);
