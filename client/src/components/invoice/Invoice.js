@@ -319,6 +319,7 @@ const InvoiceModal = (props) => {
             <Button
                 variant="outlined"
                 color="primary"
+                className="mb-2"
                 onClick={handleClickOpen}
                 endIcon={<AddCircleOutlineRoundedIcon  />}
             >

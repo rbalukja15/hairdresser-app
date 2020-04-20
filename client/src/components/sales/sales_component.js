@@ -13,7 +13,6 @@ const containerStyle = {
 const sale_component = () => {
   return (
     <Container style={containerStyle}>
-      <SaleModal />
       <InvoiceModal invoiceTitle="Shitje" invoiceType={1}/>
       <Sale />
     </Container>
