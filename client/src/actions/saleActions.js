@@ -52,7 +52,6 @@ export const getSaleById = id => dispatch => {
 
 //Action to add a sale
 export const addSale = sale => (dispatch, getState) => {
-  console.log(sale);
   axios
     .post("/api/sales", sale, tokenConfig(getState)) //Post the data from the modal into the api
     .then(res =>

@@ -13,7 +13,7 @@ const sale_component = () => {
   return (
     <Container style={containerStyle}>
       <BuyingModal />
-      <InvoiceModal invoiceTitle="Blerje"/>
+      <InvoiceModal invoiceTitle="Blerje" invoiceType={0}/>
       <Buying />
     </Container>
   );

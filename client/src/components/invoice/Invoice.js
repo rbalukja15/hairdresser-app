@@ -41,6 +41,9 @@ import axios from "axios";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 
+//Actions
+import { addSale } from "../../actions/saleActions";
+
 export const validationSchema = yup.object().shape({
     code: yup
         .string()
@@ -128,22 +131,16 @@ const InvoiceModal = (props) => {
     //MUI-Table consts
     const [columns, setColumns] = useState([customRowIndexColumn(), "Kodi", "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
 
-    const handleTabChange = (event, newValue) => {
-        if (newValue === 1)
-            setColumns([customRowIndexColumn(), "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlera pa TVSH", "TVSH", "Vlefta"]);
-        else
-            setColumns([customRowIndexColumn(), "Kodi", "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
-        setTabValue(newValue);
-    };
-
     const handleDateChange = date => {
         setStartDate(date);
     };
 
     const fetchClient = async () => {
+
         const response = await axios
             .get("/api/clients");
         setClients(response.data);
+        console.log(response.data);
     };
 
     //Check if the modal is open, then fetch client data
@@ -293,8 +290,19 @@ const InvoiceModal = (props) => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        rows.length = 0;
+    const handleClose = async () => {
+        let total = 0;
+
+        rows.forEach( row => {total += row[6];} );
+
+        const transaction = {
+            clientId: selectClient,
+            invoiceType: props.invoiceType,
+            rows: rows,
+            total: total,
+        };
+
+        props.addSale(transaction);
         setOpen(false);
         setSelectClient("");
     };
@@ -391,20 +399,25 @@ const InvoiceModal = (props) => {
 
 InvoiceModal.propTypes = {
     client: PropTypes.object.isRequired,
+    addSale: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
+    invoiceType: PropTypes.number.isRequired,
 };
 
 InvoiceModal.defaultProps = {
     invoiceTitle: "Fature",
+    invoiceType: 0
 };
 
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = state => ({
     client: state.client,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+
 });
 
 export default connect(
     mapStateToProps,
+    {addSale},
 )(InvoiceModal);
