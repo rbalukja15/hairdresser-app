@@ -22,6 +22,7 @@ import { connect } from "react-redux"; //To connect react and redux
 import MUIDataTable from "mui-datatables";
 import moment from "moment"; //Moment library for date editting
 import {customRowIndexColumn} from "../../utils/mui-table";
+import InvoiceModal from "../invoice/Invoice";
 
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
