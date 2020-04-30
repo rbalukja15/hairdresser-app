@@ -43,7 +43,8 @@ class Sale extends Component {
       sasia: "",
       cmimi: "",
       kodi: ""
-    }
+    },
+    openAction: false,
   };
 
   //When you bring in an action from redux it is going to be stored as props
@@ -120,7 +121,14 @@ class Sale extends Component {
     });
   };
 
+  closeInvoiceModal = () => {
+    this.setState({ openAction: false });
+  };
+
   render() {
+
+    const { openAction } = this.state;
+
     const { sales } = this.props.sale; //Pull the sales
     const columns = [
       customRowIndexColumn(),
@@ -186,8 +194,6 @@ class Sale extends Component {
           ])
       );
 
-    //console.log(sales);
-
     const options = {
       filterType: "dropdown",
       responsive: "scroll",
@@ -197,13 +203,23 @@ class Sale extends Component {
       },
       setRowProps: () => ({
         onDoubleClick: (row, dataIndex) => {
-          alert("row clicked");
+          this.setState({
+            openAction: true,
+          });
         }
       }),
     };
 
     return (
       <div style={{ width: "100%"}}>
+
+        <InvoiceModal 
+          invoiceTitle="Shitje" 
+          invoiceType={1} 
+          openAction={openAction} 
+          closeInvoiceModal={this.closeInvoiceModal}
+        />
+
         {/* Edit Modal Part */}
         <Modal
           isOpen={this.state.editModal}

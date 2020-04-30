@@ -151,6 +151,10 @@ const InvoiceModal = (props) => {
         }
     }, [open]);
 
+    useEffect( () => {
+        setOpen(props.openAction);
+    }, [props.openAction] );
+
     //Move data from the form to the data table
     const handleFormSubmit = values => {
         setRows([...rows, createData(values)]);
@@ -312,6 +316,7 @@ const InvoiceModal = (props) => {
     const handleClose = () => {
         setOpen(false);
         setSelectClient("");
+        props.closeInvoiceModal();
     };
 
     return (
@@ -411,11 +416,14 @@ InvoiceModal.propTypes = {
     addBuying: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
     invoiceType: PropTypes.number.isRequired,
+    openAction: PropTypes.bool.isRequired,
+    closeInvoiceModal: PropTypes.func.isRequired,
 };
 
 InvoiceModal.defaultProps = {
     invoiceTitle: "Fature",
-    invoiceType: 0
+    invoiceType: 0,
+    openAction: false,
 };
 
 //Mapping function
