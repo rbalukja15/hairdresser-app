@@ -22,6 +22,7 @@ import { connect } from "react-redux"; //To connect react and redux
 import MUIDataTable from "mui-datatables";
 import moment from "moment";
 import {customRowIndexColumn} from "../../utils/mui-table"; //Moment library for date editting
+import InvoiceModal from "../invoice/Invoice"
 
 //
 //THE WAY REDUX WORKS
@@ -38,7 +39,8 @@ class Buying extends Component {
       prodhuesi: "",
       shitesi: "",
       sasia: ""
-    }
+    },
+    openAction: false,
   };
 
   //When you bring in an action from redux it is going to be stored as props
@@ -113,8 +115,12 @@ class Buying extends Component {
     });
   };
 
+  closeInvoiceModal = () => {
+    this.setState({ openAction: false });
+  };
+
   render() {
-    //console.log(this.props);
+    const { openAction } = this.state;
     const { buyings } = this.props.buying; //Pull the buyings
 
     const columns = [
@@ -189,14 +195,24 @@ class Buying extends Component {
             return false;
         },
         setRowProps: () => ({
-            onDoubleClick: (row, dataIndex) => {
-                alert("row clicked");
-            }
+          onDoubleClick: (row, dataIndex) => {
+            this.setState({
+              openAction: true,
+            });
+          }
         }),
     };
 
     return (
       <div>
+
+        <InvoiceModal 
+          invoiceTitle="Blerje" 
+          invoiceType={0} 
+          openAction={openAction} 
+          closeInvoiceModal={this.closeInvoiceModal}
+        />
+
         {/* Edit Modal Part */}
         <Modal
           isOpen={this.state.editModal}
