@@ -201,11 +201,20 @@ class Sale extends Component {
       isRowSelectable: function(dataIndex) {
         return false;
       },
+      // customRowRender:(data, dataIndex, rowIndex) => {
+      //   console.log('data' + data);
+      //   return (
+      //     <div>
+      //       {data}{' '}{dataIndex}{' '}{rowIndex}
+      //     </div>
+      //   );
+      // },
       setRowProps: () => ({
-        onDoubleClick: (row, dataIndex) => {
+        onDoubleClick: (meta, rowIndex) => {
           this.setState({
             openAction: true,
           });
+          console.log(meta);
         }
       }),
     };

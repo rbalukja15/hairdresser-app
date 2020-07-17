@@ -29,6 +29,7 @@ import InvoiceModal from "../invoice/Invoice"
 //CARS => COMPONENT->ACTION->REDUCER->STORE
 
 class Buying extends Component {
+
   state = {
     editModal: false,
     editBuying: {

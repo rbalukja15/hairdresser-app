@@ -141,7 +141,6 @@ const InvoiceModal = (props) => {
         const response = await axios
             .get("/api/clients");
         setClients(response.data);
-        console.log(response.data);
     };
 
     //Check if the modal is open, then fetch client data
@@ -424,6 +423,7 @@ InvoiceModal.defaultProps = {
     invoiceTitle: "Fature",
     invoiceType: 0,
     openAction: false,
+    closeInvoiceModal: () => {},
 };
 
 //Mapping function
