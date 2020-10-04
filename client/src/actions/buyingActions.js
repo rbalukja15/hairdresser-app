@@ -54,7 +54,7 @@ export const getBuyingById = id => dispatch => {
 
 //Action to add a buying
 export const addBuying = buying => (dispatch, getState) => {
-  //console.log(buying);
+  console.log(buying);
   axios
     .post("/api/buyings", buying, tokenConfig(getState)) //Post the data from the modal into the api
     .then(res =>

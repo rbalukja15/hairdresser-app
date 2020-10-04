@@ -102,7 +102,14 @@ const useStyles = makeStyles(theme => ({
 
 function createData(values) {
     let total = values.quantity * values.price;
-    return [ values.id, values.code, values.description, values.unit, values.quantity, values.price, total];
+    return {
+        code: values.code,
+        description: values.description,
+        unit: values.unit,
+        quantity: values.quantity,
+        price: values.price,
+        total: total
+    };
 }
 
 const options = {
@@ -163,14 +170,18 @@ const InvoiceModal = (props) => {
     const handleInvoiceSubmit = () => {
         let total = 0;
 
-        rows.forEach( row => {total += row[6];} );
+        rows.forEach( row => {
+            total += row[5];
+        } );
 
         const transaction = {
-            clientId: selectClient,
+            clientName: selectClient,
             invoiceType: props.invoiceType,
             rows: rows,
             total: total,
         };
+
+        //console.log(transaction)
 
         props.invoiceType === 0 ? props.addBuying(transaction) : props.addSale(transaction);
 
@@ -353,7 +364,7 @@ const InvoiceModal = (props) => {
                                     {clients.map( client => (
                                         <MenuItem
                                             key={client._id}
-                                            value={client._id}
+                                            value={client.name}
                                         >
                                             {client.name}
                                         </MenuItem>
