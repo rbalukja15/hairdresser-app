@@ -3,27 +3,19 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const BuyingSchema = new Schema ({
-  name: {
+  clientName: {
     type: String,
     required: true
   },
-  kodi: {
-    type: String,
-    required: true
-  },
-  cmimBlerje: {
+  invoiceType: {
     type: Number,
     required: true
   },
-  shitesi: {
-    type: String,
+  invoiceData: {
+    type: Array,
     required: true
   },
-  prodhuesi: {
-    type: String,
-    required: true
-  },
-  sasia: {
+  total: {
     type: Number,
     required: true
   },

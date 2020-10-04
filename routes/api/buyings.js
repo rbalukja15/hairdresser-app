@@ -43,14 +43,11 @@ router.get("/:id",  (req, res) => {
 // @desc    Create a Buying
 // @access  Private
 router.post("/", auth, (req, res) => {
-  console.log(req.body)
     const newBuying = new Buying({
-    name: req.body.name,
-    kodi: req.body.kodi,
-    cmimBlerje: req.body.cmimBlerje,
-    shitesi: req.body.shitesi,
-    prodhuesi: req.body.prodhuesi,
-    sasia: req.body.sasia
+    clientName: req.body.clientName,
+    invoiceType: req.body.invoiceType,
+    invoiceData: req.body.rows,
+    total: req.body.total,
   });
 
   newBuying.save()

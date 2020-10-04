@@ -195,6 +195,7 @@ const InvoiceModal = (props) => {
         props.invoiceType === 0 ? props.addBuying(transaction) : props.addSale(transaction);
 
         handleClose();
+        setRows([]);
     };
 
     const customForm = tabValue => (
