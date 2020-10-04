@@ -7,24 +7,16 @@ const SaleSchema = new Schema ({
     type: String,
     required: true
   },
-  clientSurname: {
-    type: String,
-    required: true
-  },
-  productName: {
-    type: String,
-    required: true
-  },
-  sasia: {
+  invoiceType: {
     type: Number,
     required: true
   },
-  cmimi: {
-    type: Number,
+  invoiceData: {
+    type: Array,
     required: true
   },
-  kodi: {
-    type: String,
+  total: {
+    type: Number,
     required: true
   },
   date: {

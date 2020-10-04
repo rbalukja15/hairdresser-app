@@ -132,35 +132,25 @@ class Sale extends Component {
     const { sales } = this.props.sale; //Pull the sales
     const columns = [
       customRowIndexColumn(),
-      "Emer",
-      "Mbiemer",
-      "Emer Produkti",
-      "Sasia",
-      "Cmimi",
-      "Kodi",
-      "Data",
+      "Emri Klientit",
+      "Totali",
+      //"Data", //Todo add invoice date
+      "Data Regjistrimit",
       "Fshi"
     ];
     const data = [];
 
       sales.map(
         ({
-          _id,
-          clientName,
-          clientSurname,
-          productName,
-          sasia,
-          cmimi,
-          kodi,
-          date
+           _id,
+           clientName,
+           total,
+           date,
         }) =>
           data.push([
+            _id,
             clientName,
-            clientSurname,
-            productName,
-            sasia,
-            cmimi,
-            kodi,
+            total,
             moment(date).calendar(),
             <div>
               <Button
@@ -181,11 +171,7 @@ class Sale extends Component {
                   this,
                   _id,
                   clientName,
-                  clientSurname,
-                  productName,
-                  sasia,
-                  cmimi,
-                  kodi
+                  total,
                 )}
               >
                 Modifiko

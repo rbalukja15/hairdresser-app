@@ -45,11 +45,9 @@ router.get("/:id", auth,(req, res) => {
 router.post("/", auth,(req, res) => {
   const newSale = new Sale({
     clientName: req.body.clientName,
-    clientSurname: req.body.clientSurname,
-    productName: req.body.productName,
-    sasia: req.body.sasia,
-    cmimi: req.body.cmimi,
-    kodi: req.body.kodi
+    invoiceType: req.body.invoiceType,
+    invoiceData: req.body.rows,
+    total: req.body.total,
   });
 
   newSale.save()
