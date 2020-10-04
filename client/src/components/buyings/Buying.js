@@ -126,12 +126,9 @@ class Buying extends Component {
 
     const columns = [
       customRowIndexColumn(),
-      "Emer",
-      "Kodi",
-      "Cmimi Blerjes",
-      "Prodhuesi",
-      "Shitesi",
-      "Sasia",
+      "Emri Furnitorit",
+      "Totali",
+      // "Data", //TODO add date from invoice
       "Data Regjistrimit",
       "Fshi/Modifiko"
     ];
@@ -140,21 +137,14 @@ class Buying extends Component {
     buyings.map(
       ({
         _id,
-        name,
-        kodi,
-        cmimBlerje,
-        prodhuesi,
-        shitesi,
-        sasia,
-        date
+        clientName,
+        total,
+        date,
       }) =>
         data.push([
-          name,
-          kodi,
-          cmimBlerje,
-          prodhuesi,
-          shitesi,
-          sasia,
+          _id,
+          clientName,
+          total,
           moment(date).calendar(),
           <div>
             <Button
@@ -174,12 +164,8 @@ class Buying extends Component {
               onClick={this.editBuying.bind(
                 this,
                 _id,
-                name,
-                kodi,
-                cmimBlerje,
-                prodhuesi,
-                shitesi,
-                sasia
+                clientName,
+                total,
               )}
             >
               Modifiko
