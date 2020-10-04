@@ -108,7 +108,7 @@ function createData(values) {
         unit: values.unit,
         quantity: values.quantity,
         price: values.price,
-        total: total
+        total
     };
 }
 
@@ -126,6 +126,7 @@ const InvoiceModal = (props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [rows, setRows] = useState([]);
+    const [rowsForTable, setRowsForTable] = useState([]);
 
     const [clients, setClients] = useState([]);
     const [selectClient, setSelectClient] = useState("");
@@ -163,7 +164,15 @@ const InvoiceModal = (props) => {
 
     //Move data from the form to the data table
     const handleFormSubmit = values => {
-        setRows([...rows, createData(values)]);
+        const createdData = createData(values);
+
+        setRows([...rows, createdData]);
+
+        [createdData].map(
+            value => {
+                setRowsForTable([...rowsForTable, [value.id, value.code, value.description, value.unit, value.quantity, value.price, value.total]])
+            }
+        )
     };
 
     //Submit the data of the invoice
@@ -171,7 +180,7 @@ const InvoiceModal = (props) => {
         let total = 0;
 
         rows.forEach( row => {
-            total += row[5];
+            total += row.total;
         } );
 
         const transaction = {
@@ -407,7 +416,7 @@ const InvoiceModal = (props) => {
                             <div className={classes.table}>
                                 <MUIDataTable
                                     title={"Fature"}
-                                    data={rows}
+                                    data={rowsForTable}
                                     columns={columns}
                                     options={options}
                                 />
