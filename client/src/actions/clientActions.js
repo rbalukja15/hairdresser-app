@@ -14,17 +14,19 @@ import {
 } from './errorActions'
 
 //Action to get the items into the component
-export const getClients = () => (dispatch) => {
+export const getClients = () => async (dispatch) => {
     dispatch(setClientsLoading()) //Change the state of the loading
-    axios
-        .get('/api/clients')
-        .then((res) =>
+    try {
+        return await axios.get('/api/clients').then((response) => {
             dispatch({
                 type: GET_CLIENTS, //use the get action
-                payload: res.data, //Get the data from response and send them as a payload
-            }),
-        )
-        .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)))
+                payload: response.data, //Get the data from response and send them as a payload
+            })
+            return response.data
+        })
+    } catch (error) {
+        dispatch(returnErrors(error.response.data, error.response.status))
+    }
 }
 
 //Action to get a client by id into the components

@@ -14,17 +14,17 @@ import {
 } from './errorActions'
 
 //Action to get the buyings into the component
-export const getBuyings = () => (dispatch) => {
+export const getBuyings = () => async (dispatch) => {
     dispatch(setBuyingsLoading()) //Change the state of the loading
-    axios
-        .get('/api/buyings')
-        .then((res) =>
-            dispatch({
-                type: GET_BUYINGS, //use the get action
-                payload: res.data, //Get the data from response and send them as a payload
-            }),
-        )
-        .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)))
+    try {
+        const response = await axios.get('/api/buyings')
+        dispatch({
+            type: GET_BUYINGS, //use the get action
+            payload: response.data, //Get the data from response and send them as a payload
+        })
+    } catch (error) {
+        dispatch(returnErrors(error.response.data, error.response.status))
+    }
 }
 
 //Action to get a buying by id into the components

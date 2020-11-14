@@ -34,6 +34,7 @@ class Buying extends Component {
         updateBuying: PropTypes.func.isRequired,
         buying: PropTypes.object.isRequired, //Represents our state
         isAuthenticated: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired,
     }
 
     componentWillMount() {
@@ -286,7 +287,7 @@ class Buying extends Component {
                         </Button>
                     </ModalFooter>
                 </Modal>
-                {this.props.isAuthenticated ? (
+                {this.props.isAuthenticated && !this.props.isLoading ? (
                     <MUIDataTable title={'Lista e Blerjeve'} data={data} columns={columns} options={options} />
                 ) : (
                     ''
@@ -301,6 +302,7 @@ class Buying extends Component {
 const mapStateToProps = (state) => ({
     buying: state.buying,
     isAuthenticated: state.auth.isAuthenticated,
+    isLoading: state.buying.loading,
 })
 
 //Connect takes as parameters the action and our mapping function

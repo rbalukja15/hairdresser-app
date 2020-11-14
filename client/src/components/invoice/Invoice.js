@@ -41,6 +41,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 //Actions
 import { addSale, updateSale } from '../../actions/saleActions'
 import { addBuying, updateBuying } from '../../actions/buyingActions'
+import { getClients } from '../../actions/clientActions'
 
 export const validationSchema = yup.object().shape({
     code: yup.string().required('Kodi eshte i detyrueshem'),
@@ -193,9 +194,8 @@ const InvoiceModal = (props) => {
         setStartDate(date)
     }
 
-    const fetchData = async () => {
-        const response = await axios.get('/api/clients')
-        setClients(response.data)
+    const fetchData = () => {
+        props.getClients().then((response) => setClients(response))
         setRowsForTable(
             props.invoiceData.map((data, index) => {
                 return [index, data.code, data.description, data.unit, data.quantity, data.price, data.total]
@@ -231,7 +231,6 @@ const InvoiceModal = (props) => {
         const createdData = createData(rowsToSave.length, values)
 
         setRowsToSave([...rowsToSave, createdData])
-
         ;[createdData].map((value, index) => {
             setRowsForTable([
                 ...rowsForTable,
@@ -496,11 +495,13 @@ const InvoiceModal = (props) => {
 }
 
 InvoiceModal.propTypes = {
+    clients: PropTypes.array.isRequired,
     client: PropTypes.string.isRequired,
     addSale: PropTypes.func.isRequired,
     updateSale: PropTypes.func.isRequired,
     addBuying: PropTypes.func.isRequired,
     updateBuying: PropTypes.func.isRequired,
+    getClients: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
     invoiceType: PropTypes.number.isRequired,
     invoiceData: PropTypes.array,
@@ -520,7 +521,8 @@ InvoiceModal.defaultProps = {
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = (state) => ({
+    clients: state.client.clients,
     isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps, { addSale, addBuying, updateSale, updateBuying })(InvoiceModal)
+export default connect(mapStateToProps, { addSale, addBuying, updateSale, updateBuying, getClients })(InvoiceModal)

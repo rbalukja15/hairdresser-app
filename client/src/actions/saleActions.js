@@ -14,17 +14,17 @@ import {
 } from './errorActions'
 
 //Action to get the sales into the component
-export const getSales = () => (dispatch) => {
+export const getSales = () => async (dispatch) => {
     dispatch(setSalesLoading()) //Change the state of the loading
-    axios
-        .get('/api/sales')
-        .then((res) =>
-            dispatch({
-                type: GET_SALES, //use the get action
-                payload: res.data, //Get the data from response and send them as a payload
-            }),
-        )
-        .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)))
+    try {
+        const response = await axios.get('/api/sales')
+        dispatch({
+            type: GET_SALES, //use the get action
+            payload: response.data, //Get the data from response and send them as a payload
+        })
+    } catch (error) {
+        dispatch(returnErrors(error.response.data, error.response.status))
+    }
 }
 
 //Action to get a sale by id into the components
