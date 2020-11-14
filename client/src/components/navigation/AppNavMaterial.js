@@ -97,15 +97,6 @@ const styles = (theme) => ({
     },
 })
 
-//Create the home icon svg
-function HomeIcon(props) {
-    return (
-        <SvgIcon {...props}>
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-        </SvgIcon>
-    )
-}
-
 class ResponsiveDrawer extends Component {
     state = {
         mobileOpen: false,
@@ -205,15 +196,6 @@ class ResponsiveDrawer extends Component {
                         selected={'/employees' === pathname}
                     >
                         Punetoret
-                    </MenuItem>
-                    <MenuItem
-                        component={Link}
-                        className={classes.menuItem}
-                        to="/invoice"
-                        onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/invoice' === pathname}
-                    >
-                        Faturat
                     </MenuItem>
                 </MenuList>
             </div>

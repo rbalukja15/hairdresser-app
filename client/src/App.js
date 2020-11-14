@@ -57,7 +57,6 @@ class App extends Component {
                                 <Route path="/category" component={category_component} />
                                 <Route path="/clients" component={client_component} />
                                 <Route path="/employees" component={employee} />
-                                <Route path="/invoice" component={InvoiceModal} />
                             </Switch>
                         </ResponsiveDrawer>
                     </div>
