@@ -11,38 +11,38 @@ const Sale = require("../../models/Sale");
 router.get("/", (req, res) => {
   Sale.find()
     .sort({ date: -1 })
-    .then(sales => res.json(sales));
+    .then((sales) => res.json(sales));
 });
 
 // @route   GET api/sales/:id
 // @desc    Get One Sale
 // @access  Private
-router.get("/:id", auth,(req, res) => {
+router.get("/:id", auth, (req, res) => {
   Sale.findById(req.params.id)
-    .then(sale => {
-      if(!sale) {
+    .then((sale) => {
+      if (!sale) {
         return res.status(404).json({
-            message: "Sale not found with id " + req.params.id
-        });            
-    }
-      return res.json(sale)}
-    )
-    .catch(err => {
-      if(err.kind === 'ObjectId') {
-          return res.status(404).json({
-              message: "Sale not found with id " + req.params.id
-          });                
+          message: "Sale not found with id " + req.params.id,
+        });
+      }
+      return res.json(sale);
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId") {
+        return res.status(404).json({
+          message: "Sale not found with id " + req.params.id,
+        });
       }
       return res.status(500).json({
-          message: "Error retrieving sale with id " + req.params.id
+        message: "Error retrieving sale with id " + req.params.id,
       });
-  });
+    });
 });
 
 // @route   POST api/sales
 // @desc    Create A Sale
 // @access  Public
-router.post("/", auth,(req, res) => {
+router.post("/", auth, (req, res) => {
   const newSale = new Sale({
     clientName: req.body.clientName,
     invoiceType: req.body.invoiceType,
@@ -50,40 +50,40 @@ router.post("/", auth,(req, res) => {
     total: req.body.total,
   });
 
-  newSale.save()
-          .then(sale => res.json(sale))
-          .catch(err => {
-                    return res.status(500).json({
-                      message: "Error saving buying"
-                    });
-                  });
+  newSale
+    .save()
+    .then((sale) => res.json(sale))
+    .catch((err) => {
+      return res.status(500).json({
+        message: "Error saving buying",
+      });
+    });
 });
 
 // @route   DELETE api/sales/:id
 // @desc    Delete A Sale
 // @access  Public
-router.delete("/:id", auth,(req, res) => {
+router.delete("/:id", auth, (req, res) => {
   Sale.findById(req.params.id)
-    .then(sale => sale.remove().then(() => res.json({ success: true })))
-    .catch(err => res.status(404).json({ success: false }));
+    .then((sale) => sale.remove().then(() => res.json({ success: true })))
+    .catch((err) => res.status(404).json({ success: false }));
 });
 
 // @route   EDIT api/sales/:id
 // @desc    EDIT A Sale
 // @access  Private
 router.put("/:id", auth, (req, res) => {
-
   Sale.findByIdAndUpdate(
     req.params.id,
     {
-        clientName: req.body.clientName,
-        invoiceType: req.body.invoiceType,
-        invoiceData: req.body.rows,
-        total: req.body.total,
+      clientName: req.body.clientName,
+      invoiceType: req.body.invoiceType,
+      invoiceData: req.body.rows,
+      total: req.body.total,
     },
     { new: true }
   )
-    .then(sale => {
+    .then((sale) => {
       if (!sale) {
         return res
           .status(404)
@@ -91,7 +91,7 @@ router.put("/:id", auth, (req, res) => {
       }
       res.json(sale);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.kind === "ObjectId") {
         return res
           .status(404)

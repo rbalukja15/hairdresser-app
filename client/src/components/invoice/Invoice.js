@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
-import SaveIcon from '@material-ui/icons/Save';
-import AddCircleOutlineRoundedIcon  from '@material-ui/icons/AddCircleOutlineRounded';
+import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import CloseIcon from '@material-ui/icons/Close'
+import SaveIcon from '@material-ui/icons/Save'
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded'
 
 import {
     AppBar,
@@ -19,53 +19,38 @@ import {
     Button,
     Dialog,
     Divider,
-} from "@material-ui/core";
-import {Formik} from "formik";
-import * as yup from "yup";
-import PropTypes from "prop-types"; //Whenever you have component property put it inside a proptypes which is a form of validation
+} from '@material-ui/core'
+import { Formik } from 'formik'
+import * as yup from 'yup'
+import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
 //Material-UI Part
-import MUIDataTable from "mui-datatables";
-import {customRowIndexColumn} from "../../utils/mui-table"
+import MUIDataTable from 'mui-datatables'
+import { customRowIndexColumn } from '../../utils/mui-table'
 
 //Date picker
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 
 //Clients Part
-import { connect } from "react-redux"; //Allows to get state from redux to react component
-import axios from "axios";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
+import { connect } from 'react-redux' //Allows to get state from redux to react component
+import axios from 'axios'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
 
 //Actions
-import { addSale, updateSale } from "../../actions/saleActions";
-import { addBuying, updateBuying } from "../../actions/buyingActions";
+import { addSale, updateSale } from '../../actions/saleActions'
+import { addBuying, updateBuying } from '../../actions/buyingActions'
 
 export const validationSchema = yup.object().shape({
-    code: yup
-        .string()
-        .required('Kodi eshte i detyrueshem'),
-    description: yup
-            .string()
-            .required('Pershkrimi eshte i detyrueshem'),
-    unit: yup
-        .string()
-        .required('Njesia eshte e detyrueshme'),
-    quantity: yup
-        .number()
-        .positive("Sasia duhet te jete numer pozitiv")
-        .required('Sasia eshte e detyrueshme'),
-    price: yup
-        .number()
-        .positive("Cmimi duhet te jete numer pozitiv")
-        .required('Cmimi eshte i detyrueshem')
-});
+    code: yup.string().required('Kodi eshte i detyrueshem'),
+    description: yup.string().required('Pershkrimi eshte i detyrueshem'),
+    unit: yup.string().required('Njesia eshte e detyrueshme'),
+    quantity: yup.number().positive('Sasia duhet te jete numer pozitiv').required('Sasia eshte e detyrueshme'),
+    price: yup.number().positive('Cmimi duhet te jete numer pozitiv').required('Cmimi eshte i detyrueshem'),
+})
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
     },
@@ -88,20 +73,19 @@ const useStyles = makeStyles(theme => ({
     },
     table: {
         minWidth: 650,
-        margin: theme.spacing(2,2),
-
+        margin: theme.spacing(2, 2),
     },
     datePicker: {
         margin: theme.spacing(3),
     },
     select: {
         margin: theme.spacing(1),
-        minWidth: 180
+        minWidth: 180,
     },
-}));
+}))
 
 function createData(count, values) {
-    let total = values.quantity * values.price;
+    let total = values.quantity * values.price
     return {
         rowId: count,
         code: values.code,
@@ -109,39 +93,39 @@ function createData(count, values) {
         unit: values.unit,
         quantity: values.quantity,
         price: values.price,
-        total
-    };
+        total,
+    }
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+    return <Slide direction="up" ref={ref} {...props} />
+})
 
 const reorderRowIds = (rows) => {
-    let rowsToReorder = [];
+    let rowsToReorder = []
 
     rows.forEach((row, index) => {
-        rowsToReorder[index] = row;
-        rowsToReorder[index].rowId = index;
-    });
+        rowsToReorder[index] = row
+        rowsToReorder[index].rowId = index
+    })
 
-    return rowsToReorder;
-};
+    return rowsToReorder
+}
 
 const InvoiceModal = (props) => {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
-    const [rowsToSave, setRowsToSave] = useState([]);
-    const [rowsForTable, setRowsForTable] = useState([]);
+    const classes = useStyles()
+    const [open, setOpen] = useState(false)
+    const [rowsToSave, setRowsToSave] = useState([])
+    const [rowsForTable, setRowsForTable] = useState([])
 
-    const [clients, setClients] = useState([]);
-    const [selectClient, setSelectClient] = useState('');
+    const [clients, setClients] = useState([])
+    const [selectClient, setSelectClient] = useState('')
 
     //Navigation
-    const [tabValue, setTabValue] = useState(0);
+    const [tabValue, setTabValue] = useState(0)
 
     // The states declared for the Pickers
-    const [startDate, setStartDate] = useState(Date.now);
+    const [startDate, setStartDate] = useState(Date.now)
 
     //MUI-Table consts
     const [columns, setColumns] = useState([
@@ -151,7 +135,7 @@ const InvoiceModal = (props) => {
                 sort: false,
                 filter: false,
                 customBodyRender: (value, meta) => {
-                    return meta.rowIndex + 1;
+                    return meta.rowIndex + 1
                 },
             },
         },
@@ -202,84 +186,77 @@ const InvoiceModal = (props) => {
                 sort: false,
                 filter: false,
             },
-        }]);
+        },
+    ])
 
-    const handleDateChange = date => {
-        setStartDate(date);
-    };
+    const handleDateChange = (date) => {
+        setStartDate(date)
+    }
 
     const fetchData = async () => {
-
-        const response = await axios
-            .get("/api/clients");
-        setClients(response.data);
-        setRowsForTable(props.invoiceData.map((data, index) => {
-            return [
-                index,
-                data.code,
-                data.description,
-                data.unit,
-                data.quantity,
-                data.price,
-                data.total,
-            ];
-        }));
-        setRowsToSave(props.invoiceData);
-        setSelectClient(props.client);
-    };
+        const response = await axios.get('/api/clients')
+        setClients(response.data)
+        setRowsForTable(
+            props.invoiceData.map((data, index) => {
+                return [index, data.code, data.description, data.unit, data.quantity, data.price, data.total]
+            }),
+        )
+        setRowsToSave(props.invoiceData)
+        setSelectClient(props.client)
+    }
 
     //Check if the modal is open, then fetch client data
-    useEffect( () => {
+    useEffect(() => {
         if (open) {
-            fetchData();
+            fetchData()
+        } else {
+            setRowsToSave([])
+            setRowsForTable([])
         }
-        else {
-            setRowsToSave([]);
-            setRowsForTable([]);
-        }
-    }, [open]);
+    }, [open])
 
     const options = {
-        filterType: "dropdown",
-        responsive: "standard",
+        filterType: 'dropdown',
+        responsive: 'standard',
         pagination: false,
         onRowsDelete: (rowsDeleted, newData) => {
-            const rowId = rowsForTable[rowsDeleted.data[0].index][0];
-            setRowsToSave(rowsToSave.filter(row => row.rowId !== rowId));
-            setRowsForTable(newData);
+            const rowId = rowsForTable[rowsDeleted.data[0].index][0]
+            setRowsToSave(rowsToSave.filter((row) => row.rowId !== rowId))
+            setRowsForTable(newData)
         },
-    };
+    }
 
     //Move data from the form to the data table
-    const handleFormSubmit = values => {
-        const createdData = createData(rowsToSave.length, values);
+    const handleFormSubmit = (values) => {
+        const createdData = createData(rowsToSave.length, values)
 
-        setRowsToSave([...rowsToSave, createdData]);
+        setRowsToSave([...rowsToSave, createdData])
 
-        [createdData].map(
-            (value, index) => {
-                setRowsForTable([...rowsForTable, [index, value.code, value.description, value.unit, value.quantity, value.price, value.total]])
-            }
-        )
-    };
+        ;[createdData].map((value, index) => {
+            setRowsForTable([
+                ...rowsForTable,
+                [index, value.code, value.description, value.unit, value.quantity, value.price, value.total],
+            ])
+        })
+    }
 
     //Submit the data of the invoice
     const handleInvoiceSubmit = () => {
-        let total = 0;
+        let total = 0
 
-        rowsToSave.forEach( row => {
-            total += row.total;
-        } );
+        rowsToSave.forEach((row) => {
+            total += row.total
+        })
 
         const transaction = {
             clientName: selectClient,
             invoiceType: props.invoiceType,
             rows: reorderRowIds(rowsToSave),
             total,
-        };
+        }
 
-        props.invoiceType === 0 ? handleBuyingActions(transaction) : handleSaleActions(transaction);
-    };
+        props.invoiceType === 0 ? handleBuyingActions(transaction) : handleSaleActions(transaction)
+    }
 
     const handleSaleActions = (transaction) => {
         const saleToUpdate = {
@@ -287,75 +264,69 @@ const InvoiceModal = (props) => {
             clientName: transaction.clientName,
             invoiceType: transaction.invoiceType,
             rows: transaction.rows,
-            total: transaction.total
+            total: transaction.total,
         }
-        props.saleId ? props.updateSale(saleToUpdate) : props.addSale(transaction);
-        props.refreshData();
-        handleClose();
-    };
+        props.saleId ? props.updateSale(saleToUpdate) : props.addSale(transaction)
+        props.refreshData()
+        handleClose()
+    }
     const handleBuyingActions = (transaction) => {
         const buyingToUpdate = {
             _id: props.saleId,
             clientName: transaction.clientName,
             invoiceType: transaction.invoiceType,
             rows: transaction.rows,
-            total: transaction.total
+            total: transaction.total,
         }
-        props.saleId ? props.updateBuying(buyingToUpdate) : props.addBuying(transaction);
-        props.refreshData();
-        handleClose();
-    };
+        props.saleId ? props.updateBuying(buyingToUpdate) : props.addBuying(transaction)
+        props.refreshData()
+        handleClose()
+    }
 
-    const customForm = tabValue => (
+    const customForm = (tabValue) => (
         <Paper className={classes.paper}>
             <Formik
                 initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
                 validationSchema={validationSchema}
-                onSubmit={(values,{resetForm}) => {
-                    handleFormSubmit(values);
-                    resetForm();
+                onSubmit={(values, { resetForm }) => {
+                    handleFormSubmit(values)
+                    resetForm()
                 }}
             >
                 {({
-                      values,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      isSubmitting,
-                      isValid,
-                      dirty,
-                      errors,
-                      touched,
-                      resetForm,
-                  }) => (
+                    values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    isValid,
+                    dirty,
+                    errors,
+                    touched,
+                    resetForm,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         <div>
-                            {tabValue !== 1 ?
-                            <FormControl className={classes.formControl}>
-                                <FormLabel
-                                    component="legend"
-                                >
-                                    Kodi
-                                </FormLabel>
-                                <Input
-                                    className="mb-2"
-                                    type="text"
-                                    name="code"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.code}
-                                />
-                                {(errors.code && touched.code) ? errors.code : ''}
-                            </FormControl>
-                            : ''}
+                            {tabValue !== 1 ? (
+                                <FormControl className={classes.formControl}>
+                                    <FormLabel component="legend">Kodi</FormLabel>
+                                    <Input
+                                        className="mb-2"
+                                        type="text"
+                                        name="code"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.code}
+                                    />
+                                    {errors.code && touched.code ? errors.code : ''}
+                                </FormControl>
+                            ) : (
+                                ''
+                            )}
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
-                                <FormLabel
-                                    component="legend"
-                                >
-                                    Pershkrimi
-                                </FormLabel>
+                                <FormLabel component="legend">Pershkrimi</FormLabel>
                                 <Input
                                     className="mb-2"
                                     type="text"
@@ -364,16 +335,12 @@ const InvoiceModal = (props) => {
                                     onBlur={handleBlur}
                                     value={values.description}
                                 />
-                                {(errors.description && touched.description) ? errors.description : ''}
+                                {errors.description && touched.description ? errors.description : ''}
                             </FormControl>
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
-                                <FormLabel
-                                    component="legend"
-                                >
-                                    Njesia
-                                </FormLabel>
+                                <FormLabel component="legend">Njesia</FormLabel>
                                 <Input
                                     className="mb-2"
                                     type="text"
@@ -382,16 +349,12 @@ const InvoiceModal = (props) => {
                                     onBlur={handleBlur}
                                     value={values.unit}
                                 />
-                                {(errors.unit && touched.unit) ? errors.unit : ''}
+                                {errors.unit && touched.unit ? errors.unit : ''}
                             </FormControl>
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
-                                <FormLabel
-                                    component="legend"
-                                >
-                                    Sasia
-                                </FormLabel>
+                                <FormLabel component="legend">Sasia</FormLabel>
                                 <Input
                                     className="mb-2"
                                     type="number"
@@ -400,16 +363,12 @@ const InvoiceModal = (props) => {
                                     onBlur={handleBlur}
                                     value={values.quantity}
                                 />
-                                {(errors.quantity && touched.quantity) ? errors.quantity : ''}
+                                {errors.quantity && touched.quantity ? errors.quantity : ''}
                             </FormControl>
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
-                                <FormLabel
-                                    component="legend"
-                                >
-                                    Cmimi
-                                </FormLabel>
+                                <FormLabel component="legend">Cmimi</FormLabel>
                                 <Input
                                     className="mb-2"
                                     type="number"
@@ -418,7 +377,7 @@ const InvoiceModal = (props) => {
                                     onBlur={handleBlur}
                                     value={values.price}
                                 />
-                                {(errors.price && touched.price) ? errors.price : ''}
+                                {errors.price && touched.price ? errors.price : ''}
                             </FormControl>
                         </div>
                         <FormControl className={classes.formControl}>
@@ -435,16 +394,16 @@ const InvoiceModal = (props) => {
                 )}
             </Formik>
         </Paper>
-    );
+    )
 
     const handleClickOpen = () => {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     const handleClose = () => {
-        setOpen(false);
-        setSelectClient("");
-    };
+        setOpen(false)
+        setSelectClient('')
+    }
 
     return (
         <div>
@@ -453,7 +412,7 @@ const InvoiceModal = (props) => {
                 color="primary"
                 className="mb-2"
                 onClick={handleClickOpen}
-                endIcon={props.saleId ? null : <AddCircleOutlineRoundedIcon  />}
+                endIcon={props.saleId ? null : <AddCircleOutlineRoundedIcon />}
             >
                 {props.saleId ? 'Modifiko' : 'Shto Fature'}
             </Button>
@@ -463,7 +422,9 @@ const InvoiceModal = (props) => {
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <CloseIcon />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>{props.invoiceTitle}</Typography>
+                        <Typography variant="h6" className={classes.title}>
+                            {props.invoiceTitle}
+                        </Typography>
                     </Toolbar>
                 </AppBar>
                 <div className={classes.root}>
@@ -476,16 +437,15 @@ const InvoiceModal = (props) => {
                                     labelId="client-select-label"
                                     id="client-select"
                                     value={selectClient}
-                                    onChange={ e => { setSelectClient(e.target.value)} }
+                                    onChange={(e) => {
+                                        setSelectClient(e.target.value)
+                                    }}
                                 >
-                                    {clients.map( client => (
-                                        <MenuItem
-                                            key={client._id}
-                                            value={client.name}
-                                        >
+                                    {clients.map((client) => (
+                                        <MenuItem key={client._id} value={client.name}>
                                             {client.name}
                                         </MenuItem>
-                                    ) )}
+                                    ))}
                                 </Select>
                             </FormControl>
                             <MuiPickersUtilsProvider utils={DateFnsUtils} centered={true}>
@@ -506,24 +466,22 @@ const InvoiceModal = (props) => {
                             <Button
                                 autoFocus
                                 variant="contained"
-                                style={{float: "right"}}
+                                style={{ float: 'right' }}
                                 color="secondary"
                                 onClick={handleInvoiceSubmit}
                                 startIcon={<SaveIcon />}
                             >
                                 Ruaj
                             </Button>
-                            <Divider orientation="vertical"/>
+                            <Divider orientation="vertical" />
                         </Grid>
                         <Grid item xs={4}>
-                            <Grid item>
-                                {customForm(tabValue)}
-                            </Grid>
+                            <Grid item>{customForm(tabValue)}</Grid>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.table}>
                                 <MUIDataTable
-                                    title={"Fature"}
+                                    title={'Fature'}
                                     data={rowsForTable}
                                     columns={columns}
                                     options={options}
@@ -534,8 +492,8 @@ const InvoiceModal = (props) => {
                 </div>
             </Dialog>
         </div>
-    );
-};
+    )
+}
 
 InvoiceModal.propTypes = {
     client: PropTypes.string.isRequired,
@@ -548,25 +506,21 @@ InvoiceModal.propTypes = {
     invoiceData: PropTypes.array,
     saleId: PropTypes.string,
     refreshData: PropTypes.func.isRequired,
-};
+}
 
 InvoiceModal.defaultProps = {
-    invoiceTitle: "Fature",
+    invoiceTitle: 'Fature',
     invoiceType: 0,
     invoiceData: [],
     client: '',
     saleId: null,
     refreshData: () => {},
-};
+}
 
 //Mapping function
 //Allow to take the items state and maps it into a component property
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+})
 
-});
-
-export default connect(
-    mapStateToProps,
-    {addSale, addBuying, updateSale, updateBuying},
-)(InvoiceModal);
+export default connect(mapStateToProps, { addSale, addBuying, updateSale, updateBuying })(InvoiceModal)
