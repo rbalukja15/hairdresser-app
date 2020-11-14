@@ -187,7 +187,7 @@ class Employee extends Component {
         const options = {
             filterType: 'dropdown',
             selectableRows: 'none',
-            responsive: 'scroll',
+            responsive: 'standard',
             isRowSelectable: function (dataIndex) {
                 return false
             },

@@ -144,7 +144,7 @@ class Category extends Component {
 
         const options = {
             filterType: 'dropdown',
-            responsive: 'scroll',
+            responsive: 'standard',
             selectableRows: 'none',
             isRowSelectable: function (dataIndex) {
                 return false
