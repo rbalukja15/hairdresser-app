@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react'
 
-import Category from "./Category";
-import CategoryModal from "../modals/category/categoryModal";
+import Category from './Category'
+import CategoryModal from '../modals/category/categoryModal'
 
-import { Container } from "reactstrap";
+import { Container } from 'reactstrap'
 
 const containerStyle = {
-  marginTop: '40px'
+    marginTop: '40px',
 }
 
 const category_component = () => {
-  return (
-    <Container style={containerStyle}>
-      <CategoryModal />
-      <Category />
-    </Container>
-  );
-};
+    return (
+        <Container style={containerStyle}>
+            <CategoryModal />
+            <Category />
+        </Container>
+    )
+}
 
-export default category_component;
+export default category_component

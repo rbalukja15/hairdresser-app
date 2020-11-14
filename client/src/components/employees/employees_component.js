@@ -1,24 +1,23 @@
-import React from "react";
+import React from 'react'
 
-import Employee from "./Employee";
-import EmployeeModal from "../modals/employee/addEmployeeModal";
+import Employee from './Employee'
+import EmployeeModal from '../modals/employee/addEmployeeModal'
 
-import { Container } from "reactstrap";
+import { Container } from 'reactstrap'
 
 const containerStyle = {
-  marginTop: '10px'
+    marginTop: '10px',
 }
 
 const employee = () => {
-  return (
-    <Container style={containerStyle}>
-      <EmployeeModal />
-      <div style={containerStyle}>
-        <Employee />
-      </div>
-      
-    </Container>
-  );
-};
+    return (
+        <Container style={containerStyle}>
+            <EmployeeModal />
+            <div style={containerStyle}>
+                <Employee />
+            </div>
+        </Container>
+    )
+}
 
-export default employee;
+export default employee
