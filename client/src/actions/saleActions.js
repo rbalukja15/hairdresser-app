@@ -36,18 +36,14 @@ export const getSales = () => dispatch => {
 };
 
 //Action to get a sale by id into the components
-export const getSaleById = id => dispatch => {
-  axios
-    .get(`/api/sales/${id}`) //Send the id as defined in our back end api
-    .then(res =>
-      dispatch({
-        type: GET_SALE_BY_ID, //Define the action
-        payload: id //Send the id as a payload
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
+export const getSaleById = id => async (dispatch, getState) => {
+    try {
+        const response = await axios
+            .get(`/api/sales/${id}`, tokenConfig(getState)); //Send the id as defined in our back end api
+        dispatch({ type: GET_SALE_BY_ID, payload: response.data })
+    } catch (error) {
+        dispatch(returnErrors(error.response.data, error.response.status))
+    }
 };
 
 //Action to add a sale

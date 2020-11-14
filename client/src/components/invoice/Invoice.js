@@ -42,7 +42,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 
 //Actions
-import { addSale } from "../../actions/saleActions";
+import { addSale, updateSale } from "../../actions/saleActions";
 import { addBuying } from "../../actions/buyingActions";
 
 export const validationSchema = yup.object().shape({
@@ -100,9 +100,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function createData(values) {
+function createData(count, values) {
     let total = values.quantity * values.price;
     return {
+        rowId: count,
         code: values.code,
         description: values.description,
         unit: values.unit,
@@ -112,24 +113,29 @@ function createData(values) {
     };
 }
 
-const options = {
-    filterType: "dropdown",
-    responsive: "scroll",
-    pagination: false,
-};
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const reorderRowIds = (rows) => {
+    let rowsToReorder = [];
+
+    rows.forEach((row, index) => {
+        rowsToReorder[index] = row;
+        rowsToReorder[index].rowId = index;
+    });
+
+    return rowsToReorder;
+};
+
 const InvoiceModal = (props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [rows, setRows] = useState([]);
+    const [rowsToSave, setRowsToSave] = useState([]);
     const [rowsForTable, setRowsForTable] = useState([]);
 
     const [clients, setClients] = useState([]);
-    const [selectClient, setSelectClient] = useState("");
+    const [selectClient, setSelectClient] = useState('');
 
     //Navigation
     const [tabValue, setTabValue] = useState(0);
@@ -138,39 +144,121 @@ const InvoiceModal = (props) => {
     const [startDate, setStartDate] = useState(Date.now);
 
     //MUI-Table consts
-    const [columns, setColumns] = useState([customRowIndexColumn(), "Kodi", "Pershkrimi", "Njesia", "Sasia", "Cmimi", "Vlefta"]);
+    const [columns, setColumns] = useState([
+        {
+            name: '#',
+            options: {
+                sort: false,
+                filter: false,
+                customBodyRender: (value, meta) => {
+                    return meta.rowIndex + 1;
+                },
+            },
+        },
+        {
+            name: 'code',
+            label: 'Kodi',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        },
+        {
+            name: 'description',
+            label: 'Pershkrimi',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        },
+        {
+            name: 'unit',
+            label: 'Njesia',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        },
+        {
+            name: 'quantity',
+            label: 'Sasia',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        },
+        {
+            name: 'price',
+            label: 'Cmimi',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        },
+        {
+            name: 'total',
+            label: 'Vlefta',
+            options: {
+                sort: false,
+                filter: false,
+            },
+        }]);
 
     const handleDateChange = date => {
         setStartDate(date);
     };
 
-    const fetchClient = async () => {
+    const fetchData = async () => {
 
         const response = await axios
             .get("/api/clients");
         setClients(response.data);
+        setRowsForTable(props.invoiceData.map((data, index) => {
+            return [
+                index,
+                data.code,
+                data.description,
+                data.unit,
+                data.quantity,
+                data.price,
+                data.total,
+            ];
+        }));
+        setRowsToSave(props.invoiceData);
+        setSelectClient(props.client);
     };
 
     //Check if the modal is open, then fetch client data
     useEffect( () => {
         if (open) {
-            fetchClient();
+            fetchData();
+        }
+        else {
+            setRowsToSave([]);
+            setRowsForTable([]);
         }
     }, [open]);
 
-    useEffect( () => {
-        setOpen(props.openAction);
-    }, [props.openAction] );
+    const options = {
+        filterType: "dropdown",
+        responsive: "standard",
+        pagination: false,
+        onRowsDelete: (rowsDeleted, newData) => {
+            const rowId = rowsForTable[rowsDeleted.data[0].index][0];
+            setRowsToSave(rowsToSave.filter(row => row.rowId !== rowId));
+            setRowsForTable(newData);
+        },
+    };
 
     //Move data from the form to the data table
     const handleFormSubmit = values => {
-        const createdData = createData(values);
+        const createdData = createData(rowsToSave.length, values);
 
-        setRows([...rows, createdData]);
+        setRowsToSave([...rowsToSave, createdData]);
 
         [createdData].map(
-            value => {
-                setRowsForTable([...rowsForTable, [value.id, value.code, value.description, value.unit, value.quantity, value.price, value.total]])
+            (value, index) => {
+                setRowsForTable([...rowsForTable, [index, value.code, value.description, value.unit, value.quantity, value.price, value.total]])
             }
         )
     };
@@ -179,24 +267,35 @@ const InvoiceModal = (props) => {
     const handleInvoiceSubmit = () => {
         let total = 0;
 
-        rows.forEach( row => {
+        rowsToSave.forEach( row => {
             total += row.total;
         } );
 
         const transaction = {
             clientName: selectClient,
             invoiceType: props.invoiceType,
-            rows: rows,
-            total: total,
+            rows: reorderRowIds(rowsToSave),
+            total,
         };
 
-        //console.log(transaction)
+        console.log(transaction)
 
-        props.invoiceType === 0 ? props.addBuying(transaction) : props.addSale(transaction);
-
-        handleClose();
-        setRows([]);
+        props.invoiceType === 0 ? props.addBuying(transaction) : handleSaleActions(transaction);
     };
+
+    const handleSaleActions = (transaction) => {
+        const saleToUpdate = {
+            _id: props.saleId,
+            clientName: transaction.clientName,
+            invoiceType: transaction.invoiceType,
+            rows: transaction.rows,
+            total: transaction.total
+        }
+        props.saleId ? props.updateSale(saleToUpdate) : props.addSale(transaction);
+        props.refreshData();
+        handleClose();
+    };
+    const handleBuyingActions = (transaction) => {};
 
     const customForm = tabValue => (
         <Paper className={classes.paper}>
@@ -336,7 +435,6 @@ const InvoiceModal = (props) => {
     const handleClose = () => {
         setOpen(false);
         setSelectClient("");
-        props.closeInvoiceModal();
     };
 
     return (
@@ -346,9 +444,9 @@ const InvoiceModal = (props) => {
                 color="primary"
                 className="mb-2"
                 onClick={handleClickOpen}
-                endIcon={<AddCircleOutlineRoundedIcon  />}
+                endIcon={props.saleId ? null : <AddCircleOutlineRoundedIcon  />}
             >
-                Shto Fature
+                {props.saleId ? 'Modifiko' : 'Shto Fature'}
             </Button>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
@@ -431,31 +529,34 @@ const InvoiceModal = (props) => {
 };
 
 InvoiceModal.propTypes = {
-    client: PropTypes.object.isRequired,
+    client: PropTypes.string.isRequired,
     addSale: PropTypes.func.isRequired,
     addBuying: PropTypes.func.isRequired,
+    updateSale: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
     invoiceType: PropTypes.number.isRequired,
-    openAction: PropTypes.bool.isRequired,
-    closeInvoiceModal: PropTypes.func.isRequired,
+    invoiceData: PropTypes.array,
+    saleId: PropTypes.string,
+    refreshData: PropTypes.func.isRequired,
 };
 
 InvoiceModal.defaultProps = {
     invoiceTitle: "Fature",
     invoiceType: 0,
-    openAction: false,
-    closeInvoiceModal: () => {},
+    invoiceData: [],
+    client: '',
+    saleId: null,
+    refreshData: () => {},
 };
 
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = state => ({
-    client: state.client,
     isAuthenticated: state.auth.isAuthenticated,
 
 });
 
 export default connect(
     mapStateToProps,
-    {addSale, addBuying},
+    {addSale, addBuying, updateSale},
 )(InvoiceModal);

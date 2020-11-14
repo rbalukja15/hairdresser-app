@@ -26,7 +26,8 @@ import InvoiceModal from "../invoice/Invoice";
 
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
-import "react-redux-toastr/lib/css/react-redux-toastr.min.css"; //CSS for toastr
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
+import ViewSaleDetailsModal from "../modals/sale/ViewSaleDetailsModal"; //CSS for toastr
 
 //
 //THE WAY REDUX WORKS
@@ -44,7 +45,6 @@ class Sale extends Component {
       cmimi: "",
       kodi: ""
     },
-    openAction: false,
   };
 
   //When you bring in an action from redux it is going to be stored as props
@@ -121,14 +121,7 @@ class Sale extends Component {
     });
   };
 
-  closeInvoiceModal = () => {
-    this.setState({ openAction: false });
-  };
-
   render() {
-
-    const { openAction } = this.state;
-
     const { sales } = this.props.sale; //Pull the sales
     const columns = [
       customRowIndexColumn(),
@@ -136,7 +129,8 @@ class Sale extends Component {
       "Totali",
       //"Data", //Todo add invoice date
       "Data Regjistrimit",
-      "Fshi"
+      "Fshi",
+      "Detajet"
     ];
     const data = [];
 
@@ -146,63 +140,40 @@ class Sale extends Component {
            clientName,
            total,
            date,
+            invoiceData,
         }) =>
           data.push([
             _id,
             clientName,
             total,
             moment(date).calendar(),
-            <div>
               <Button
-                className="remove-btn mb-2"
-                outline
-                color="danger"
-                size="sm"
-                onClick={this.onDeleteClick.bind(this, _id)}
+                  className="remove-btn mb-2"
+                  outline
+                  color="danger"
+                  size="sm"
+                  onClick={this.onDeleteClick.bind(this, _id)}
               >
                 Fshi
-              </Button>
-              <Button
-                className="edit-btn"
-                outline
-                color="warning"
-                size="sm"
-                onClick={this.editSale.bind(
-                  this,
-                  _id,
-                  clientName,
-                  total,
-                )}
-              >
-                Modifiko
-              </Button>
-            </div>
+              </Button>,
+            <InvoiceModal
+                invoiceTitle="Shitje"
+                invoiceType={1}
+                invoiceData={invoiceData}
+                client={clientName}
+                saleId={_id}
+                refreshData={this._refreshSales.bind(this)}
+            />
           ])
       );
 
     const options = {
       filterType: "dropdown",
-      responsive: "scroll",
+      responsive: "standard",
       selectableRows: "none",
       isRowSelectable: function(dataIndex) {
         return false;
       },
-      // customRowRender:(data, dataIndex, rowIndex) => {
-      //   console.log('data' + data);
-      //   return (
-      //     <div>
-      //       {data}{' '}{dataIndex}{' '}{rowIndex}
-      //     </div>
-      //   );
-      // },
-      setRowProps: () => ({
-        onDoubleClick: (meta, rowIndex) => {
-          this.setState({
-            openAction: true,
-          });
-          console.log(meta);
-        }
-      }),
     };
 
     return (
@@ -210,9 +181,7 @@ class Sale extends Component {
 
         <InvoiceModal 
           invoiceTitle="Shitje" 
-          invoiceType={1} 
-          openAction={openAction} 
-          closeInvoiceModal={this.closeInvoiceModal}
+          invoiceType={1}
         />
 
         {/* Edit Modal Part */}
@@ -336,9 +305,7 @@ class Sale extends Component {
             columns={columns}
             options={options}
           />
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
     );
   }

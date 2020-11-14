@@ -25,7 +25,7 @@ router.get("/:id", auth,(req, res) => {
             message: "Sale not found with id " + req.params.id
         });            
     }
-      res.json(sale)}
+      return res.json(sale)}
     )
     .catch(err => {
       if(err.kind === 'ObjectId') {
@@ -73,21 +73,19 @@ router.delete("/:id", auth,(req, res) => {
 // @access  Private
 router.put("/:id", auth, (req, res) => {
   // Validate Request
-  // if (!req.body.content) {
-  //   return res.status(400).json({
-  //     message: "Note content can not be empty"
-  //   });
-  // }
+  if (!req.body.content) {
+    return res.status(400).json({
+      message: "Note content can not be empty"
+    });
+  }
 
   Sale.findByIdAndUpdate(
     req.params.id,
     {
-      clientName: req.body.clientName,
-      clientSurname: req.body.clientSurname,
-      productName: req.body.productName,
-      sasia: req.body.sasia,
-      cmimi: req.body.cmimi,
-      kodi: req.body.kodi
+        clientName: req.body.clientName,
+        invoiceType: req.body.invoiceType,
+        invoiceData: req.body.rows,
+        total: req.body.total,
     },
     { new: true }
   )
