@@ -27,7 +27,6 @@ import InvoiceModal from "../invoice/Invoice";
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-import ViewSaleDetailsModal from "../modals/sale/ViewSaleDetailsModal"; //CSS for toastr
 
 //
 //THE WAY REDUX WORKS
