@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux' //Allows to get state from redux to react component
-import { getClients, deleteClient, getClientById, updateClient } from '../../actions/clientActions' //Import the actions
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
+import React, { Component } from 'react';
+import { connect } from 'react-redux'; //Allows to get state from redux to react component
+import { getClients, deleteClient, getClientById, updateClient } from '../../actions/clientActions'; //Import the actions
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
 
-import moment from 'moment' //Moment library for date editting
+import moment from 'moment'; //Moment library for date editting
 
 //Reactstrap part
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
 
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
+import MUIDataTable from 'mui-datatables';
 
 //Toastr Part
-import { toastr } from 'react-redux-toastr' //Toastr for validation notifications
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css' //CSS for toastr
+import { toastr } from 'react-redux-toastr'; //Toastr for validation notifications
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'; //CSS for toastr
 
 //
 //THE WAY REDUX WORKS
@@ -23,10 +23,10 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css' //CSS for toastr
 const toastrConfirmOptions = {
     onOk: () => {},
     onCancel: () => {
-        console.log('CANCEL: clicked')
-        return
+        console.log('CANCEL: clicked');
+        return;
     },
-}
+};
 
 class ClientList extends Component {
     state = {
@@ -37,7 +37,7 @@ class ClientList extends Component {
             name: '',
             surname: '',
         },
-    }
+    };
 
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
@@ -46,35 +46,35 @@ class ClientList extends Component {
         updateClient: PropTypes.func.isRequired,
         client: PropTypes.object.isRequired, //Represents our state
         isAuthenticated: PropTypes.bool,
-    }
+    };
 
     componentWillMount() {
         //Runs when the component mounts
         //Here we run actions
-        this._refreshClients()
+        this._refreshClients();
     }
 
     //Call the delete action
     onDeleteClick = (id) => {
-        toastr.confirm('Je e sigurte ?', toastrConfirmOptions)
+        toastr.confirm('Je e sigurte ?', toastrConfirmOptions);
         toastrConfirmOptions.onOk = () => {
-            this.props.deleteClient(id)
-            console.log('Client Deleted')
-            toastr.success('Klienti u fshi me sukses')
-        }
-    }
+            this.props.deleteClient(id);
+            console.log('Client Deleted');
+            toastr.success('Klienti u fshi me sukses');
+        };
+    };
 
     //Call the update function
     updateClient() {
         //Call the update action and pass the client state
-        this.props.updateClient(this.state.editClient)
+        this.props.updateClient(this.state.editClient);
 
-        toastr.success('Modifikim', `Klienti ${this.state.editClient.name} u modifikua me sukses`)
+        toastr.success('Modifikim', `Klienti ${this.state.editClient.name} u modifikua me sukses`);
 
         //Refresh the data
-        this._refreshClients()
+        this._refreshClients();
 
-        this.componentWillMount()
+        this.componentWillMount();
 
         //Reset the state
         this.setState({
@@ -85,12 +85,12 @@ class ClientList extends Component {
                 name: '',
                 surname: '',
             },
-        })
+        });
     }
 
     //Refresh function for the datas in the table
     _refreshClients() {
-        this.props.getClients()
+        this.props.getClients();
     }
 
     //Edit function called to get the data from the table row into the state
@@ -102,24 +102,24 @@ class ClientList extends Component {
                 surname,
             },
             editModal: !this.state.editModal,
-        })
+        });
     }
 
     //Toggle the edit modal function
     toggleEdit = () => {
         this.setState({
             editModal: !this.state.editModal,
-        })
-    }
+        });
+    };
 
     render() {
-        const { clients } = this.props.client //Pull the clients
+        const { clients } = this.props.client; //Pull the clients
 
         //Counter for rows
-        let counter = this.state.counter
+        let counter = this.state.counter;
 
-        const columns = ['Nr', 'Emer', 'Mbiemer', 'Data Regjistrimit', 'Delete']
-        const data = []
+        const columns = ['Nr', 'Emer', 'Mbiemer', 'Data Regjistrimit', 'Delete'];
+        const data = [];
 
         clients.map(({ _id, name, surname, date }) =>
             data.push([
@@ -148,16 +148,16 @@ class ClientList extends Component {
                     </Button>
                 </div>,
             ]),
-        )
+        );
 
         const options = {
             filterType: 'dropdown',
             responsive: 'standard',
             selectableRows: 'none',
             isRowSelectable: function (dataIndex) {
-                return false
+                return false;
             },
-        }
+        };
 
         return (
             <div>
@@ -174,9 +174,9 @@ class ClientList extends Component {
                                     id="name"
                                     value={this.state.editClient.name}
                                     onChange={(e) => {
-                                        let { editClient } = this.state
-                                        editClient.name = e.target.value
-                                        this.setState({ editClient })
+                                        let { editClient } = this.state;
+                                        editClient.name = e.target.value;
+                                        this.setState({ editClient });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -187,9 +187,9 @@ class ClientList extends Component {
                                     id="surname"
                                     value={this.state.editClient.surname}
                                     onChange={(e) => {
-                                        let { editClient } = this.state
-                                        editClient.surname = e.target.value
-                                        this.setState({ editClient })
+                                        let { editClient } = this.state;
+                                        editClient.surname = e.target.value;
+                                        this.setState({ editClient });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -223,7 +223,7 @@ class ClientList extends Component {
                     ''
                 )}
             </div>
-        )
+        );
     }
 }
 
@@ -232,7 +232,7 @@ class ClientList extends Component {
 const mapStateToProps = (state) => ({
     client: state.client,
     isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
 //Connect takes as parameters the action and our mapping function
-export default connect(mapStateToProps, { getClients, deleteClient, getClientById, updateClient })(ClientList)
+export default connect(mapStateToProps, { getClients, deleteClient, getClientById, updateClient })(ClientList);

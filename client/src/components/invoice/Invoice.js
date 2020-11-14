@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import CloseIcon from '@material-ui/icons/Close'
-import SaveIcon from '@material-ui/icons/Save'
-import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded'
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import SaveIcon from '@material-ui/icons/Save';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 
 import {
     AppBar,
@@ -19,29 +19,27 @@ import {
     Button,
     Dialog,
     Divider,
-} from '@material-ui/core'
-import { Formik } from 'formik'
-import * as yup from 'yup'
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
+} from '@material-ui/core';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
-import { customRowIndexColumn } from '../../utils/mui-table'
+import MUIDataTable from 'mui-datatables';
 
 //Date picker
-import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 //Clients Part
-import { connect } from 'react-redux' //Allows to get state from redux to react component
-import axios from 'axios'
-import MenuItem from '@material-ui/core/MenuItem'
-import InputLabel from '@material-ui/core/InputLabel'
+import { connect } from 'react-redux'; //Allows to get state from redux to react component
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 //Actions
-import { addSale, updateSale } from '../../actions/saleActions'
-import { addBuying, updateBuying } from '../../actions/buyingActions'
-import { getClients } from '../../actions/clientActions'
+import { addSale, updateSale } from '../../actions/saleActions';
+import { addBuying, updateBuying } from '../../actions/buyingActions';
+import { getClients } from '../../actions/clientActions';
 
 export const validationSchema = yup.object().shape({
     code: yup.string().required('Kodi eshte i detyrueshem'),
@@ -49,7 +47,7 @@ export const validationSchema = yup.object().shape({
     unit: yup.string().required('Njesia eshte e detyrueshme'),
     quantity: yup.number().positive('Sasia duhet te jete numer pozitiv').required('Sasia eshte e detyrueshme'),
     price: yup.number().positive('Cmimi duhet te jete numer pozitiv').required('Cmimi eshte i detyrueshem'),
-})
+});
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -83,10 +81,10 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 180,
     },
-}))
+}));
 
 function createData(count, values) {
-    let total = values.quantity * values.price
+    let total = values.quantity * values.price;
     return {
         rowId: count,
         code: values.code,
@@ -95,38 +93,38 @@ function createData(count, values) {
         quantity: values.quantity,
         price: values.price,
         total,
-    }
+    };
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-})
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const reorderRowIds = (rows) => {
-    let rowsToReorder = []
+    let rowsToReorder = [];
 
     rows.forEach((row, index) => {
-        rowsToReorder[index] = row
-        rowsToReorder[index].rowId = index
-    })
+        rowsToReorder[index] = row;
+        rowsToReorder[index].rowId = index;
+    });
 
-    return rowsToReorder
-}
+    return rowsToReorder;
+};
 
 const InvoiceModal = (props) => {
-    const classes = useStyles()
-    const [open, setOpen] = useState(false)
-    const [rowsToSave, setRowsToSave] = useState([])
-    const [rowsForTable, setRowsForTable] = useState([])
+    const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const [rowsToSave, setRowsToSave] = useState([]);
+    const [rowsForTable, setRowsForTable] = useState([]);
 
-    const [clients, setClients] = useState([])
-    const [selectClient, setSelectClient] = useState('')
+    const [clients, setClients] = useState([]);
+    const [selectClient, setSelectClient] = useState('');
 
     //Navigation
-    const [tabValue, setTabValue] = useState(0)
+    const [tabValue, setTabValue] = useState(0);
 
     // The states declared for the Pickers
-    const [startDate, setStartDate] = useState(Date.now)
+    const [startDate, setStartDate] = useState(Date.now);
 
     //MUI-Table consts
     const [columns, setColumns] = useState([
@@ -136,7 +134,7 @@ const InvoiceModal = (props) => {
                 sort: false,
                 filter: false,
                 customBodyRender: (value, meta) => {
-                    return meta.rowIndex + 1
+                    return meta.rowIndex + 1;
                 },
             },
         },
@@ -188,74 +186,74 @@ const InvoiceModal = (props) => {
                 filter: false,
             },
         },
-    ])
+    ]);
 
     const handleDateChange = (date) => {
-        setStartDate(date)
-    }
+        setStartDate(date);
+    };
 
     const fetchData = () => {
-        props.getClients().then((response) => setClients(response))
+        props.getClients().then((response) => setClients(response));
         setRowsForTable(
             props.invoiceData.map((data, index) => {
-                return [index, data.code, data.description, data.unit, data.quantity, data.price, data.total]
+                return [index, data.code, data.description, data.unit, data.quantity, data.price, data.total];
             }),
-        )
-        setRowsToSave(props.invoiceData)
-        setSelectClient(props.client)
-    }
+        );
+        setRowsToSave(props.invoiceData);
+        setSelectClient(props.client);
+    };
 
     //Check if the modal is open, then fetch client data
     useEffect(() => {
         if (open) {
-            fetchData()
+            fetchData();
         } else {
-            setRowsToSave([])
-            setRowsForTable([])
+            setRowsToSave([]);
+            setRowsForTable([]);
         }
-    }, [open])
+    }, [open]);
 
     const options = {
         filterType: 'dropdown',
         responsive: 'standard',
         pagination: false,
         onRowsDelete: (rowsDeleted, newData) => {
-            const rowId = rowsForTable[rowsDeleted.data[0].index][0]
-            setRowsToSave(rowsToSave.filter((row) => row.rowId !== rowId))
-            setRowsForTable(newData)
+            const rowId = rowsForTable[rowsDeleted.data[0].index][0];
+            setRowsToSave(rowsToSave.filter((row) => row.rowId !== rowId));
+            setRowsForTable(newData);
         },
-    }
+    };
 
     //Move data from the form to the data table
     const handleFormSubmit = (values) => {
-        const createdData = createData(rowsToSave.length, values)
+        const createdData = createData(rowsToSave.length, values);
 
-        setRowsToSave([...rowsToSave, createdData])
-        ;[createdData].map((value, index) => {
+        setRowsToSave([...rowsToSave, createdData]);
+        [createdData].map((value, index) => {
             setRowsForTable([
                 ...rowsForTable,
                 [index, value.code, value.description, value.unit, value.quantity, value.price, value.total],
-            ])
-        })
-    }
+            ]);
+        });
+    };
 
     //Submit the data of the invoice
     const handleInvoiceSubmit = () => {
-        let total = 0
+        let total = 0;
 
         rowsToSave.forEach((row) => {
-            total += row.total
-        })
+            total += row.total;
+        });
 
         const transaction = {
             clientName: selectClient,
             invoiceType: props.invoiceType,
             rows: reorderRowIds(rowsToSave),
             total,
-        }
+        };
 
-        props.invoiceType === 0 ? handleBuyingActions(transaction) : handleSaleActions(transaction)
-    }
+        props.invoiceType === 0 ? handleBuyingActions(transaction) : handleSaleActions(transaction);
+    };
 
     const handleSaleActions = (transaction) => {
         const saleToUpdate = {
@@ -264,11 +262,11 @@ const InvoiceModal = (props) => {
             invoiceType: transaction.invoiceType,
             rows: transaction.rows,
             total: transaction.total,
-        }
-        props.saleId ? props.updateSale(saleToUpdate) : props.addSale(transaction)
-        props.refreshData()
-        handleClose()
-    }
+        };
+        props.saleId ? props.updateSale(saleToUpdate) : props.addSale(transaction);
+        props.refreshData();
+        handleClose();
+    };
     const handleBuyingActions = (transaction) => {
         const buyingToUpdate = {
             _id: props.saleId,
@@ -276,11 +274,11 @@ const InvoiceModal = (props) => {
             invoiceType: transaction.invoiceType,
             rows: transaction.rows,
             total: transaction.total,
-        }
-        props.saleId ? props.updateBuying(buyingToUpdate) : props.addBuying(transaction)
-        props.refreshData()
-        handleClose()
-    }
+        };
+        props.saleId ? props.updateBuying(buyingToUpdate) : props.addBuying(transaction);
+        props.refreshData();
+        handleClose();
+    };
 
     const customForm = (tabValue) => (
         <Paper className={classes.paper}>
@@ -288,8 +286,8 @@ const InvoiceModal = (props) => {
                 initialValues={{ code: '', description: '', unit: '', quantity: '', price: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { resetForm }) => {
-                    handleFormSubmit(values)
-                    resetForm()
+                    handleFormSubmit(values);
+                    resetForm();
                 }}
             >
                 {({
@@ -393,16 +391,16 @@ const InvoiceModal = (props) => {
                 )}
             </Formik>
         </Paper>
-    )
+    );
 
     const handleClickOpen = () => {
-        setOpen(true)
-    }
+        setOpen(true);
+    };
 
     const handleClose = () => {
-        setOpen(false)
-        setSelectClient('')
-    }
+        setOpen(false);
+        setSelectClient('');
+    };
 
     return (
         <div>
@@ -437,7 +435,7 @@ const InvoiceModal = (props) => {
                                     id="client-select"
                                     value={selectClient}
                                     onChange={(e) => {
-                                        setSelectClient(e.target.value)
+                                        setSelectClient(e.target.value);
                                     }}
                                 >
                                     {clients.map((client) => (
@@ -491,8 +489,8 @@ const InvoiceModal = (props) => {
                 </div>
             </Dialog>
         </div>
-    )
-}
+    );
+};
 
 InvoiceModal.propTypes = {
     clients: PropTypes.array.isRequired,
@@ -507,7 +505,7 @@ InvoiceModal.propTypes = {
     invoiceData: PropTypes.array,
     saleId: PropTypes.string,
     refreshData: PropTypes.func.isRequired,
-}
+};
 
 InvoiceModal.defaultProps = {
     invoiceTitle: 'Fature',
@@ -516,13 +514,13 @@ InvoiceModal.defaultProps = {
     client: '',
     saleId: null,
     refreshData: () => {},
-}
+};
 
 //Mapping function
 //Allow to take the items state and maps it into a component property
 const mapStateToProps = (state) => ({
     clients: state.client.clients,
     isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
-export default connect(mapStateToProps, { addSale, addBuying, updateSale, updateBuying, getClients })(InvoiceModal)
+export default connect(mapStateToProps, { addSale, addBuying, updateSale, updateBuying, getClients })(InvoiceModal);

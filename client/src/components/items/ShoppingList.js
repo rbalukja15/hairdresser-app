@@ -1,36 +1,31 @@
-import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap'
-import Select from 'react-select'
-import { connect } from 'react-redux' //Allows to get state from redux to react component
-import { getItems, deleteItem, getItemById, updateItem } from '../../actions/itemActions' //Import the actions
-import { getCategories } from '../../actions/categoryActions'
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
+import React, { Component } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
+import Select from 'react-select';
+import { connect } from 'react-redux'; //Allows to get state from redux to react component
+import { getItems, deleteItem, getItemById, updateItem } from '../../actions/itemActions'; //Import the actions
+import { getCategories } from '../../actions/categoryActions';
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
 
 //Toastr Part
-import { toastr } from 'react-redux-toastr' //Toastr for validation notifications
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css' //CSS for toastr
+import { toastr } from 'react-redux-toastr'; //Toastr for validation notifications
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'; //CSS for toastr
 
 //Date part
-import moment from 'moment' //Moment library for date editting
+import moment from 'moment'; //Moment library for date editting
 
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
-
-//
-//THE WAY REDUX WORKS
-//CARS => COMPONENT->ACTION->REDUCER->STORE
+import MUIDataTable from 'mui-datatables';
 
 //Toastr confirm options
 const toastrConfirmOptions = {
     onOk: () => {},
     onCancel: () => {
-        console.log('CANCEL: clicked')
-        return
+        console.log('CANCEL: clicked');
     },
-}
+};
 
 //Select Part
-let select_values = []
+let select_values = [];
 
 class ShoppingList extends Component {
     state = {
@@ -45,46 +40,47 @@ class ShoppingList extends Component {
             shitesi: '',
             category: '',
         },
-    }
+    };
 
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
         getItems: PropTypes.func.isRequired,
         getItemById: PropTypes.func.isRequired,
         updateItem: PropTypes.func.isRequired,
+        deleteItem: PropTypes.func.isRequired,
         getCategories: PropTypes.func.isRequired,
         item: PropTypes.object.isRequired, //Represents our state
         category: PropTypes.object.isRequired,
         isAuthenticated: PropTypes.bool,
-    }
+    };
 
     componentWillMount() {
         //Runs when the component mounts
         //Here we run actions
-        this._refreshItems()
+        this._refreshItems();
     }
 
     //Call the delete action
     onDeleteClick = (id) => {
-        toastr.confirm('Je e sigurte ?', toastrConfirmOptions)
+        toastr.confirm('Je e sigurte ?', toastrConfirmOptions);
         toastrConfirmOptions.onOk = () => {
-            this.props.deleteItem(id)
-            console.log('Item Deleted')
-            toastr.success('Produkti u fshi me sukses')
-        }
-    }
+            this.props.deleteItem(id);
+            console.log('Item Deleted');
+            toastr.success('Produkti u fshi me sukses');
+        };
+    };
 
     //Call the update function
     updateItem() {
         //Call the update action and pass the item state
-        this.props.updateItem(this.state.editItem)
+        this.props.updateItem(this.state.editItem);
 
-        this.componentWillMount()
+        this.componentWillMount();
 
-        toastr.success('Modifikim', `Produkti ${this.state.editItem.name} u modifikua me sukses`)
+        toastr.success('Modifikim', `Produkti ${this.state.editItem.name} u modifikua me sukses`);
 
         //Refresh the data
-        this._refreshItems()
+        this._refreshItems();
 
         //Reset the state
         this.setState({
@@ -98,13 +94,13 @@ class ShoppingList extends Component {
                 shitesi: '',
                 category: '',
             },
-        })
+        });
     }
 
     //Refresh function for the datas in the table
     _refreshItems() {
-        this.props.getItems()
-        this.props.getCategories()
+        this.props.getItems();
+        this.props.getCategories();
     }
 
     //Edit function to get the data from the table row into the state
@@ -120,33 +116,33 @@ class ShoppingList extends Component {
                 category,
             },
             editModal: !this.state.editModal,
-        })
+        });
     }
 
     //Toggle the edit modal function
     toggleEdit = () => {
         this.setState({
             editModal: !this.state.editModal,
-        })
-    }
+        });
+    };
 
     //Handle select input option
     handleChange = (category) => {
-        let { editItem } = this.state
-        editItem.category = category.value
-        this.setState({ editItem })
-        console.log(`Option selected:`, category.value)
-    }
+        let { editItem } = this.state;
+        editItem.category = category.value;
+        this.setState({ editItem });
+        console.log(`Option selected:`, category.value);
+    };
 
     render() {
-        const { items } = this.props.item //Pull the items
-        const { categories } = this.props.category //Pull the categories
+        const { items } = this.props.item; //Pull the items
+        const { categories } = this.props.category; //Pull the categories
 
         //Counter
-        let counter = this.state.counter
+        let counter = this.state.counter;
 
-        select_values = categories.slice(0)
-        select_values = select_values.map((category) => ({ label: category.name, value: category.name }))
+        select_values = categories.slice(0);
+        select_values = select_values.map((category) => ({ label: category.name, value: category.name }));
 
         const columns = [
             'Nr',
@@ -158,8 +154,8 @@ class ShoppingList extends Component {
             'Kategoria',
             'Data Regjistrimit',
             'Fshi/Modifiko',
-        ]
-        const data = []
+        ];
+        const data = [];
 
         items.map(({ _id, name, kodi, cmimBlerje, prodhuesi, shitesi, category, date }) =>
             data.push([
@@ -192,7 +188,7 @@ class ShoppingList extends Component {
                     </Button>
                 </div>,
             ]),
-        )
+        );
         //&times;
 
         //MUI-Table options
@@ -200,10 +196,10 @@ class ShoppingList extends Component {
             filterType: 'dropdown',
             selectableRows: 'none',
             responsive: 'standard',
-            isRowSelectable: function (dataIndex) {
-                return false
+            isRowSelectable: () => {
+                return false;
             },
-        }
+        };
 
         return (
             <div>
@@ -221,9 +217,9 @@ class ShoppingList extends Component {
                                     id="item"
                                     value={this.state.editItem.name}
                                     onChange={(e) => {
-                                        let { editItem } = this.state
-                                        editItem.name = e.target.value
-                                        this.setState({ editItem })
+                                        let { editItem } = this.state;
+                                        editItem.name = e.target.value;
+                                        this.setState({ editItem });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -235,9 +231,9 @@ class ShoppingList extends Component {
                                     required
                                     value={this.state.editItem.kodi}
                                     onChange={(e) => {
-                                        let { editItem } = this.state
-                                        editItem.kodi = e.target.value
-                                        this.setState({ editItem })
+                                        let { editItem } = this.state;
+                                        editItem.kodi = e.target.value;
+                                        this.setState({ editItem });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -249,9 +245,9 @@ class ShoppingList extends Component {
                                     required
                                     value={this.state.editItem.cmimBlerje}
                                     onChange={(e) => {
-                                        let { editItem } = this.state
-                                        editItem.cmimBlerje = e.target.value
-                                        this.setState({ editItem })
+                                        let { editItem } = this.state;
+                                        editItem.cmimBlerje = e.target.value;
+                                        this.setState({ editItem });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -263,9 +259,9 @@ class ShoppingList extends Component {
                                     required
                                     value={this.state.editItem.shitesi}
                                     onChange={(e) => {
-                                        let { editItem } = this.state
-                                        editItem.shitesi = e.target.value
-                                        this.setState({ editItem })
+                                        let { editItem } = this.state;
+                                        editItem.shitesi = e.target.value;
+                                        this.setState({ editItem });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -277,9 +273,9 @@ class ShoppingList extends Component {
                                     required
                                     value={this.state.editItem.prodhuesi}
                                     onChange={(e) => {
-                                        let { editItem } = this.state
-                                        editItem.prodhuesi = e.target.value
-                                        this.setState({ editItem })
+                                        let { editItem } = this.state;
+                                        editItem.prodhuesi = e.target.value;
+                                        this.setState({ editItem });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -323,7 +319,7 @@ class ShoppingList extends Component {
                     ''
                 )}
             </div>
-        )
+        );
     }
 }
 
@@ -333,7 +329,7 @@ const mapStateToProps = (state) => ({
     item: state.item,
     category: state.category,
     isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
 //Connect takes as parameters the action and our mapping function
-export default connect(mapStateToProps, { getItems, deleteItem, getItemById, updateItem, getCategories })(ShoppingList)
+export default connect(mapStateToProps, { getItems, deleteItem, getItemById, updateItem, getCategories })(ShoppingList);

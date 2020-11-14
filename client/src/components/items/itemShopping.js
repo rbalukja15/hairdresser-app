@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import ShoppingList from './ShoppingList'
-import ItemModal from '../modals/Item/ItemModel'
+import ShoppingList from './ShoppingList';
+import ItemModal from '../modals/Item/ItemModel';
 
-import { Container } from 'reactstrap'
+import { Container } from 'reactstrap';
 
 const containerStyle = {
     marginTop: '40px',
-}
+};
 
 const itemShopping = () => {
     return (
@@ -17,7 +17,7 @@ const itemShopping = () => {
                 <ShoppingList />
             </div>
         </Container>
-    )
-}
+    );
+};
 
-export default itemShopping
+export default itemShopping;

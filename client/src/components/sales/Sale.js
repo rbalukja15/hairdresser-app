@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap'
-import { getSales, deleteSale, getSaleById, updateSale } from '../../actions/saleActions' //Import the actions
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
-import { connect } from 'react-redux' //To connect react and redux
+import React, { Component } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
+import { getSales, deleteSale, getSaleById, updateSale } from '../../actions/saleActions'; //Import the actions
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
+import { connect } from 'react-redux'; //To connect react and redux
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
-import moment from 'moment' //Moment library for date editting
-import { customRowIndexColumn } from '../../utils/mui-table'
-import InvoiceModal from '../invoice/Invoice'
+import MUIDataTable from 'mui-datatables';
+import moment from 'moment'; //Moment library for date editting
+import { customRowIndexColumn } from '../../utils/mui-table';
+import InvoiceModal from '../invoice/Invoice';
 
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 //
 //THE WAY REDUX WORKS
@@ -29,7 +29,7 @@ class Sale extends Component {
             cmimi: '',
             kodi: '',
         },
-    }
+    };
 
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
@@ -39,31 +39,31 @@ class Sale extends Component {
         sale: PropTypes.object.isRequired, //Represents our state
         isAuthenticated: PropTypes.bool,
         isLoading: PropTypes.bool.isRequired,
-    }
+    };
 
     componentWillMount() {
         //Runs when the component mounts
         //Here we run actions
-        this._refreshSales()
+        this._refreshSales();
     }
 
     //Call the delete action
     onDeleteClick = (id) => {
-        this.props.deleteSale(id)
-    }
+        this.props.deleteSale(id);
+    };
 
     //Call the update function
     updateSale() {
         //console.log(this.state.editSale._id);
 
         //Call the update action and pass the sale state
-        this.props.updateSale(this.state.editSale)
+        this.props.updateSale(this.state.editSale);
 
         //Refresh the data
-        this._refreshSales()
+        this._refreshSales();
 
         //For repeating items
-        this.componentWillMount()
+        this.componentWillMount();
 
         //Reset the state
         this.setState({
@@ -75,12 +75,12 @@ class Sale extends Component {
             sasia: '',
             cmimi: '',
             kodi: '',
-        })
+        });
     }
 
     //Refresh function for the datas in the table
     _refreshSales() {
-        this.props.getSales()
+        this.props.getSales();
     }
 
     //Edit function called to get the data from the table row into the state
@@ -96,18 +96,18 @@ class Sale extends Component {
                 kodi,
             },
             editModal: !this.state.editModal,
-        })
+        });
     }
 
     //Toggle the edit modal function
     toggleEdit = () => {
         this.setState({
             editModal: !this.state.editModal,
-        })
-    }
+        });
+    };
 
     render() {
-        const { sales } = this.props.sale //Pull the sales
+        const { sales } = this.props.sale; //Pull the sales
         const columns = [
             customRowIndexColumn(),
             'Emri Klientit',
@@ -116,8 +116,8 @@ class Sale extends Component {
             'Data Regjistrimit',
             'Fshi',
             'Detajet',
-        ]
-        const data = []
+        ];
+        const data = [];
 
         sales.map(({ _id, clientName, total, date, invoiceData }) =>
             data.push([
@@ -143,16 +143,16 @@ class Sale extends Component {
                     refreshData={this._refreshSales.bind(this)}
                 />,
             ]),
-        )
+        );
 
         const options = {
             filterType: 'dropdown',
             responsive: 'standard',
             selectableRows: 'none',
             isRowSelectable: function (dataIndex) {
-                return false
+                return false;
             },
-        }
+        };
 
         return (
             <div style={{ width: '100%' }}>
@@ -171,9 +171,9 @@ class Sale extends Component {
                                     id="clientName"
                                     value={this.state.editSale.clientName}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.clientName = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.clientName = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -184,9 +184,9 @@ class Sale extends Component {
                                     id="clientSurname"
                                     value={this.state.editSale.clientSurname}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.clientSurname = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.clientSurname = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -197,9 +197,9 @@ class Sale extends Component {
                                     id="productName"
                                     value={this.state.editSale.productName}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.productName = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.productName = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -210,9 +210,9 @@ class Sale extends Component {
                                     id="sasia"
                                     value={this.state.editSale.sasia}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.sasia = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.sasia = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -223,9 +223,9 @@ class Sale extends Component {
                                     id="cmimi"
                                     value={this.state.editSale.cmimi}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.cmimi = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.cmimi = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -236,9 +236,9 @@ class Sale extends Component {
                                     id="kodi"
                                     value={this.state.editSale.kodi}
                                     onChange={(e) => {
-                                        let { editSale } = this.state
-                                        editSale.kodi = e.target.value
-                                        this.setState({ editSale })
+                                        let { editSale } = this.state;
+                                        editSale.kodi = e.target.value;
+                                        this.setState({ editSale });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -270,7 +270,7 @@ class Sale extends Component {
                     <MUIDataTable title={'Lista e Shitjeve'} data={data} columns={columns} options={options} />
                 ) : null}
             </div>
-        )
+        );
     }
 }
 
@@ -280,7 +280,7 @@ const mapStateToProps = (state) => ({
     sale: state.sale,
     isAuthenticated: state.auth.isAuthenticated,
     isLoading: state.sale.loading,
-})
+});
 
 //Connect takes as parameters the action and our mapping function
-export default connect(mapStateToProps, { getSales, deleteSale, getSaleById, updateSale })(Sale)
+export default connect(mapStateToProps, { getSales, deleteSale, getSaleById, updateSale })(Sale);

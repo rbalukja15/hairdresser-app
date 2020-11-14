@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import Employee from './Employee'
-import EmployeeModal from '../modals/employee/addEmployeeModal'
+import Employee from './Employee';
+import EmployeeModal from '../modals/employee/addEmployeeModal';
 
-import { Container } from 'reactstrap'
+import { Container } from 'reactstrap';
 
 const containerStyle = {
     marginTop: '10px',
-}
+};
 
 const employee = () => {
     return (
@@ -17,7 +17,7 @@ const employee = () => {
                 <Employee />
             </div>
         </Container>
-    )
-}
+    );
+};
 
-export default employee
+export default employee;

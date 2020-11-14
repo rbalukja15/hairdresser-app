@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap'
-import { connect } from 'react-redux' //Allows to get state from redux to react component
-import { getCategories, deleteCategory, getCategoryById, updateCategory } from '../../actions/categoryActions' //Import the actions
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
+import React, { Component } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
+import { connect } from 'react-redux'; //Allows to get state from redux to react component
+import { getCategories, deleteCategory, getCategoryById, updateCategory } from '../../actions/categoryActions'; //Import the actions
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
 
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
+import MUIDataTable from 'mui-datatables';
 
-import moment from 'moment' //Moment library for date editting
+import moment from 'moment'; //Moment library for date editting
 
 //Toastr Part
-import { toastr } from 'react-redux-toastr' //Toastr for validation notifications
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css' //CSS for toastr
+import { toastr } from 'react-redux-toastr'; //Toastr for validation notifications
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'; //CSS for toastr
 
 //
 //THE WAY REDUX WORKS
@@ -21,10 +21,9 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css' //CSS for toastr
 const toastrConfirmOptions = {
     onOk: () => {},
     onCancel: () => {
-        console.log('CANCEL: clicked')
-        return
+        console.log('CANCEL: clicked');
     },
-}
+};
 
 class Category extends Component {
     state = {
@@ -34,7 +33,7 @@ class Category extends Component {
             _id: '',
             name: '',
         },
-    }
+    };
 
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
@@ -43,35 +42,35 @@ class Category extends Component {
         updateCategory: PropTypes.func.isRequired,
         category: PropTypes.object.isRequired, //Represents our state
         isAuthenticated: PropTypes.bool,
-    }
+    };
 
     componentWillMount() {
         //Runs when the component mounts
         //Here we run actions
-        this._refreshCategories()
+        this._refreshCategories();
     }
 
     //Call the delete action
     onDeleteClick = (id) => {
-        toastr.confirm('Je e sigurte ?', toastrConfirmOptions)
+        toastr.confirm('Je e sigurte ?', toastrConfirmOptions);
         toastrConfirmOptions.onOk = () => {
-            this.props.deleteCategory(id)
-            console.log('Category Deleted')
-            toastr.success('Kategoria u fshi me sukses')
-        }
-    }
+            this.props.deleteCategory(id);
+            console.log('Category Deleted');
+            toastr.success('Kategoria u fshi me sukses');
+        };
+    };
 
     //Call the update function
     updateCategory() {
         //Call the update action and pass the item state
-        this.props.updateCategory(this.state.editCategory)
+        this.props.updateCategory(this.state.editCategory);
 
         //Refresh the data
-        this._refreshCategories()
+        this._refreshCategories();
 
-        this.componentWillMount()
+        this.componentWillMount();
 
-        toastr.success('Modifikim', `Kategoria ${this.state.editCategory.name} u modifikua me sukses`)
+        toastr.success('Modifikim', `Kategoria ${this.state.editCategory.name} u modifikua me sukses`);
 
         //Reset the state
         this.setState({
@@ -81,12 +80,12 @@ class Category extends Component {
                 _id: '',
                 name: '',
             },
-        })
+        });
     }
 
     //Refresh function for the datas in the table
     _refreshCategories() {
-        this.props.getCategories()
+        this.props.getCategories();
     }
 
     //Edit function to get the data from the table row into the state
@@ -97,22 +96,22 @@ class Category extends Component {
                 name,
             },
             editModal: !this.state.editModal,
-        })
+        });
     }
 
     //Toggle the edit modal function
     toggleEdit = () => {
         this.setState({
             editModal: !this.state.editModal,
-        })
-    }
+        });
+    };
 
     render() {
-        const { categories } = this.props.category //Pull the items
-        const columns = ['Nr', 'Emri', 'Data Regjistrimit', 'Fshi/Modifiko']
-        const data = []
+        const { categories } = this.props.category; //Pull the items
+        const columns = ['Nr', 'Emri', 'Data Regjistrimit', 'Fshi/Modifiko'];
+        const data = [];
 
-        let counter = this.state.counter
+        let counter = this.state.counter;
 
         categories.map(({ _id, name, date }) =>
             data.push([
@@ -140,16 +139,16 @@ class Category extends Component {
                     </Button>
                 </div>,
             ]),
-        )
+        );
 
         const options = {
             filterType: 'dropdown',
             responsive: 'standard',
             selectableRows: 'none',
             isRowSelectable: function (dataIndex) {
-                return false
+                return false;
             },
-        }
+        };
 
         return (
             <div>
@@ -166,9 +165,9 @@ class Category extends Component {
                                     id="item"
                                     value={this.state.editCategory.name}
                                     onChange={(e) => {
-                                        let { editCategory } = this.state
-                                        editCategory.name = e.target.value
-                                        this.setState({ editCategory })
+                                        let { editCategory } = this.state;
+                                        editCategory.name = e.target.value;
+                                        this.setState({ editCategory });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -202,7 +201,7 @@ class Category extends Component {
                     ''
                 )}
             </div>
-        )
+        );
     }
 }
 
@@ -211,7 +210,7 @@ class Category extends Component {
 const mapStateToProps = (state) => ({
     category: state.category,
     isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
 //Connect takes as parameters the action and our mapping function
-export default connect(mapStateToProps, { getCategories, deleteCategory, getCategoryById, updateCategory })(Category)
+export default connect(mapStateToProps, { getCategories, deleteCategory, getCategoryById, updateCategory })(Category);

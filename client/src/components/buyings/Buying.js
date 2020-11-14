@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap' //Allows to get state from redux to react component
-import { getBuyings, deleteBuying, getBuyingById, updateBuying } from '../../actions/buyingActions' //Import the actions
-import PropTypes from 'prop-types' //Whenever you have component property put it inside a proptypes which is a form of validation
-import { connect } from 'react-redux' //To connect react and redux
+import React, { Component } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap'; //Allows to get state from redux to react component
+import { getBuyings, deleteBuying, getBuyingById, updateBuying } from '../../actions/buyingActions'; //Import the actions
+import PropTypes from 'prop-types'; //Whenever you have component property put it inside a proptypes which is a form of validation
+import { connect } from 'react-redux'; //To connect react and redux
 //Material-UI Part
-import MUIDataTable from 'mui-datatables'
-import moment from 'moment'
-import { customRowIndexColumn } from '../../utils/mui-table' //Moment library for date editting
-import InvoiceModal from '../invoice/Invoice'
+import MUIDataTable from 'mui-datatables';
+import moment from 'moment';
+import { customRowIndexColumn } from '../../utils/mui-table'; //Moment library for date editting
+import InvoiceModal from '../invoice/Invoice';
 
 //
 //THE WAY REDUX WORKS
@@ -25,7 +25,7 @@ class Buying extends Component {
             shitesi: '',
             sasia: '',
         },
-    }
+    };
 
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
@@ -35,28 +35,28 @@ class Buying extends Component {
         buying: PropTypes.object.isRequired, //Represents our state
         isAuthenticated: PropTypes.bool,
         isLoading: PropTypes.bool.isRequired,
-    }
+    };
 
     componentWillMount() {
         //Runs when the component mounts
         //Here we run actions
-        this._refreshBuyings()
+        this._refreshBuyings();
     }
 
     //Call the delete action
     onDeleteClick = (id) => {
-        this.props.deleteBuying(id)
-    }
+        this.props.deleteBuying(id);
+    };
 
     //Call the update function
     updateSale() {
         //Call the update action and pass the sale state
-        this.props.updateBuying(this.state.editBuying)
+        this.props.updateBuying(this.state.editBuying);
 
         //Refresh the data
-        this._refreshBuyings()
+        this._refreshBuyings();
 
-        this.componentWillMount()
+        this.componentWillMount();
 
         //Reset the state
         this.setState({
@@ -68,12 +68,12 @@ class Buying extends Component {
             prodhuesi: '',
             shitesi: '',
             sasia: '',
-        })
+        });
     }
 
     //Refresh function for the datas in the table
     _refreshBuyings() {
-        this.props.getBuyings()
+        this.props.getBuyings();
     }
 
     //Edit function called to get the data from the table row into the state
@@ -89,18 +89,18 @@ class Buying extends Component {
                 sasia,
             },
             editModal: !this.state.editModal,
-        })
+        });
     }
 
     //Toggle the edit modal function
     toggleEdit = () => {
         this.setState({
             editModal: !this.state.editModal,
-        })
-    }
+        });
+    };
 
     render() {
-        const { buyings } = this.props.buying //Pull the buyings
+        const { buyings } = this.props.buying; //Pull the buyings
 
         const columns = [
             customRowIndexColumn(),
@@ -110,8 +110,8 @@ class Buying extends Component {
             'Data Regjistrimit',
             'Fshi',
             'Modifiko',
-        ]
-        const data = []
+        ];
+        const data = [];
 
         buyings.map(({ _id, clientName, invoiceData, total, date }) =>
             data.push([
@@ -137,23 +137,23 @@ class Buying extends Component {
                     refreshData={this._refreshBuyings.bind(this)}
                 />,
             ]),
-        )
+        );
 
         const options = {
             filterType: 'dropdown',
             responsive: 'standard',
             selectableRows: 'none',
             isRowSelectable: function (dataIndex) {
-                return false
+                return false;
             },
             setRowProps: () => ({
                 onDoubleClick: (row, dataIndex) => {
                     this.setState({
                         openAction: true,
-                    })
+                    });
                 },
             }),
-        }
+        };
 
         return (
             <div>
@@ -173,9 +173,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.name}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.name = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.name = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -187,9 +187,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.kodi}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.kodi = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.kodi = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -201,9 +201,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.cmimBlerje}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.cmimBlerje = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.cmimBlerje = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -215,9 +215,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.prodhuesi}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.prodhuesi = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.prodhuesi = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -229,9 +229,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.shitesi}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.shitesi = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.shitesi = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -243,9 +243,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.category}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.category = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.category = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -257,9 +257,9 @@ class Buying extends Component {
                                     required
                                     value={this.state.editBuying.sasia}
                                     onChange={(e) => {
-                                        let { editBuying } = this.state
-                                        editBuying.sasia = e.target.value
-                                        this.setState({ editBuying })
+                                        let { editBuying } = this.state;
+                                        editBuying.sasia = e.target.value;
+                                        this.setState({ editBuying });
                                     }}
                                     style={{ marginBottom: '1rem' }}
                                 />
@@ -293,7 +293,7 @@ class Buying extends Component {
                     ''
                 )}
             </div>
-        )
+        );
     }
 }
 
@@ -303,7 +303,7 @@ const mapStateToProps = (state) => ({
     buying: state.buying,
     isAuthenticated: state.auth.isAuthenticated,
     isLoading: state.buying.loading,
-})
+});
 
 //Connect takes as parameters the action and our mapping function
-export default connect(mapStateToProps, { getBuyings, deleteBuying, getBuyingById, updateBuying })(Buying)
+export default connect(mapStateToProps, { getBuyings, deleteBuying, getBuyingById, updateBuying })(Buying);
