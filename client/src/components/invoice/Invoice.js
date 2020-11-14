@@ -43,7 +43,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 //Actions
 import { addSale, updateSale } from "../../actions/saleActions";
-import { addBuying } from "../../actions/buyingActions";
+import { addBuying, updateBuying } from "../../actions/buyingActions";
 
 export const validationSchema = yup.object().shape({
     code: yup
@@ -278,9 +278,7 @@ const InvoiceModal = (props) => {
             total,
         };
 
-        console.log(transaction)
-
-        props.invoiceType === 0 ? props.addBuying(transaction) : handleSaleActions(transaction);
+        props.invoiceType === 0 ? handleBuyingActions(transaction) : handleSaleActions(transaction);
     };
 
     const handleSaleActions = (transaction) => {
@@ -295,7 +293,18 @@ const InvoiceModal = (props) => {
         props.refreshData();
         handleClose();
     };
-    const handleBuyingActions = (transaction) => {};
+    const handleBuyingActions = (transaction) => {
+        const buyingToUpdate = {
+            _id: props.saleId,
+            clientName: transaction.clientName,
+            invoiceType: transaction.invoiceType,
+            rows: transaction.rows,
+            total: transaction.total
+        }
+        props.saleId ? props.updateBuying(buyingToUpdate) : props.addBuying(transaction);
+        props.refreshData();
+        handleClose();
+    };
 
     const customForm = tabValue => (
         <Paper className={classes.paper}>
@@ -531,8 +540,9 @@ const InvoiceModal = (props) => {
 InvoiceModal.propTypes = {
     client: PropTypes.string.isRequired,
     addSale: PropTypes.func.isRequired,
-    addBuying: PropTypes.func.isRequired,
     updateSale: PropTypes.func.isRequired,
+    addBuying: PropTypes.func.isRequired,
+    updateBuying: PropTypes.func.isRequired,
     invoiceTitle: PropTypes.string.isRequired,
     invoiceType: PropTypes.number.isRequired,
     invoiceData: PropTypes.array,
@@ -558,5 +568,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {addSale, addBuying, updateSale},
+    {addSale, addBuying, updateSale, updateBuying},
 )(InvoiceModal);

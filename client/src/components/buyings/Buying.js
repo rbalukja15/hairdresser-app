@@ -41,7 +41,6 @@ class Buying extends Component {
       shitesi: "",
       sasia: ""
     },
-    openAction: false,
   };
 
   //When you bring in an action from redux it is going to be stored as props
@@ -116,12 +115,7 @@ class Buying extends Component {
     });
   };
 
-  closeInvoiceModal = () => {
-    this.setState({ openAction: false });
-  };
-
   render() {
-    const { openAction } = this.state;
     const { buyings } = this.props.buying; //Pull the buyings
 
     const columns = [
@@ -130,7 +124,8 @@ class Buying extends Component {
       "Totali",
       // "Data", //TODO add date from invoice
       "Data Regjistrimit",
-      "Fshi/Modifiko"
+      "Fshi",
+        'Modifiko'
     ];
     const data = [];
 
@@ -138,6 +133,7 @@ class Buying extends Component {
       ({
         _id,
         clientName,
+          invoiceData,
         total,
         date,
       }) =>
@@ -146,7 +142,6 @@ class Buying extends Component {
           clientName,
           total,
           moment(date).calendar(),
-          <div>
             <Button
               className="remove-btn mb-2"
               outline
@@ -155,22 +150,15 @@ class Buying extends Component {
               onClick={this.onDeleteClick.bind(this, _id)}
             >
               Fshi
-            </Button>
-            <Button
-              className="edit-btn"
-              outline
-              color="warning"
-              size="sm"
-              onClick={this.editBuying.bind(
-                this,
-                _id,
-                clientName,
-                total,
-              )}
-            >
-              Modifiko
-            </Button>
-          </div>
+            </Button>,
+              <InvoiceModal
+                  invoiceTitle="Blerje"
+                  invoiceType={0}
+                  invoiceData={invoiceData}
+                  client={clientName}
+                  saleId={_id}
+                  refreshData={this._refreshBuyings.bind(this)}
+              />
         ])
     );
 
@@ -192,12 +180,9 @@ class Buying extends Component {
 
     return (
       <div>
-
         <InvoiceModal 
           invoiceTitle="Blerje" 
-          invoiceType={0} 
-          openAction={openAction} 
-          closeInvoiceModal={this.closeInvoiceModal}
+          invoiceType={0}
         />
 
         {/* Edit Modal Part */}

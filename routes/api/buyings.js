@@ -72,22 +72,14 @@ router.delete("/:id", auth, (req, res) => {
 // @desc    EDIT A Buying
 // @access  Private
 router.put("/:id", (req, res) => {
-  // Validate Request
-  // if (!req.body.content) {
-  //   return res.status(400).json({
-  //     message: "Note content can not be empty"
-  //   });
-  // }
 
   Buying.findByIdAndUpdate(
     req.params.id,
     {
-      name: req.body.name,
-      kodi: req.body.kodi,
-      cmimBlerje: req.body.cmimBlerje,
-      shitesi: req.body.shitesi,
-      prodhuesi: req.body.prodhuesi,
-      sasia: req.body.sasia
+        clientName: req.body.clientName,
+        invoiceType: req.body.invoiceType,
+        invoiceData: req.body.rows,
+        total: req.body.total,
     },
     { new: true }
   )

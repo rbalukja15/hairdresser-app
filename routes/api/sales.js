@@ -72,12 +72,6 @@ router.delete("/:id", auth,(req, res) => {
 // @desc    EDIT A Sale
 // @access  Private
 router.put("/:id", auth, (req, res) => {
-  // Validate Request
-  if (!req.body.content) {
-    return res.status(400).json({
-      message: "Note content can not be empty"
-    });
-  }
 
   Sale.findByIdAndUpdate(
     req.params.id,
