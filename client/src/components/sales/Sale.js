@@ -139,7 +139,7 @@ class Sale extends Component {
                     invoiceType={1}
                     invoiceData={invoiceData}
                     client={clientName}
-                    saleId={_id}
+                    transactionId={_id}
                     refreshData={this._refreshSales.bind(this)}
                 />,
             ]),
