@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 180,
     },
     modalButton: {
-        marginBottom: 2,
         color: '#fff',
         backgroundColor: '#8a85ff',
     },

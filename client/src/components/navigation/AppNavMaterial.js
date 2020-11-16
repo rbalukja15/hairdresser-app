@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { Link, withRouter } from 'react-router-dom';
@@ -21,6 +21,7 @@ import Logout from '../auth/Logout';
 
 // Styles
 import { styles } from './material.styles';
+import { muiTheme } from '../../shared/material.theme';
 
 class ResponsiveDrawer extends Component {
     state = {
@@ -61,64 +62,57 @@ class ResponsiveDrawer extends Component {
                 <MenuList className={classes.menuList}>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/' ? classes.selectedMenuItem : classes.menuItem}
                         to="/"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/' === pathname}
                     >
                         Kryefaqja
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/sales' ? classes.selectedMenuItem : classes.menuItem}
                         to="/sales"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/sales' === pathname}
                     >
                         Shitjet
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/buyings' ? classes.selectedMenuItem : classes.menuItem}
                         to="/buyings"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/buyings' === pathname}
                     >
                         Blerjet
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/shopping' ? classes.selectedMenuItem : classes.menuItem}
                         to="/shopping"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/shopping' === pathname}
                     >
                         Produktet
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/category' ? classes.selectedMenuItem : classes.menuItem}
                         to="/category"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/category' === pathname}
                     >
                         Kategorite
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/clients' ? classes.selectedMenuItem : classes.menuItem}
                         to="/clients"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/clients' === pathname}
                     >
                         Klientet
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        className={classes.menuItem}
+                        className={pathname === '/employees' ? classes.selectedMenuItem : classes.menuItem}
                         to="/employees"
                         onClick={mobileOpen ? this.handleDrawerToggle : this.dumbFunction}
-                        selected={'/employees' === pathname}
                     >
                         Punetoret
                     </MenuItem>
@@ -127,7 +121,7 @@ class ResponsiveDrawer extends Component {
         );
 
         return (
-            <Fragment>
+            <MuiThemeProvider theme={muiTheme()}>
                 <CssBaseline />
                 <div className={classes.root}>
                     <AppBar position="fixed" className={classes.appBar}>
@@ -187,7 +181,7 @@ class ResponsiveDrawer extends Component {
                         {isAuthenticated ? children : ''}
                     </main>
                 </div>
-            </Fragment>
+            </MuiThemeProvider>
         );
     }
 }

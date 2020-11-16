@@ -1,5 +1,6 @@
 //Styled Classes
 import red from '@material-ui/core/colors/red';
+import { colors } from '../../shared/color.constants';
 
 const drawerWidth = 240;
 const contentHeight = 1000;
@@ -7,7 +8,7 @@ const contentHeight = 1000;
 export const styles = (theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: '#1c2025',
+        backgroundColor: colors.DARK_BLUE,
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -18,7 +19,7 @@ export const styles = (theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         //alignItems: "flex",
-        backgroundColor: '#282c34',
+        backgroundColor: colors.DARK_BLUE,
     },
     menuButton: {
         marginRight: 20,
@@ -29,6 +30,22 @@ export const styles = (theme) => ({
     },
     menuItem: {
         minHeight: '60px',
+        '&:hover': {
+            textDecoration: 'none',
+            color: colors.WHITE,
+            backgroundColor: colors.LIGHT_GRAY,
+        },
+    },
+    selectedMenuItem: {
+        minHeight: '60px',
+        textDecoration: 'none',
+        color: colors.WHITE,
+        background: colors.LIGHT_GRAY,
+        '&:hover': {
+            textDecoration: 'none',
+            color: colors.WHITE,
+            backgroundColor: colors.LIGHT_GRAY,
+        },
     },
     icon: {
         margin: theme.spacing(2, 2),
@@ -43,7 +60,7 @@ export const styles = (theme) => ({
     drawerPaper: {
         width: drawerWidth,
         color: '#fff',
-        backgroundColor: '#282c34',
+        backgroundColor: colors.GRAY,
     },
     content: {
         [theme.breakpoints.down('sm')]: {
@@ -67,7 +84,7 @@ export const styles = (theme) => ({
     auth: {
         borderRadius: 7,
         width: '50px',
-        color: 'white',
+        color: colors.WHITE,
     },
     avatar: {
         float: 'right',
