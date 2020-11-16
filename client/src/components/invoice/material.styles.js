@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 180,
     },
+    modalButton: {
+        marginBottom: 2,
+        color: '#fff',
+        backgroundColor: '#8a85ff',
+    },
 }));
 
 export default useStyles;

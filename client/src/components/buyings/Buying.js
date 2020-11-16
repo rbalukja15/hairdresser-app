@@ -6,8 +6,9 @@ import { connect } from 'react-redux'; //To connect react and redux
 //Material-UI Part
 import MUIDataTable from 'mui-datatables';
 import moment from 'moment';
-import { customRowIndexColumn } from '../../utils/mui-table'; //Moment library for date editting
+import tableOptions, { customRowIndexColumn } from '../../utils/mui-table'; //Moment library for date editting
 import InvoiceModal from '../invoice/Invoice';
+import Spinner from 'reactstrap/es/Spinner';
 
 //
 //THE WAY REDUX WORKS
@@ -119,13 +120,7 @@ class Buying extends Component {
                 clientName,
                 total,
                 moment(date).calendar(),
-                <Button
-                    className="remove-btn mb-2"
-                    outline
-                    color="danger"
-                    size="sm"
-                    onClick={this.onDeleteClick.bind(this, _id)}
-                >
+                <Button className="mb-2" outline color="danger" onClick={this.onDeleteClick.bind(this, _id)}>
                     Fshi
                 </Button>,
                 <InvoiceModal
@@ -140,9 +135,9 @@ class Buying extends Component {
         );
 
         const options = {
-            filterType: 'dropdown',
-            responsive: 'standard',
-            selectableRows: 'none',
+            filterType: tableOptions.tableFilterTypes.DROPDOWN,
+            responsive: tableOptions.tableResponsiveness.STANDARD,
+            selectableRows: tableOptions.selectableRows.NONE,
             isRowSelectable: function (dataIndex) {
                 return false;
             },
@@ -290,7 +285,7 @@ class Buying extends Component {
                 {this.props.isAuthenticated && !this.props.isLoading ? (
                     <MUIDataTable title={'Lista e Blerjeve'} data={data} columns={columns} options={options} />
                 ) : (
-                    ''
+                    <Spinner />
                 )}
             </div>
         );

@@ -1,34 +1,34 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import AppBar from '@material-ui/core/AppBar'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Drawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
-import { Link, withRouter } from 'react-router-dom'
-import { compose } from 'recompose'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import red from '@material-ui/core/colors/red'
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import red from '@material-ui/core/colors/red';
 
-import { connect } from 'react-redux' //To connect react and redux
+import { connect } from 'react-redux'; //To connect react and redux
 
 //Authentication Modals
-import LoginModal from '../auth/LoginModal'
-import Logout from '../auth/Logout'
+import LoginModal from '../auth/LoginModal';
+import Logout from '../auth/Logout';
 
-const drawerWidth = 240
-const contentHeight = 1000
+const drawerWidth = 240;
+const contentHeight = 1000;
 
 //Styled Classes
 const styles = (theme) => ({
     root: {
         flexGrow: 1,
+        backgroundColor: '#1c2025',
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -39,6 +39,7 @@ const styles = (theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         //alignItems: "flex",
+        backgroundColor: '#282c34',
     },
     menuButton: {
         marginRight: 20,
@@ -62,6 +63,8 @@ const styles = (theme) => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+        color: '#fff',
+        backgroundColor: '#282c34',
     },
     content: {
         [theme.breakpoints.down('sm')]: {
@@ -95,12 +98,12 @@ const styles = (theme) => ({
         float: 'left',
         flexGrow: 1,
     },
-})
+});
 
 class ResponsiveDrawer extends Component {
     state = {
         mobileOpen: false,
-    }
+    };
 
     static propTypes = {
         isAuthenticated: PropTypes.bool,
@@ -109,14 +112,14 @@ class ResponsiveDrawer extends Component {
         // You won't need it on your project.
         container: PropTypes.object,
         theme: PropTypes.object.isRequired,
-    }
+    };
 
     handleDrawerToggle = () => {
-        this.setState((state) => ({ mobileOpen: !state.mobileOpen }))
-    }
+        this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
+    };
 
     //To avoid passing string in the function onClick
-    dumbFunction = () => {}
+    dumbFunction = () => {};
 
     render() {
         const {
@@ -124,9 +127,9 @@ class ResponsiveDrawer extends Component {
             children,
             location: { pathname },
             isAuthenticated,
-        } = this.props
+        } = this.props;
 
-        const { mobileOpen } = this.state
+        const { mobileOpen } = this.state;
 
         const drawer = (
             <div>
@@ -199,7 +202,7 @@ class ResponsiveDrawer extends Component {
                     </MenuItem>
                 </MenuList>
             </div>
-        )
+        );
 
         return (
             <Fragment>
@@ -263,7 +266,7 @@ class ResponsiveDrawer extends Component {
                     </main>
                 </div>
             </Fragment>
-        )
+        );
     }
 }
 
@@ -271,6 +274,6 @@ class ResponsiveDrawer extends Component {
 //Allow to take the sales state and maps it into a component property
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
-export default compose(withRouter, withStyles(styles, { withTheme: true }), connect(mapStateToProps))(ResponsiveDrawer)
+export default compose(withRouter, withStyles(styles, { withTheme: true }), connect(mapStateToProps))(ResponsiveDrawer);

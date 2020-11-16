@@ -18,9 +18,14 @@ const tableResponsiveness = {
     STANDARD: 'standard',
 };
 
+const selectableRows = {
+    NONE: 'none',
+};
+
 const tableOptions = {
     tableFilterTypes,
     tableResponsiveness,
+    selectableRows,
 };
 
 export default tableOptions;
