@@ -6,12 +6,13 @@ import { connect } from 'react-redux'; //To connect react and redux
 //Material-UI Part
 import MUIDataTable from 'mui-datatables';
 import moment from 'moment'; //Moment library for date editting
-import { customRowIndexColumn } from '../../utils/mui-table';
+import tableOptions from '../../utils/mui-table';
 import InvoiceModal from '../invoice/Invoice';
 
 //Toastr Part
 // import { toastr } from "react-redux-toastr"; //Toastr for validation notifications
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import tableColumns from '../mui-datatables/table.columns';
 
 //
 //THE WAY REDUX WORKS
@@ -108,15 +109,7 @@ class Sale extends Component {
 
     render() {
         const { sales } = this.props.sale; //Pull the sales
-        const columns = [
-            customRowIndexColumn(),
-            'Emri Klientit',
-            'Totali',
-            //"Data", //Todo add invoice date
-            'Data Regjistrimit',
-            'Fshi',
-            'Detajet',
-        ];
+        const columns = tableColumns.saleColumns;
         const data = [];
 
         sales.map(({ _id, clientName, total, date, invoiceData }) =>
@@ -146,9 +139,9 @@ class Sale extends Component {
         );
 
         const options = {
-            filterType: 'dropdown',
-            responsive: 'standard',
-            selectableRows: 'none',
+            filterType: tableOptions.tableFilterTypes.DROPDOWN,
+            responsive: tableOptions.tableResponsiveness.STANDARD,
+            selectableRows: tableOptions.selectableRows.NONE,
             isRowSelectable: function (dataIndex) {
                 return false;
             },
