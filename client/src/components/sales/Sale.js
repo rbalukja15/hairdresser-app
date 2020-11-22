@@ -19,19 +19,6 @@ import tableColumns from '../mui-datatables/table.columns';
 //CARS => COMPONENT->ACTION->REDUCER->STORE
 
 class Sale extends Component {
-    state = {
-        editModal: false,
-        editSale: {
-            _id: '',
-            clientName: '',
-            clientSurname: '',
-            productName: '',
-            sasia: '',
-            cmimi: '',
-            kodi: '',
-        },
-    };
-
     //When you bring in an action from redux it is going to be stored as props
     static propTypes = {
         getSales: PropTypes.func.isRequired,
@@ -53,59 +40,10 @@ class Sale extends Component {
         this.props.deleteSale(id);
     };
 
-    //Call the update function
-    updateSale() {
-        //console.log(this.state.editSale._id);
-
-        //Call the update action and pass the sale state
-        this.props.updateSale(this.state.editSale);
-
-        //Refresh the data
-        this._refreshSales();
-
-        //For repeating items
-        this.componentWillMount();
-
-        //Reset the state
-        this.setState({
-            editModal: false,
-            _id: '',
-            clientName: '',
-            clientSurname: '',
-            productName: '',
-            sasia: '',
-            cmimi: '',
-            kodi: '',
-        });
-    }
-
     //Refresh function for the datas in the table
     _refreshSales() {
         this.props.getSales();
     }
-
-    //Edit function called to get the data from the table row into the state
-    editSale(_id, clientName, clientSurname, productName, sasia, cmimi, kodi) {
-        this.setState({
-            editSale: {
-                _id,
-                clientName,
-                clientSurname,
-                productName,
-                sasia,
-                cmimi,
-                kodi,
-            },
-            editModal: !this.state.editModal,
-        });
-    }
-
-    //Toggle the edit modal function
-    toggleEdit = () => {
-        this.setState({
-            editModal: !this.state.editModal,
-        });
-    };
 
     render() {
         const { sales } = this.props.sale; //Pull the sales
