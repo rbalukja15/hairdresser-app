@@ -8,7 +8,6 @@ const contentHeight = 1000;
 export const styles = (theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: colors.DARK_BLUE,
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -18,7 +17,6 @@ export const styles = (theme) => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        //alignItems: "flex",
         backgroundColor: colors.DARK_BLUE,
     },
     menuButton: {
@@ -60,7 +58,7 @@ export const styles = (theme) => ({
     drawerPaper: {
         width: drawerWidth,
         color: '#fff',
-        backgroundColor: colors.GRAY,
+        backgroundColor: colors.DARK_BLUE,
     },
     content: {
         [theme.breakpoints.down('sm')]: {

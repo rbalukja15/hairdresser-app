@@ -25,7 +25,8 @@ import employee from './components/employees/employees_component';
 
 //Toastr Component
 import ReduxToastr from 'react-redux-toastr';
-import InvoiceModal from './components/invoice/Invoice';
+import { muiTheme } from './shared/material.theme';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 class App extends Component {
     componentDidMount() {
@@ -34,32 +35,33 @@ class App extends Component {
 
     render() {
         return (
-            //To use redux into the components, to get the things from the state we wrap everything into a provider
             <Provider store={store}>
                 <BrowserRouter>
-                    <div className="App">
-                        <ResponsiveDrawer>
-                            <ReduxToastr
-                                timeOut={4000}
-                                newestOnTop={false}
-                                preventDuplicates
-                                position="top-left"
-                                transitionIn="fadeIn"
-                                transitionOut="fadeOut"
-                                progressBar
-                                closeOnToastrClick
-                            />
-                            <Switch>
-                                <Route exact path="/" component={Home} />
-                                <Route path="/sales" component={sales_component} />
-                                <Route path="/buyings" component={buyings_component} />
-                                <Route path="/shopping" component={itemShopping} />
-                                <Route path="/category" component={category_component} />
-                                <Route path="/clients" component={client_component} />
-                                <Route path="/employees" component={employee} />
-                            </Switch>
-                        </ResponsiveDrawer>
-                    </div>
+                    <MuiThemeProvider theme={muiTheme()}>
+                        <div className="App">
+                            <ResponsiveDrawer>
+                                <ReduxToastr
+                                    timeOut={4000}
+                                    newestOnTop={false}
+                                    preventDuplicates
+                                    position="top-left"
+                                    transitionIn="fadeIn"
+                                    transitionOut="fadeOut"
+                                    progressBar
+                                    closeOnToastrClick
+                                />
+                                <Switch>
+                                    <Route exact path="/" component={Home} />
+                                    <Route path="/sales" component={sales_component} />
+                                    <Route path="/buyings" component={buyings_component} />
+                                    <Route path="/shopping" component={itemShopping} />
+                                    <Route path="/category" component={category_component} />
+                                    <Route path="/clients" component={client_component} />
+                                    <Route path="/employees" component={employee} />
+                                </Switch>
+                            </ResponsiveDrawer>
+                        </div>
+                    </MuiThemeProvider>
                 </BrowserRouter>
             </Provider>
         );

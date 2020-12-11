@@ -21,7 +21,6 @@ import Logout from '../auth/Logout';
 
 // Styles
 import { styles } from './material.styles';
-import { muiTheme } from '../../shared/material.theme';
 
 class ResponsiveDrawer extends Component {
     state = {
@@ -121,7 +120,7 @@ class ResponsiveDrawer extends Component {
         );
 
         return (
-            <MuiThemeProvider theme={muiTheme()}>
+            <>
                 <CssBaseline />
                 <div className={classes.root}>
                     <AppBar position="fixed" className={classes.appBar}>
@@ -181,7 +180,7 @@ class ResponsiveDrawer extends Component {
                         {isAuthenticated ? children : ''}
                     </main>
                 </div>
-            </MuiThemeProvider>
+            </>
         );
     }
 }

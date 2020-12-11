@@ -3,10 +3,8 @@ import { colors } from './color.constants';
 
 export const muiTheme = () => {
     return createMuiTheme({
-        overrides: {
-            MuiPaper: {
-                root: {},
-            },
+        palette: {
+            type: 'dark',
         },
     });
 };
