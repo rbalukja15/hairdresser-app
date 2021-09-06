@@ -7,7 +7,7 @@ import { selectAuth } from "../../modules/auth/authSlice";
 import Login from "../../modules/auth/pages/login";
 
 const PublicLayout = () => {
-  const loggedIn = useAppSelector(selectAuth);
+  const { loggedIn } = useAppSelector(selectAuth);
 
   if (!loggedIn) {
     return (

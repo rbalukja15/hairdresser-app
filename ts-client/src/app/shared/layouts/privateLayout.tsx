@@ -7,7 +7,7 @@ import { useAppSelector } from "../../hooks";
 import { selectAuth } from "../../modules/auth/authSlice";
 
 const PrivateLayout = () => {
-  const loggedIn = useAppSelector(selectAuth);
+  const { loggedIn } = useAppSelector(selectAuth);
 
   return (
     <div>

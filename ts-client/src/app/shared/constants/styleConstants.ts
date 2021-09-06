@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 export const styleConstants = {
-  GOTHAM_MEDIUM: "Gotham Medium",
+  ROBOTO_MEDIUM: "Roboto Medium",
   COLORS: {
     WHITE: "#ffffff",
     BLACK_LOW: "#222222",

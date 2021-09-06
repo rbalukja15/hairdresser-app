@@ -30,7 +30,7 @@ const navBarStyles = (theme: Theme) => ({
   menuItem: {
     minHeight: "60px",
     color: styleConstants.COLORS.WHITE,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
     "&:hover": {
       textDecoration: "none",
       color: styleConstants.COLORS.WHITE,
@@ -41,7 +41,7 @@ const navBarStyles = (theme: Theme) => ({
     minHeight: "60px",
     color: styleConstants.COLORS.WHITE,
     background: styleConstants.COLORS.RED,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
     "&:hover": {
       textDecoration: "none",
       color: styleConstants.COLORS.WHITE,
@@ -59,18 +59,18 @@ const navBarStyles = (theme: Theme) => ({
     padding: theme.spacing(3),
   },
   typography: {
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
   },
   list: {
     width: "100%",
     maxWidth: 360,
     color: styleConstants.COLORS.WHITE,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
   },
   listItem: {
     minHeight: "60px",
     color: styleConstants.COLORS.WHITE,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
     "&:hover": {
       textDecoration: "none",
       color: styleConstants.COLORS.WHITE,
@@ -81,7 +81,7 @@ const navBarStyles = (theme: Theme) => ({
     minHeight: "60px",
     color: styleConstants.COLORS.WHITE,
     background: styleConstants.COLORS.RED,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
     "&:hover": {
       textDecoration: "none",
       color: styleConstants.COLORS.WHITE,
@@ -90,7 +90,7 @@ const navBarStyles = (theme: Theme) => ({
   },
   listItemText: {
     color: styleConstants.COLORS.WHITE,
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
     paddingLeft: theme.spacing(2),
   },
   sectionDesktop: {
@@ -152,35 +152,35 @@ const getMuiTheme = (palette: ThemeOptions) => {
     overrides: {
       MuiTable: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiPaper: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiTableFooter: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiTablePagination: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiTableCell: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiTypography: {
         root: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
         body1: {
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
         },
       },
       MuiStepIcon: {
@@ -212,7 +212,7 @@ const getMuiTheme = (palette: ThemeOptions) => {
           maxHeight: "200px",
           maxWidth: "45rem",
           overflow: "auto",
-          fontFamily: styleConstants.GOTHAM_MEDIUM,
+          fontFamily: styleConstants.ROBOTO_MEDIUM,
           textAlign: "left",
           border: "1px solid gray",
         },
@@ -279,7 +279,7 @@ const getMuiTheme = (palette: ThemeOptions) => {
 
 const customStyles = () => ({
   NameCell: {
-    fontFamily: styleConstants.GOTHAM_MEDIUM,
+    fontFamily: styleConstants.ROBOTO_MEDIUM,
   },
 });
 

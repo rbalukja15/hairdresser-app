@@ -46,6 +46,11 @@ export const authSlice = createSlice({
   },
 });
 
-export const selectAuth = (state: RootState) => state.auth.loggedIn;
+export const selectAuth = (state: RootState) => {
+  return {
+    loading: state.auth.loading,
+    loggedIn: state.auth.loggedIn,
+  };
+};
 
 export default authSlice.reducer;

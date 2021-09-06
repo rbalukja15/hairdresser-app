@@ -33,7 +33,7 @@ import { muiStyles } from "../../../styles/muiStyles";
 const PublicNavbar = (
   props: PropsWithChildren<IPublicNavBar>
 ): ReactElement<FunctionComponent<IPublicNavBar>> => {
-  const loggedIn = useAppSelector(selectAuth);
+  const { loggedIn } = useAppSelector(selectAuth);
   const { window, classes, theme, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
   const [menuListOpen, setMenuListOpen] = React.useState<boolean>(true);
