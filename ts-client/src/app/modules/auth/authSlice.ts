@@ -1,18 +1,49 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
+import { loginService } from "./authAPI";
 
 export interface AuthSlice {
+  loading: boolean;
   loggedIn: boolean;
 }
 
 const initialState: AuthSlice = {
-  loggedIn: true,
+  loading: false,
+  loggedIn: false,
 };
+
+type LoginDetails = {
+  email: string;
+  password: string;
+};
+
+export const login = createAsyncThunk(
+  "/api/auth",
+  async (loginDetails: LoginDetails) => {
+    const response = await loginService(loginDetails);
+
+    return response.data;
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(login.fulfilled, (state) => {
+        state.loading = false;
+        state.loggedIn = true;
+      })
+      .addCase(login.rejected, (state) => {
+        state.loading = false;
+        state.loggedIn = false;
+      });
+  },
 });
 
 export const selectAuth = (state: RootState) => state.auth.loggedIn;

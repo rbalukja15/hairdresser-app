@@ -1,0 +1,60 @@
+@import './src/assets/styles/fonts';
+@import './src/assets/styles/variables';
+@import './src/assets/styles/tools';
+
+.login .formControl {
+}
+
+.login .loginForm {
+  max-width: 25rem;
+  margin-top: auto;
+}
+
+.login {
+  width: 100%;
+  height: 100%;
+
+  &__container {
+    @include justifyContent(center);
+    @include alignItems(center);
+    height: 100%;
+    width: 100%;
+    padding: 5% 0;
+
+    .title {
+      padding: 5% 0;
+      font-family: $font-black, sans-serif;
+    }
+
+    .loginForm .submitBtn {
+      color: $white-color;
+      background-color: $red-color;
+      cursor: pointer;
+    }
+
+    .loginForm .submitBtn:disabled {
+      color: $button-disabled;
+      background-color: $white-color;
+      cursor: not-allowed;
+    }
+
+    .loginForm .submitBtn:hover {
+      color: $black-low-color;
+      background-color: $greyed-red-color;
+    }
+
+    .formControl .error_span {
+      color: $red-color;
+      font-family: $font-bold, sans-serif;
+    }
+
+    .formControl .formLabel {
+      font-family: $font-regular, sans-serif;
+    }
+
+    .formControl .formInput {
+      font-family: $font-medium, sans-serif;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,293 @@
+/* Tools / Mixins */
+$sizes: 12;
+$marginPaddingSizes: 20;
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin flex() {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin alignItems($args) {
+  align-items: $args;
+}
+
+@mixin flexDirection($args) {
+  flex-direction: $args;
+}
+
+@mixin justifyContent($value: flex-start) {
+  @if $value == flex-start {
+    -webkit-box-pack: start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+  } @else if $value == flex-end {
+    -webkit-box-pack: end;
+    -moz-box-pack: end;
+    -ms-flex-pack: end;
+  } @else if $value == space-between {
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+  } @else if $value == space-around {
+    -ms-flex-pack: distribute;
+  } @else {
+    -webkit-box-pack: $value;
+    -moz-box-pack: $value;
+    -ms-flex-pack: $value;
+  }
+  -webkit-justify-content: $value;
+  justify-content: $value;
+}
+
+@mixin delay($args...) {
+  -webkit-transition-delay: $args;
+  transition-delay: $args;
+}
+
+@mixin animation($args...) {
+  -webkit-animation: $args;
+  animation: $args;
+}
+
+@mixin transform($args...) {
+  -webkit-transform: $args;
+  -moz-transform: $args;
+  -ms-transform: $args;
+  -o-transform: $args;
+  transform: $args;
+}
+
+@mixin boxSizing($args...) {
+  -webkit-box-sizing: $args;
+  -moz-box-sizing: $args;
+  box-sizing: $args;
+}
+
+@mixin borderRadius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin appearance($args...) {
+  -webkit-appearance: $args;
+  -moz-appearance: $args;
+}
+
+@mixin boxShadow($args...) {
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin skew($angle) {
+  -webkit-transform: skew(#{$angle}deg) !important;
+  -moz-transform: skew(#{$angle}deg) !important;
+  -o-transform: skew(#{$angle}deg) !important;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@function calculateRem($size) {
+  $remSize: $size / 16;
+  @return #{$remSize}rem;
+}
+
+@mixin fontSizes($size) {
+  font-size: $size; //Fallback in px
+}
+
+/* Generic Mixins */
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+/* Cross browser opacity */
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin select($value) {
+  -webkit-touch-callout: $value;
+  -webkit-user-select: $value;
+  -khtml-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  user-select: $value;
+}
+
+/* SVG background images with PNG and retina fallback */
+$image-path: '../img' !default;
+$fallback-extension: 'png' !default;
+$retina-suffix: '@2x';
+
+@mixin background-image($name, $size: false) {
+  background-image: url(#{$image-path}/#{$name}.svg);
+  @if ($size) {
+    background-size: $size;
+  }
+  .no-svg & {
+    background-image: url(#{$image-path}/#{$name}.#{$fallback-extension});
+
+    @media only screen and (-o-min-device-pixel-ratio: 3/2),
+    only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (min-device-pixel-ratio: 1.5) {
+      background-image: url(#{$image-path}/#{$name}#{$retina-suffix}.#{$fallback-extension});
+    }
+  }
+}
+@mixin delay($args...) {
+  -webkit-transition-delay: $args;
+  transition-delay: $args;
+}
+
+/* Media Queries */
+@mixin on-big-screen {
+  @media screen and (min-width: 3001px) {
+    @content;
+  }
+}
+@mixin on-medium-screen {
+  @media screen and (min-width: 2000px) and (max-width: 3000px) {
+    @content;
+  }
+}
+@mixin on-medium-desktop {
+  @media (min-width: 1180px) and (max-width: 1999px) {
+    @content;
+  }
+}
+@mixin on-desktop {
+  @media screen and (min-width: 980px) {
+    @content;
+  }
+}
+
+@mixin on-tablet {
+  @media screen and (max-width: 1024px) and (min-width: 769px) {
+    @content;
+  }
+}
+@mixin on-landscape-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+@mixin small-screen {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: '';
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+}
+
+//Global margins
+@for $i from 1 through $marginPaddingSizes {
+  $margin: $i * 0.25rem;
+  /* margin #{$margin} */
+  .m#{$i} {
+    margin: $margin !important;
+  }
+  .ml#{$i} {
+    margin-left: $margin !important;
+  }
+  .mr#{$i} {
+    margin-right: $margin !important;
+  }
+  .mt#{$i} {
+    margin-top: $margin !important;
+  }
+  .mb#{$i} {
+    margin-bottom: $margin !important;
+  }
+  .mx#{$i} {
+    margin-left: $margin !important;
+    margin-right: $margin !important;
+  }
+  .my#{$i} {
+    margin-top: $margin !important;
+    margin-bottom: $margin !important;
+  }
+}
+
+//Global paddings
+@for $i from 1 through $marginPaddingSizes {
+  $padding: $i * 0.25rem;
+  /* padding #{$padding} */
+  .p#{$i} {
+    padding: $padding !important;
+  }
+  .pl#{$i} {
+    padding-left: $padding !important;
+  }
+  .pr#{$i} {
+    padding-right: $padding !important;
+  }
+  .pt#{$i} {
+    padding-top: $padding !important;
+  }
+  .pb#{$i} {
+    padding-bottom: $padding !important;
+  }
+  .px#{$i} {
+    padding-left: $padding !important;
+    padding-right: $padding !important;
+  }
+  .py#{$i} {
+    padding-top: $padding !important;
+    padding-bottom: $padding !important;
+  }
+}

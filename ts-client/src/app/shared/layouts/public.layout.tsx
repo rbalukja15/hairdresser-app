@@ -4,6 +4,7 @@ import PublicNavbar from "../components/partials/header";
 import Footer from "../components/partials/footer";
 import { useAppSelector } from "../../hooks";
 import { selectAuth } from "../../modules/auth/authSlice";
+import Login from "../../modules/auth/pages/login";
 
 const PublicLayout = () => {
   const loggedIn = useAppSelector(selectAuth);
@@ -13,7 +14,7 @@ const PublicLayout = () => {
       <div>
         <PublicNavbar>
           <Switch>
-            {/*<Route exact path="/app/login" component={Login} />*/}
+            <Route exact path="/app/login" component={Login} />
           </Switch>
         </PublicNavbar>
         <Footer />
