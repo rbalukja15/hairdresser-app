@@ -27,14 +27,12 @@
     }
 
     .loginForm .submitBtn {
-      color: $white-color;
       background-color: $red-color;
       cursor: pointer;
     }
 
     .loginForm .submitBtn:disabled {
-      color: $button-disabled;
-      background-color: $white-color;
+      background-color: $button-disabled-dark;
       cursor: not-allowed;
     }
 

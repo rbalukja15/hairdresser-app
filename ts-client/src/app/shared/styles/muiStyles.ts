@@ -1,5 +1,5 @@
 import { Theme, ThemeOptions } from "@material-ui/core";
-import { createMuiTheme, createStyles } from "@material-ui/core/styles";
+import { createTheme, createStyles } from "@material-ui/core/styles";
 import { styleConstants } from "../constants/styleConstants";
 
 const drawerWidth = 240;
@@ -148,7 +148,7 @@ const dark = {
   },
 };
 const getMuiTheme = (palette: ThemeOptions) => {
-  return Object.assign(createMuiTheme(palette), {
+  return Object.assign(createTheme(palette), {
     overrides: {
       MuiTable: {
         root: {
@@ -245,6 +245,12 @@ const getMuiTheme = (palette: ThemeOptions) => {
           "&:not(:first-child)": {
             marginLeft: "0px !important",
           },
+        },
+      },
+      MuiButton: {
+        colorInherit: {
+          color: "inherit",
+          borderColor: "none",
         },
       },
       MuiOutlinedInput: {
