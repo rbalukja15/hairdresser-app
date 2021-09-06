@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
 import { getSales, deleteSale, getSaleById, updateSale } from '../../actions/saleActions';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import moment from 'moment';
 import tableOptions from '../../utils/mui-table';
 import InvoiceModal from '../invoice/Invoice';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
-import tableColumns from '../mui-datatables/table.columns';
+import saleDatatables from '../mui-datatables/sale.datatables';
 
 const SaleComponent = (props) => {
     const onDeleteClick = (id) => {
@@ -20,7 +20,7 @@ const SaleComponent = (props) => {
     };
 
     const { sales } = props.sale;
-    const columns = tableColumns.saleColumns;
+    const columns = saleDatatables.saleColumns;
     const data = [];
 
     sales.map(({ _id, clientName, total, date, invoiceData }) =>

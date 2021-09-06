@@ -39,8 +39,8 @@ const saleColumns = [
     },
 ];
 
-const tableColumns = {
+const saleDatatables = {
     saleColumns,
 };
 
-export default tableColumns;
+export default saleDatatables;
