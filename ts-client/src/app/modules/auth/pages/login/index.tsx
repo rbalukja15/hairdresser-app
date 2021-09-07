@@ -1,12 +1,6 @@
 import React from "react";
 import { Formik, Form, FormikProps } from "formik";
-import {
-  FormGroup,
-  FormControl,
-  Button,
-  TextField,
-  FormHelperText,
-} from "@material-ui/core";
+import { FormGroup, FormControl, Button, TextField } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { IFormValues } from "../../authInterfaces";
 import clsx from "clsx";
@@ -14,6 +8,7 @@ import { useAppDispatch } from "../../../../hooks";
 import { login } from "../../authSlice";
 import { loginInitialValues } from "../../loginConstants";
 import { validationSchema } from "../../utils";
+import FormikHelperText from "../../../../shared/components/generics/FormikHelperText";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -49,11 +44,11 @@ const Login = () => {
                     variant={"outlined"}
                     required
                   />
-                  <FormHelperText className={clsx(styles.error_span, "mt2")}>
-                    {props.errors.email && props.touched.email
-                      ? props.errors.email
-                      : ""}
-                  </FormHelperText>
+                  <FormikHelperText
+                    error={props.errors.email}
+                    isTouched={props.touched.email}
+                    styles={styles.error_span}
+                  />
                 </FormControl>
                 <FormControl className={clsx(styles.formControl, "mb-3")}>
                   <TextField
@@ -67,11 +62,11 @@ const Login = () => {
                     variant={"outlined"}
                     required
                   />
-                  <FormHelperText className={clsx(styles.error_span, "mt2")}>
-                    {props.errors.password && props.touched.password
-                      ? props.errors.password
-                      : ""}
-                  </FormHelperText>
+                  <FormikHelperText
+                    error={props.errors.password}
+                    isTouched={props.touched.password}
+                    styles={styles.error_span}
+                  />
                 </FormControl>
                 <Button
                   className={styles.submitBtn}
