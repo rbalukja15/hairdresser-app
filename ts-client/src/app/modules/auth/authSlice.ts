@@ -17,10 +17,14 @@ type LoginDetails = {
     password: string;
 };
 
-export const login = createAsyncThunk('/api/auth', async (loginDetails: LoginDetails) => {
-    const response = await loginService(loginDetails);
+export const login = createAsyncThunk('/api/auth', async (loginDetails: LoginDetails, { rejectWithValue }) => {
+    try {
+        const response = await loginService(loginDetails);
 
-    return response.data;
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.message);
+    }
 });
 
 export const authSlice = createSlice({
