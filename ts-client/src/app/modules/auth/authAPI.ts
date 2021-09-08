@@ -6,10 +6,10 @@ type LoginDetails = {
 };
 
 export function loginService(loginDetails: LoginDetails) {
-  const body = JSON.stringify({
+  const body = {
     email: loginDetails.email,
     password: loginDetails.password,
-  });
+  };
 
   return axios.post("/api/auth", body);
 }
