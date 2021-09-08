@@ -1,8 +1,8 @@
-import { IFormValues } from "./authInterfaces";
+import { IFormValues } from './authInterfaces';
 
 export const loginConstants = {
-  LOGIN_REQUEST: "USERS_LOGIN_REQUEST",
-  LOGIN_FAILURE: "USERS_LOGIN_FAILURE",
+    LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
+    LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
 };
 
-export const loginInitialValues: IFormValues = { email: "", password: "" };
+export const loginInitialValues: IFormValues = { email: '', password: '' };

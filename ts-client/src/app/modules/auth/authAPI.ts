@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
 type LoginDetails = {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 };
 
 export function loginService(loginDetails: LoginDetails) {
-  const body = {
-    email: loginDetails.email,
-    password: loginDetails.password,
-  };
+    const body = {
+        email: loginDetails.email,
+        password: loginDetails.password,
+    };
 
-  return axios.post("/api/auth", body);
+    return axios.post('/api/auth', body);
 }

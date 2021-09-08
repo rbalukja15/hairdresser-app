@@ -1,3 +1,3 @@
 export interface ILayoutProps {
-  loggedIn: boolean;
+    loggedIn: boolean;
 }
