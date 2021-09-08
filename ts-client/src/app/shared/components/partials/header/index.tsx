@@ -77,7 +77,7 @@ const PublicNavbar = (props: PropsWithChildren<IPublicNavBar>): ReactElement<Fun
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h5" noWrap className={classes.typography}>
-                            C'est Chic
+                            C&apos;est Chic
                         </Typography>
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
@@ -131,7 +131,7 @@ const PublicNavbar = (props: PropsWithChildren<IPublicNavBar>): ReactElement<Fun
     );
 };
 
-export default compose<IPublicNavBar, {}>(
+export default compose<IPublicNavBar, Record<string, unknown>>(
     withRouter,
     withStyles(muiStyles.navBarStyles, { withTheme: true }),
 )(PublicNavbar);

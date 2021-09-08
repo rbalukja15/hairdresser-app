@@ -20,7 +20,7 @@ const Login = () => {
     return (
         <div className={styles.login}>
             <div className={styles.login__container}>
-                <h1 className={styles.title}>Login to C'est Chic CMS</h1>
+                <h1 className={styles.title}>Login to C&apos;est Chic CMS</h1>
                 <Formik
                     initialValues={loginInitialValues}
                     onSubmit={(values, { setSubmitting }) => {

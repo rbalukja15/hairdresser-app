@@ -3,7 +3,6 @@
   "extends": [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
@@ -23,7 +22,8 @@
           "!@material-ui/core/test-utils/*"
         ]
       }
-    ]
+    ],
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {
