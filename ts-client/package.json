@@ -19,6 +19,8 @@
     "axios": "^0.21.3",
     "bootstrap": "^5.1.0",
     "formik": "^2.2.9",
+    "lodash": "^4.17.21",
+    "mui-datatables": "^3.7.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.0",
@@ -71,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/mui-datatables": "^3.7.7",
     "@types/react-router-dom": "^5.1.8",
     "@types/recompose": "^0.30.8",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
