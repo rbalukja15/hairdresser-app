@@ -20,7 +20,7 @@ const isNullOrUndefined = (object: unknown): boolean => {
     return typeof object === 'undefined' || object === null;
 };
 
-const sleep = (delay: number = 0): Promise<unknown> => {
+const sleep = (delay = 0): Promise<unknown> => {
     return new Promise((resolve) => {
         setTimeout(resolve, delay);
     });

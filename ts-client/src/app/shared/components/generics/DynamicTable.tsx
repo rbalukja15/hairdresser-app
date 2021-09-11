@@ -87,7 +87,7 @@ const DynamicTable = (props: PropsWithChildren<OwnProps>): ReactElement<Function
                     setPagination({
                         ...pagination,
                         orderBy: tableState.sortOrder.name,
-                        orderDirection: (tableState.sortOrder.direction.toUpperCase() as unknown) as ISortOrder,
+                        orderDirection: tableState.sortOrder.direction.toUpperCase() as unknown as ISortOrder,
                     });
                     break;
                 default:

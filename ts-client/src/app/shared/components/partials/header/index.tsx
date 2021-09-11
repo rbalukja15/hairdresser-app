@@ -13,11 +13,12 @@ import {
     ListItemText,
     ThemeOptions,
     Button,
+    Collapse,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
@@ -25,10 +26,17 @@ import { IPublicNavBar } from './header.interfaces';
 import { useAppSelector } from '../../../../hooks';
 import { selectAuth } from '../../../../modules/auth/authSlice';
 import { muiStyles } from '../../../styles/muiStyles';
+import CategoryIcon from '@material-ui/icons/Category';
 
 const PublicNavbar = (props: PropsWithChildren<IPublicNavBar>): ReactElement<FunctionComponent<IPublicNavBar>> => {
     const { loggedIn } = useAppSelector(selectAuth);
-    const { window, classes, theme, children } = props;
+    const {
+        window,
+        classes,
+        theme,
+        children,
+        location: { pathname },
+    } = props;
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
     const [menuListOpen, setMenuListOpen] = React.useState<boolean>(true);
     const [appliedTheme, setAppliedTheme] = React.useState<boolean>(false);
@@ -52,9 +60,21 @@ const PublicNavbar = (props: PropsWithChildren<IPublicNavBar>): ReactElement<Fun
             <Divider />
             <List component="nav" aria-labelledby="nested-list-subheader" className={classes.list}>
                 <ListItem button onClick={handleClick} className={classes.menuItem}>
-                    <ListItemText primary={'Test'} />
+                    <ListItemText primary={'Actions'} />
                     {menuListOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
+                <Collapse in={menuListOpen} timeout="auto" unmountOnExit>
+                    <List component={'div'} disablePadding>
+                        <ListItem
+                            component={Link}
+                            className={pathname === 'products' ? classes.selectedListItem : classes.listItem}
+                            to={'/products'}
+                        >
+                            <CategoryIcon />
+                            <ListItemText primary={'Products'} className={classes.listItemText} />
+                        </ListItem>
+                    </List>
+                </Collapse>
             </List>
         </div>
     );

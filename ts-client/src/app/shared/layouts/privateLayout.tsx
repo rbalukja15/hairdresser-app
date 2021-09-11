@@ -5,6 +5,7 @@ import PublicNavbar from '../components/partials/header';
 import { Counter } from '../../../features/counter/Counter';
 import { useAppSelector } from '../../hooks';
 import { selectAuth } from '../../modules/auth/authSlice';
+import Product from '../../modules/product/pages';
 
 const PrivateLayout = () => {
     const { loggedIn } = useAppSelector(selectAuth);
@@ -15,6 +16,7 @@ const PrivateLayout = () => {
                 {loggedIn ? (
                     <Switch>
                         <Route exact path={'/counter'} component={Counter} />
+                        <Route exact path={'/products'} component={Product} />
                     </Switch>
                 ) : (
                     <Redirect to="/app/login" />
