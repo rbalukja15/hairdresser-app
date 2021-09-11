@@ -19,8 +19,8 @@ const productColumns = [
         },
     },
     {
-        name: 'Code',
-        label: 'code',
+        name: 'code',
+        label: 'Code',
         options: {
             filter: true,
             sort: true,

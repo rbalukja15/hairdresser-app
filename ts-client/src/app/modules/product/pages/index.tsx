@@ -3,6 +3,8 @@ import DynamicTable from '../../../shared/components/generics/DynamicTable';
 import { productDataTables } from '../../utils/datatable/productDatatable';
 import { IFilters, IPagination, IRowsDeleted } from '../../../shared/components/interfaces';
 import { globalConstants } from '../../../shared/constants/globalConstants';
+import { getProducts, selectProduct } from '../productSlice';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 const Product = (props: {
     deleteIngredient?: any;
@@ -11,7 +13,9 @@ const Product = (props: {
     total?: any;
     loading?: any;
 }) => {
-    const { ingredients, total, loading } = props;
+    const { products, loading } = useAppSelector(selectProduct);
+    const dispatch = useAppDispatch();
+    const { ingredients, total } = props;
 
     const tableColumns = [...productDataTables.productColumns];
 
@@ -34,14 +38,14 @@ const Product = (props: {
         searchText?: string,
         filters?: IFilters,
     ): Promise<void> => {
-        await props.getIngredients(pagination, searchText, filters);
+        dispatch(getProducts({ pagination, searchText, filters }));
     };
     return (
         <DynamicTable
             title={'Produktet'}
             options={options}
             columns={tableColumns}
-            data={ingredients}
+            data={products}
             total={total}
             loading={loading}
             refreshData={_refreshProducts}

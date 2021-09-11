@@ -67,7 +67,7 @@ const PublicNavbar = (props: PropsWithChildren<IPublicNavBar>): ReactElement<Fun
                     <List component={'div'} disablePadding>
                         <ListItem
                             component={Link}
-                            className={pathname === 'products' ? classes.selectedListItem : classes.listItem}
+                            className={pathname === '/products' ? classes.selectedListItem : classes.listItem}
                             to={'/products'}
                         >
                             <CategoryIcon />

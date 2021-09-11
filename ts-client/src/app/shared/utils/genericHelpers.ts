@@ -26,9 +26,12 @@ const sleep = (delay = 0): Promise<unknown> => {
     });
 };
 
+const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
 export const genericHelpers = {
+    camelToSnakeCase,
     getFileExtension,
-    validString,
     isNullOrUndefined,
     sleep,
+    validString,
 };
