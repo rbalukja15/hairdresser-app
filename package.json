@@ -15,12 +15,12 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "concurrently": "^4.1.2",
+    "concurrently": "^6.4.0",
     "config": "^3.2.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.4",
+    "mongoose": "^5.13.13",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.2.1"
   }

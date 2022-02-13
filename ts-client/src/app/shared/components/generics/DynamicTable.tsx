@@ -97,7 +97,7 @@ const DynamicTable = (props: PropsWithChildren<OwnProps>): ReactElement<Function
     };
 
     return (
-        <Paper>
+        <Paper style={{ marginTop: '100px' }}>
             {/* @ts-ignore */}
             <MUIDataTable title={title} options={tableOptions} columns={columns} data={data} />
         </Paper>
