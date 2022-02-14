@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import clsx from 'clsx';
-import { FormHelperText } from '@material-ui/core';
+import FormHelperText from '@mui/material/FormHelperText';
 
 type Props = {
     error: string | undefined;

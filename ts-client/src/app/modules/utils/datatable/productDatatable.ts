@@ -19,7 +19,7 @@ const productColumns = [
         },
     },
     {
-        name: 'code',
+        name: 'kodi',
         label: 'Code',
         options: {
             filter: true,
@@ -27,25 +27,25 @@ const productColumns = [
         },
     },
     {
-        name: 'buyingPrice',
+        name: 'cmimBlerje',
         label: 'Buying Price',
         options: {
-            display: false,
+            display: true,
             filter: false,
             sort: false,
         },
     },
     {
-        name: 'manufacturer',
+        name: 'prodhuesi',
         label: 'Manufacturer',
         options: {
-            display: false,
+            display: true,
             filter: false,
             sort: false,
         },
     },
     {
-        name: 'distributor',
+        name: 'shitesi',
         label: 'Distributor',
         options: {
             filter: true,

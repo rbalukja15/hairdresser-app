@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, Form, FormikProps } from 'formik';
-import { FormGroup, FormControl, Button, TextField } from '@material-ui/core';
 import styles from './index.module.scss';
 import { IFormValues } from '../../authInterfaces';
 import clsx from 'clsx';
@@ -9,6 +8,12 @@ import { login } from '../../authSlice';
 import { loginInitialValues } from '../../loginConstants';
 import { validationSchema } from '../../utils';
 import FormikHelperText from '../../../../shared/components/generics/FormikHelperText';
+
+// Material
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 
 const Login = () => {
     const dispatch = useAppDispatch();
