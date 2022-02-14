@@ -1,13 +1,16 @@
 import React, { FunctionComponent, PropsWithChildren, ReactElement, useCallback, useEffect, useState } from 'react';
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumnState, MUIDataTableState } from 'mui-datatables';
 import { compose } from 'recompose';
-import { Paper, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import { IFilters, IPagination, ISortOrder } from '../interfaces';
 import { globalConstants } from '../../constants/globalConstants';
 import { muiDataTablesConstants } from '../../constants/datatableConstants';
 import { generateRequestFilters, getColumnNameAndIndex } from '../../utils/tableHelpers';
+
+// Material
 import { muiStyles } from '../../styles/muiStyles';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
 
 interface OwnProps {
     title: string;
