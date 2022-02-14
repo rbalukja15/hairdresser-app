@@ -3,6 +3,8 @@ import { Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { useAppSelector } from '../../../../hooks';
+import { selectAuth } from '../../../../modules/auth/authSlice';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -30,6 +32,8 @@ const AppBar = styled(MuiAppBar, {
 const CustomAppBar = () => {
     const [open, setOpen] = React.useState<boolean>(false);
 
+    const { loggedIn } = useAppSelector(selectAuth);
+
     const handleDrawerToggle = (): void => {
         setOpen(!open);
     };
@@ -37,15 +41,17 @@ const CustomAppBar = () => {
     return (
         <AppBar position="fixed">
             <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    sx={{ mr: 2, ...(open && { display: 'none' }) }}
-                    onClick={handleDrawerToggle}
-                >
-                    <MenuIcon />
-                </IconButton>
+                {loggedIn ? (
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                        onClick={handleDrawerToggle}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                ) : null}
                 <Typography variant="h5" noWrap>
                     C&apos;est Chic
                 </Typography>
