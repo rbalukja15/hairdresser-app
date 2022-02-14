@@ -1,4 +1,3 @@
-import React from 'react';
 import { Theme } from '@material-ui/core';
 
 export interface INavBarProps {
@@ -22,7 +21,6 @@ export interface INavBarProps {
         changeThemeButton: string;
     };
     window: Window;
-    children: React.ReactChildren;
     theme: Theme;
     location: {
         pathname: string;

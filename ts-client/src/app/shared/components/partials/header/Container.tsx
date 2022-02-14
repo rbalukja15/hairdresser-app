@@ -1,6 +1,5 @@
-import React, { PropsWithChildren } from 'react';
-import { AppBar, Button, CssBaseline, Drawer, Hidden, IconButton, Theme, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React from 'react';
+import { CssBaseline, Drawer, Hidden, Theme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { createStyles } from '@mui/styles';
 import { muiStyles } from '../../../styles/muiStyles';
@@ -17,7 +16,7 @@ type OwnProps = {
     theme: Theme;
 };
 
-const Container = ({ theme, children }: PropsWithChildren<OwnProps>) => {
+const Container: React.FC<OwnProps> = ({ theme, children }) => {
     const { loggedIn } = useAppSelector(selectAuth);
     const [appliedTheme, setAppliedTheme] = React.useState<boolean>(false);
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
