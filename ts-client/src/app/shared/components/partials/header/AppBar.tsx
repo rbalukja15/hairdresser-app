@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { useAppSelector } from '../../../../hooks';
 import { selectAuth } from '../../../../modules/auth/authSlice';
+import { styleConstants } from '../../../constants/styleConstants';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -27,6 +28,9 @@ const AppBar = styled(MuiAppBar, {
             duration: theme.transitions.duration.enteringScreen,
         }),
     }),
+    background: styleConstants.COLORS.BLACK_LOW,
+    width: '100%',
+    zIndex: theme.zIndex.drawer + 1,
 }));
 
 const CustomAppBar = () => {
@@ -55,7 +59,6 @@ const CustomAppBar = () => {
                 <Typography variant="h5" noWrap>
                     C&apos;est Chic
                 </Typography>
-                <div />
                 <div>
                     <Button>Change Theme</Button>
                 </div>

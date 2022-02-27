@@ -1,11 +1,14 @@
 import { Theme, PaletteMode } from '@mui/material';
-import { createTheme, createStyles } from '@mui/material/styles';
+import { createStyles } from '@mui/material/styles';
 import { styleConstants } from '../constants/styleConstants';
 import makeStyles from '@mui/styles/makeStyles';
 
 const drawerWidth = 240;
 
 const navBarStyles = (theme: Theme) => ({
+    MuiPaper: {
+        root: { background: styleConstants.COLORS.BLACK_LOW },
+    },
     grow: {
         flexGrow: 1,
     },
@@ -17,10 +20,8 @@ const navBarStyles = (theme: Theme) => ({
             width: drawerWidth,
             flexShrink: 0,
         },
-    },
-    MuiAppBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        background: styleConstants.COLORS.BLACK_DEEP,
+        background: styleConstants.COLORS.BLACK_LOW,
+        color: styleConstants.COLORS.BLACK_DEEP,
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -30,7 +31,7 @@ const navBarStyles = (theme: Theme) => ({
     },
     menuItem: {
         minHeight: '60px',
-        color: styleConstants.COLORS.WHITE,
+        color: styleConstants.COLORS.BLACK_LOW,
         fontFamily: styleConstants.ROBOTO_MEDIUM,
         '&:hover': {
             textDecoration: 'none',
@@ -65,11 +66,13 @@ const navBarStyles = (theme: Theme) => ({
     list: {
         width: '100%',
         maxWidth: 360,
+        background: styleConstants.COLORS.BLACK_LOW,
         color: styleConstants.COLORS.WHITE,
         fontFamily: styleConstants.ROBOTO_MEDIUM,
     },
     listItem: {
         minHeight: '60px',
+        background: styleConstants.COLORS.BLACK_LOW,
         color: styleConstants.COLORS.WHITE,
         fontFamily: styleConstants.ROBOTO_MEDIUM,
         '&:hover': {
@@ -159,6 +162,7 @@ const getMuiTheme = (mode: 'light' | 'dark') => {
                     MuiPaper: {
                         root: {
                             fontFamily: styleConstants.ROBOTO_MEDIUM,
+                            background: styleConstants.COLORS.BLACK_LOW,
                         },
                     },
                     MuiTableFooter: {

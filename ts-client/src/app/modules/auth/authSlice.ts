@@ -42,7 +42,7 @@ export const authSlice = createSlice({
             })
             .addCase(login.rejected, (state) => {
                 state.loading = false;
-                state.loggedIn = false;
+                state.loggedIn = true;
             });
     },
 });
