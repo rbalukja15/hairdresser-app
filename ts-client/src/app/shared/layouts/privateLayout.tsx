@@ -6,6 +6,7 @@ import { Counter } from '../../../features/counter/Counter';
 import { useAppSelector } from '../../hooks';
 import { selectAuth } from '../../modules/auth/authSlice';
 import Product from '../../modules/product/pages';
+import Buying from '../../modules/buying/pages';
 
 const PrivateLayout = () => {
     const { loggedIn } = useAppSelector(selectAuth);
@@ -17,6 +18,7 @@ const PrivateLayout = () => {
                 <Switch>
                     <Route exact path={'/counter'} component={Counter} />
                     <Route exact path={'/products'} component={Product} />
+                    <Route exact path={'/buyings'} component={Buying} />
                 </Switch>
                 {/*) : (*/}
                 {/*    <Redirect to="/app/login" />*/}

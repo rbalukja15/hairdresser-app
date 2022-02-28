@@ -31,6 +31,16 @@ const CustomDrawer = (props: any) => {
                         <ListItem
                             component={Link}
                             className={
+                                props.location.pathname === '/buyings' ? classes.selectedListItem : classes.listItem
+                            }
+                            to={'/buyings'}
+                        >
+                            <CategoryIcon />
+                            <ListItemText primary={'Buyings'} className={classes.listItemText} />
+                        </ListItem>
+                        <ListItem
+                            component={Link}
+                            className={
                                 props.location.pathname === '/products' ? classes.selectedListItem : classes.listItem
                             }
                             to={'/products'}

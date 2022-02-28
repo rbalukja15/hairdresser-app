@@ -37,3 +37,9 @@ export interface ISort {
 }
 
 export type ISortOrder = 'ASC' | 'DESC';
+
+export type Pagination = {
+    paging: IPagination;
+    searchText?: string;
+    filters?: IFilters;
+};

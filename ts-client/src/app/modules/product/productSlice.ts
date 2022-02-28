@@ -6,11 +6,13 @@ import { IFilters, IPagination } from '../../shared/components/interfaces';
 export interface IProductSliceSlice {
     loading: boolean;
     products: Array<any>;
+    total: number;
 }
 
 const initialState: IProductSliceSlice = {
     loading: false,
     products: [],
+    total: 0,
 };
 
 type ProductDetails = {
@@ -46,6 +48,7 @@ export const productSlice = createSlice({
             .addCase(getProducts.fulfilled, (state, action) => {
                 state.loading = false;
                 state.products = action.payload;
+                state.total = 23;
             })
             .addCase(getProducts.rejected, (state) => {
                 state.loading = false;
@@ -58,6 +61,7 @@ export const selectProduct = (state: RootState) => {
     return {
         loading: state.product.loading,
         products: state.product.products,
+        total: state.product.total,
     };
 };
 

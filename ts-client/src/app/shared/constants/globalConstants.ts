@@ -39,4 +39,14 @@ export const globalConstants = {
         CELSIUS: '°C',
         MINUTES: 'in min',
     },
+    DEFAULT_REFRESH_PARAMS: {
+        paging: {
+            page: 0,
+            paging: false,
+            size: 10,
+            orderBy: 'id',
+            orderDirection: 'DESC' as ISortOrder,
+        },
+        searchText: '',
+    },
 };
