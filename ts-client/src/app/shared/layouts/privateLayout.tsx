@@ -13,14 +13,14 @@ const PrivateLayout = () => {
     return (
         <div>
             <PublicNavbar>
-                {loggedIn ? (
-                    <Switch>
-                        <Route exact path={'/counter'} component={Counter} />
-                        <Route exact path={'/products'} component={Product} />
-                    </Switch>
-                ) : (
-                    <Redirect to="/app/login" />
-                )}
+                {/*{loggedIn ? (*/}
+                <Switch>
+                    <Route exact path={'/counter'} component={Counter} />
+                    <Route exact path={'/products'} component={Product} />
+                </Switch>
+                {/*) : (*/}
+                {/*    <Redirect to="/app/login" />*/}
+                {/*)}*/}
             </PublicNavbar>
             <Footer />
         </div>

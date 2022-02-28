@@ -9,7 +9,7 @@ export interface AuthSlice {
 
 const initialState: AuthSlice = {
     loading: false,
-    loggedIn: false,
+    loggedIn: true,
 };
 
 type LoginDetails = {
