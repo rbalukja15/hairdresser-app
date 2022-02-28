@@ -3,8 +3,6 @@ import { CssBaseline, Drawer, Hidden, Theme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { createStyles } from '@mui/styles';
 import { muiStyles } from '../../../styles/muiStyles';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import Brightness3Icon from '@mui/icons-material/Brightness3';
 import { useAppSelector } from '../../../../hooks';
 import { selectAuth } from '../../../../modules/auth/authSlice';
 import CustomDrawer from './Drawer';
@@ -18,7 +16,6 @@ type OwnProps = {
 
 const Container: React.FC<OwnProps> = ({ theme, children }) => {
     const { loggedIn } = useAppSelector(selectAuth);
-    const [appliedTheme, setAppliedTheme] = React.useState<boolean>(false);
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
     const classes = useStyles();
 
@@ -26,7 +23,6 @@ const Container: React.FC<OwnProps> = ({ theme, children }) => {
         setMobileOpen(!mobileOpen);
     };
 
-    const icon = !appliedTheme ? <Brightness7Icon /> : <Brightness3Icon />;
     const container = window !== undefined ? () => window.document.body : undefined;
 
     return (
