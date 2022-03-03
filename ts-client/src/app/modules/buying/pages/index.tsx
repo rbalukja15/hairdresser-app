@@ -6,12 +6,11 @@ import { globalConstants } from '../../../shared/constants/globalConstants';
 import { buyingSelector } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { fetchBuyings, removeBuying } from '../action';
+import { buyingColumns } from '../../utils/datatable/buyingDatatable';
 
 const Buying = () => {
     const { buyings, loading, total } = useAppSelector(buyingSelector);
     const dispatch = useAppDispatch();
-
-    const tableColumns = [...productDataTables.productColumns];
 
     const options = {
         onRowsDelete: async (rowsDeleted: IRowsDeleted): Promise<void> => {
@@ -34,7 +33,7 @@ const Buying = () => {
         <DynamicTable
             title={'Blerjet'}
             options={options}
-            columns={tableColumns}
+            columns={buyingColumns}
             data={buyings}
             total={total}
             loading={loading}
