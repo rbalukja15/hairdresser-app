@@ -1,6 +1,5 @@
 import React from 'react';
 import DynamicTable from '../../../shared/components/generics/DynamicTable';
-import { productDataTables } from '../../utils/datatable/productDatatable';
 import { IRowsDeleted, Pagination } from '../../../shared/components/interfaces';
 import { globalConstants } from '../../../shared/constants/globalConstants';
 import { buyingSelector } from '../slice';

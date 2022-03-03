@@ -3,7 +3,7 @@ import { commonOptions } from './commonDatatableOptions';
 const productColumns = [
     ...commonOptions.indexColumn,
     {
-        name: 'id',
+        name: '_id',
         label: 'ID',
         options: {
             display: false,
