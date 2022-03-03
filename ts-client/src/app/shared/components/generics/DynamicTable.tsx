@@ -2,7 +2,7 @@ import React, { FunctionComponent, PropsWithChildren, ReactElement, useCallback,
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumnState, MUIDataTableState } from 'mui-datatables';
 import { compose } from 'recompose';
 import clsx from 'clsx';
-import { IFilters, IPagination, ISortOrder } from '../interfaces';
+import { IFilters, IPagination, ISortOrder, Pagination } from '../interfaces';
 import { globalConstants } from '../../constants/globalConstants';
 import { muiDataTablesConstants } from '../../constants/datatableConstants';
 import { generateRequestFilters, getColumnNameAndIndex } from '../../utils/tableHelpers';
@@ -19,7 +19,7 @@ interface OwnProps {
     data: any;
     total: number;
     loading: boolean;
-    refreshData: (pagination: IPagination, searchText: string | null, filters?: Array<IFilters>) => Promise<void>;
+    refreshData: (pagination: Pagination) => Promise<void>;
     classes: {
         NameCell: string;
     };
@@ -32,12 +32,12 @@ const DynamicTable = (props: PropsWithChildren<OwnProps>): ReactElement<Function
     const { title, options, columns, data, classes, total, refreshData } = props;
 
     const _refresh = useCallback(async () => {
-        await refreshData(pagination, searchText, filters);
+        await refreshData({ paging: pagination, searchText, filters });
     }, [pagination, searchText, filters]);
 
     useEffect(() => {
         (async () => {
-            await refreshData(pagination, searchText, filters);
+            await refreshData({ paging: pagination, searchText, filters });
         })();
     }, [_refresh]);
 

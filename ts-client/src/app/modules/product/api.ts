@@ -2,13 +2,13 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Pagination } from '../../shared/components/interfaces';
 import { genericHelpers } from '../../shared/utils/genericHelpers';
 
-export const getBuyings = async (pagination: Pagination) => {
+const getProducts = async (pagination: Pagination) => {
     const {
         paging: { page, paging, size, orderBy, orderDirection },
         searchText,
     } = pagination;
     const requestOptions: AxiosRequestConfig = {
-        url: '/api/buyings',
+        url: '/api/items',
         method: 'GET',
         params: {
             page: page,
@@ -25,13 +25,6 @@ export const getBuyings = async (pagination: Pagination) => {
     return response.data;
 };
 
-export const deleteBuying = async (buyingId: string) => {
-    const requestOptions: AxiosRequestConfig = {
-        url: `/api/buyings/${buyingId}`,
-        method: 'DELETE',
-    };
-
-    const response = await axios(requestOptions);
-
-    return response.data;
+export const productService = {
+    getProducts,
 };

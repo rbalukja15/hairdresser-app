@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { productService } from './productAPI';
-import { IFilters, IPagination } from '../../shared/components/interfaces';
+import { getProducts } from './actions';
 
 export interface IProductSliceSlice {
     loading: boolean;
@@ -15,28 +14,7 @@ const initialState: IProductSliceSlice = {
     total: 0,
 };
 
-type ProductDetails = {
-    pagination: IPagination;
-    searchText?: string;
-    filters?: IFilters;
-};
-
-export const getProducts = createAsyncThunk(
-    '/api/items',
-    async (productDetails: ProductDetails, { rejectWithValue }) => {
-        try {
-            return await productService.getProducts(
-                productDetails.pagination,
-                productDetails.searchText,
-                productDetails.filters,
-            );
-        } catch (error) {
-            return rejectWithValue(error.response.message);
-        }
-    },
-);
-
-export const productSlice = createSlice({
+export const slice = createSlice({
     name: 'product',
     initialState,
     reducers: {},
@@ -65,4 +43,4 @@ export const selectProduct = (state: RootState) => {
     };
 };
 
-export default productSlice.reducer;
+export default slice.reducer;

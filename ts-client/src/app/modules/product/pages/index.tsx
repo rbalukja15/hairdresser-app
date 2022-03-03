@@ -1,10 +1,11 @@
 import React from 'react';
 import DynamicTable from '../../../shared/components/generics/DynamicTable';
 import { productDataTables } from '../../utils/datatable/productDatatable';
-import { IFilters, IPagination, IRowsDeleted } from '../../../shared/components/interfaces';
+import { IRowsDeleted, Pagination } from '../../../shared/components/interfaces';
 import { globalConstants } from '../../../shared/constants/globalConstants';
-import { getProducts, selectProduct } from '../productSlice';
+import { selectProduct } from '../slice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { getProducts } from '../actions';
 
 const Product = (props: {
     deleteIngredient?: any;
@@ -28,17 +29,13 @@ const Product = (props: {
                 const ingredientId = ingredients[ingredientIndex].id;
                 const completed = ingredientToRemoveLength === index + 1;
                 await props.deleteIngredient(ingredientId, completed);
-                completed && (await _refreshProducts(globalConstants.DEFAULT_PAGINATION));
+                completed && (await _refreshProducts(globalConstants.DEFAULT_REFRESH_PARAMS));
             });
         },
     };
 
-    const _refreshProducts = async (
-        pagination: IPagination,
-        searchText?: string,
-        filters?: IFilters,
-    ): Promise<void> => {
-        dispatch(getProducts({ pagination, searchText, filters }));
+    const _refreshProducts = async (pagination: Pagination): Promise<void> => {
+        dispatch(getProducts(pagination));
     };
     return (
         <DynamicTable

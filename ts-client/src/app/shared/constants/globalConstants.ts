@@ -47,6 +47,7 @@ export const globalConstants = {
             orderBy: 'id',
             orderDirection: 'DESC' as ISortOrder,
         },
-        searchText: '',
+        searchText: null,
+        filters: [],
     },
 };

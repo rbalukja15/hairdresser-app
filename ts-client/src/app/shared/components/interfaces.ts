@@ -40,6 +40,6 @@ export type ISortOrder = 'ASC' | 'DESC';
 
 export type Pagination = {
     paging: IPagination;
-    searchText?: string;
-    filters?: IFilters;
+    searchText: string | null;
+    filters: IFilters[];
 };
