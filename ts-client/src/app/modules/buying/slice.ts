@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { fetchBuyings, removeBuying } from './action';
+import { extraReducer } from './reducer';
 
-export interface IProductSliceSlice {
+export interface IBuyingSliceSlice {
     loading: boolean;
     buyings: Array<any>;
     total: number;
@@ -10,7 +10,7 @@ export interface IProductSliceSlice {
     errorMessage: string;
 }
 
-const initialState: IProductSliceSlice = {
+export const initialState: IBuyingSliceSlice = {
     loading: false,
     buyings: [],
     total: 0,
@@ -22,32 +22,7 @@ export const slice = createSlice({
     name: 'buying',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchBuyings.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(removeBuying.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(fetchBuyings.fulfilled, (state, action) => {
-                state.loading = false;
-                state.buyings = action.payload;
-                state.total = 23;
-            })
-            .addCase(removeBuying.fulfilled, (state, action) => {
-                state.loading = false;
-            })
-            .addCase(fetchBuyings.rejected, (state) => {
-                state.loading = false;
-                state.buyings = [];
-            })
-            .addCase(removeBuying.rejected, (state) => {
-                state.loading = false;
-                state.error = true;
-                state.errorMessage = 'Error deleting buying';
-            });
-    },
+    extraReducers: extraReducer,
 });
 
 export const buyingSelector = (state: RootState) => {
