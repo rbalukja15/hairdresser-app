@@ -2,6 +2,7 @@ import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Container from './Container';
+import { muiStyles } from '../../../styles/muiStyles';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -19,7 +20,8 @@ const PublicNavbar = ({ children }: OwnProps) => {
         }),
         [],
     );
-    const theme = createTheme();
+    // @ts-ignore
+    const theme = createTheme(muiStyles.getMuiTheme('dark'));
 
     return (
         <ColorModeContext.Provider value={colorMode}>

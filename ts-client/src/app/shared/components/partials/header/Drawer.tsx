@@ -18,7 +18,7 @@ const CustomDrawer = (props: any) => {
     };
 
     return (
-        <div>
+        <>
             <div className={classes.toolbar} />
             <Divider />
             <List component="nav" aria-labelledby="nested-list-subheader" className={classes.list}>
@@ -51,7 +51,7 @@ const CustomDrawer = (props: any) => {
                     </List>
                 </Collapse>
             </List>
-        </div>
+        </>
     );
 };
 

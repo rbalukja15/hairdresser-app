@@ -1,7 +1,6 @@
 import { Theme, PaletteMode } from '@mui/material';
-import { createStyles } from '@mui/material/styles';
+import { createStyles, createTheme } from '@mui/material/styles';
 import { styleConstants } from '../constants/styleConstants';
-import makeStyles from '@mui/styles/makeStyles';
 
 const drawerWidth = 240;
 
@@ -144,150 +143,173 @@ const dialogActions = (theme: Theme) => ({
 const light: PaletteMode = 'light';
 const dark: PaletteMode = 'dark';
 
+const muiTheme = createTheme({
+    components: {
+        // Name of the component
+        MuiPaper: {
+            styleOverrides: {
+                // Name of the slot
+                root: {
+                    // Some CSS
+                    fontSize: '10rem',
+                },
+            },
+        },
+    },
+});
+
 const getMuiTheme = (mode: 'light' | 'dark') => {
-    return makeStyles(
-        Object.assign(
-            {
-                palette: {
-                    mode,
-                },
+    return {
+        components: {
+            palette: {
+                mode,
             },
-            {
-                overrides: {
-                    MuiTable: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                    },
-                    MuiPaper: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                            background: styleConstants.COLORS.BLACK_LOW,
-                        },
-                    },
-                    MuiTableFooter: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                    },
-                    MuiTablePagination: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                    },
-                    MuiTableCell: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                    },
-                    MuiTypography: {
-                        root: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                        body1: {
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                        },
-                    },
-                    MuiStepIcon: {
-                        root: {
-                            '&$completed': {
-                                color: styleConstants.COLORS.BLACK_LOW,
-                            },
-                            '&$active': {
-                                color: styleConstants.COLORS.RED,
-                            },
-                        },
-                    },
-                    MuiStepButton: {
-                        root: {
-                            '&:focus': {
-                                outline: 'none !important',
-                            },
-                        },
-                    },
-                    MUIRichTextEditor: {
-                        root: {},
-                        container: {
-                            display: 'flex',
-                            flexDirection: 'column-reverse',
-                        },
-                        editor: {
-                            padding: '20px',
-                            height: '200px',
-                            maxHeight: '200px',
-                            maxWidth: '45rem',
-                            overflow: 'auto',
-                            fontFamily: styleConstants.ROBOTO_MEDIUM,
-                            textAlign: 'left',
-                            border: '1px solid gray',
-                        },
-                        toolbar: {
-                            border: '1px solid gray',
-                            maxWidth: '45rem',
-                        },
-                        placeHolder: {
-                            paddingLeft: '20px',
-                            width: 'inherit',
-                            position: 'absolute',
-                            top: '20px',
-                            borderLeft: '1px solid gray',
-                        },
-                        anchorLink: {
-                            color: '#333333',
-                            textDecoration: 'underline',
-                        },
-                    },
-                    MuiDialog: {
-                        paperFullWidth: {
-                            overflow: 'hidden',
-                        },
-                    },
-                    MuiButtonBase: {
-                        root: {
-                            '&:focus': {
-                                outline: '0 !important',
-                            },
-                            '&:not(:first-child)': {
-                                marginLeft: '0px !important',
-                            },
-                        },
-                    },
-                    MuiButton: {
-                        colorInherit: {
-                            color: 'inherit',
-                            borderColor: 'none',
-                        },
-                    },
-                    MuiOutlinedInput: {
-                        root: {
-                            '&$focused $notchedOutline': {
-                                borderColor: styleConstants.COLORS.RED,
-                                borderWidth: 1,
-                            },
-                        },
-                    },
-                    MuiFormLabel: {
-                        root: {
-                            '&$focused': {
-                                color: styleConstants.COLORS.RED,
-                            },
-                        },
-                    },
-                    MuiCardActions: {
-                        root: {
-                            padding: '0px',
-                            display: 'flex',
-                        },
-                        spacing: {
-                            '& button': {
-                                marginLeft: `0px`,
-                            },
-                        },
+            MuiDrawer: {
+                styleOverrides: {
+                    paper: {
+                        fontSize: '1rem',
+                        background: styleConstants.COLORS.BLACK_LOW,
                     },
                 },
             },
-        ),
-    );
+            MuiTable: {
+                root: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+            },
+            MuiTableFooter: {
+                root: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+            },
+            MuiTablePagination: {
+                root: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+            },
+            MuiTableCell: {
+                root: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+            },
+            MuiTypography: {
+                root: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+                body1: {
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                },
+            },
+            MuiStepIcon: {
+                root: {
+                    '&$completed': {
+                        color: styleConstants.COLORS.BLACK_LOW,
+                    },
+                    '&$active': {
+                        color: styleConstants.COLORS.RED,
+                    },
+                },
+            },
+            MuiStepButton: {
+                root: {
+                    '&:focus': {
+                        outline: 'none !important',
+                    },
+                },
+            },
+            MUIRichTextEditor: {
+                root: {},
+                container: {
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                },
+                editor: {
+                    padding: '20px',
+                    height: '200px',
+                    maxHeight: '200px',
+                    maxWidth: '45rem',
+                    overflow: 'auto',
+                    fontFamily: styleConstants.ROBOTO_MEDIUM,
+                    textAlign: 'left',
+                    border: '1px solid gray',
+                },
+                toolbar: {
+                    border: '1px solid gray',
+                    maxWidth: '45rem',
+                },
+                placeHolder: {
+                    paddingLeft: '20px',
+                    width: 'inherit',
+                    position: 'absolute',
+                    top: '20px',
+                    borderLeft: '1px solid gray',
+                },
+                anchorLink: {
+                    color: '#333333',
+                    textDecoration: 'underline',
+                },
+            },
+            MuiDialog: {
+                paperFullWidth: {
+                    overflow: 'hidden',
+                },
+            },
+            MuiButtonBase: {
+                root: {
+                    '&:focus': {
+                        outline: '0 !important',
+                    },
+                    '&:not(:first-child)': {
+                        marginLeft: '0px !important',
+                    },
+                },
+            },
+            MuiButton: {
+                colorInherit: {
+                    color: 'inherit',
+                    borderColor: 'none',
+                },
+            },
+            MuiOutlinedInput: {
+                root: {
+                    '&$focused $notchedOutline': {
+                        borderColor: styleConstants.COLORS.RED,
+                        borderWidth: 1,
+                    },
+                },
+            },
+            MuiFormLabel: {
+                root: {
+                    '&$focused': {
+                        color: styleConstants.COLORS.RED,
+                    },
+                },
+            },
+            MuiCardActions: {
+                root: {
+                    padding: '0px',
+                    display: 'flex',
+                },
+                spacing: {
+                    '& button': {
+                        marginLeft: `0px`,
+                    },
+                },
+            },
+        },
+    };
+    // return makeStyles(
+    //     Object.assign(
+    //         {
+    //             palette: {
+    //                 mode,
+    //             },
+    //         },
+    //         {
+    //
+    //         },
+    //     ),
+    // );
 };
 
 const customStyles = () => ({
@@ -324,4 +346,5 @@ export const muiStyles = {
     lightTheme: light,
     darkTheme: dark,
     backDropStyles,
+    muiTheme,
 };
