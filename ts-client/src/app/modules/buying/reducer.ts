@@ -13,7 +13,7 @@ export const extraReducer = (builder: ActionReducerMapBuilder<IBuyingSliceSlice>
         .addCase(fetchBuyings.fulfilled, (state, action) => {
             state.loading = false;
             state.buyings = action.payload;
-            state.total = 23;
+            state.total = action.payload.length;
         })
         .addCase(removeBuying.fulfilled, (state, action) => {
             state.loading = false;

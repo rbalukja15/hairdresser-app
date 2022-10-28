@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { getProducts } from './actions';
+import { extraReducer } from './reducer';
 
 export interface IProductSliceSlice {
     loading: boolean;
@@ -8,7 +8,7 @@ export interface IProductSliceSlice {
     total: number;
 }
 
-const initialState: IProductSliceSlice = {
+export const initialState: IProductSliceSlice = {
     loading: false,
     products: [],
     total: 0,
@@ -18,21 +18,7 @@ export const slice = createSlice({
     name: 'product',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(getProducts.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(getProducts.fulfilled, (state, action) => {
-                state.loading = false;
-                state.products = action.payload;
-                state.total = 23;
-            })
-            .addCase(getProducts.rejected, (state) => {
-                state.loading = false;
-                state.products = [];
-            });
-    },
+    extraReducers: extraReducer,
 });
 
 export const selectProduct = (state: RootState) => {
