@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Container from './Container';
 import { muiStyles } from '../../../styles/muiStyles';
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = React.createContext({ toggleColorMode: () => {}, color: 'light' });
 
 type OwnProps = RouteComponentProps & {
     children: React.ReactNode;
@@ -21,10 +21,10 @@ const PublicNavbar = ({ children }: OwnProps) => {
         [],
     );
     // @ts-ignore
-    const theme = createTheme(muiStyles.getMuiTheme('dark'));
+    const theme = createTheme(muiStyles.getMuiTheme(mode));
 
     return (
-        <ColorModeContext.Provider value={colorMode}>
+        <ColorModeContext.Provider value={{ toggleColorMode: colorMode.toggleColorMode, color: mode }}>
             <ThemeProvider theme={theme}>
                 <Container theme={theme}>{children}</Container>
             </ThemeProvider>

@@ -160,10 +160,10 @@ const muiTheme = createTheme({
 
 const getMuiTheme = (mode: 'light' | 'dark') => {
     return {
+        palette: {
+            mode,
+        },
         components: {
-            palette: {
-                mode,
-            },
             MuiDrawer: {
                 styleOverrides: {
                     paper: {

@@ -8,6 +8,7 @@ import { selectAuth } from '../../../../modules/auth/authSlice';
 import { styleConstants } from '../../../constants/styleConstants';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness3Icon from '@mui/icons-material/Brightness3';
+import { ColorModeContext } from './index';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -59,12 +60,12 @@ const StyledButton = styled(Button)(() => ({
 }));
 
 const CustomAppBar = () => {
-    const [appliedTheme, setAppliedTheme] = React.useState<boolean>(false);
+    const { toggleColorMode, color } = React.useContext(ColorModeContext);
     const [open, setOpen] = React.useState<boolean>(false);
 
     const { loggedIn } = useAppSelector(selectAuth);
 
-    const icon = !appliedTheme ? <Brightness7Icon /> : <Brightness3Icon />;
+    const icon = color === 'dark' ? <Brightness7Icon /> : <Brightness3Icon />;
 
     const handleDrawerToggle = (): void => {
         setOpen(!open);
@@ -89,7 +90,7 @@ const CustomAppBar = () => {
                 </StyledTypography>
                 <StyledDummyDiv />
                 <StyledDiv>
-                    <StyledButton startIcon={icon} onClick={() => setAppliedTheme(!appliedTheme)}>
+                    <StyledButton startIcon={icon} onClick={toggleColorMode}>
                         Change Theme
                     </StyledButton>
                 </StyledDiv>
