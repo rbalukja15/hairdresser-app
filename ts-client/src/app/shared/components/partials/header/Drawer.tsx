@@ -48,6 +48,16 @@ const CustomDrawer = (props: any) => {
                             <CategoryIcon />
                             <ListItemText primary={'Products'} className={classes.listItemText} />
                         </ListItem>
+                        <ListItem
+                            component={Link}
+                            className={
+                                props.location.pathname === '/sales' ? classes.selectedListItem : classes.listItem
+                            }
+                            to={'/sales'}
+                        >
+                            <CategoryIcon />
+                            <ListItemText primary={'Sales'} className={classes.listItemText} />
+                        </ListItem>
                     </List>
                 </Collapse>
             </List>
